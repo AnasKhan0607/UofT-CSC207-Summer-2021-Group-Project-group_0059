@@ -1,8 +1,11 @@
 A. Discord
-B. 12 hours atleast.
-C. Friday after 6pm, Saturday anytime
+B. 12 hours at least.
+C. Friday after 6pm, Saturday anytime.
 D. Zoom
-E. Google Docs
-F. Anas
+E. Google Docs or Google Sheets. To be specific, we can use tables to list out needed tasks (with corresponding status/
+estimated time consumption) and assign specific people to complete it. The people in charge or a specific task will need
+ to update their work status on the table once in a while (e.g. a few days).
+F. It is temporarily agreed that Anas will be the one checking on status and progress. All members agreed that if a task
+takes longer than expected, we will report back to the rest of the team.
 G. No
-H. Anas Khan, Theodor Antonescu, Jun-Yu Chang, Tian Tan, Ruilin Peng, Ahmad Islah, Jun-Yu (Victor) Chang
+H. Anas Khan, Theodor Antonescu, Jun-Yu Chang, Tian Tan, Ruilin Peng, Ahmad Islah, Jun-Yu (Victor) Chang, Daniel Liu
