@@ -5,7 +5,7 @@ public class AdminUser extends User {
         super(username);
         this.password = password;
     }
-    public String getPassworc() {
+    public String getPassword() {
         return this.password;
     }
     public void setPassword(String password) {
