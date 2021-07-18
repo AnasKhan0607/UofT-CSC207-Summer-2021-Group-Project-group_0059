@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserManager {
-    private List<User> bufferedUsers;
+    private ArrayList<User> bufferedUsers;
 
     public UserManager(){
         this.bufferedUsers = new ArrayList<User>();
@@ -13,14 +13,14 @@ public class UserManager {
     public User SearchUser(String username){
         int i;
         User temp;
-        for (i = 0; i < bufferedUsers.length; i++) {
-            temp = bufferedUsers[i];
-            if (temp.getUsername(username) = username) {
+        for (i = 0; i < bufferedUsers.size(); i++) {
+            temp = bufferedUsers.get(i);
+            if (temp.getUsername().equals(username)) {
                 return temp;
             }
         }
         /* Username not found */
-
+        return null;
     }
 
     @Override
