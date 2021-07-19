@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserManager {
-    private ArrayList<User> bufferedUsers;
+    private List<User> bufferedUsers;
 
     public UserManager(){
         this.bufferedUsers = new ArrayList<User>();
