@@ -1,0 +1,5 @@
+﻿game_id,node_id,main_text,choices
+1234,1,First,"[2, 3]"
+1234,2,Second,[4]
+1234,3,Third,[]
+1234,4,Fourth,[]
