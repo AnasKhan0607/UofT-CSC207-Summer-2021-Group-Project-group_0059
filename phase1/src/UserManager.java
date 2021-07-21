@@ -8,7 +8,10 @@ public class UserManager {
         this.bufferedUsers = new ArrayList<User>();
     }
 
-    public void addUser(){}
+    public void addUser(ArrayList<String> info){
+        User temp = new User(info.get(0));
+        this.bufferedUsers.add(temp);
+    }
 
     public User SearchUser(String username){
         int i;
