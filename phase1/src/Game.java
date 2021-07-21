@@ -1,72 +1,41 @@
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 public class Game {
-    class GameNode {
-        public String nodeID;
-        public String dialogue;
-        public HashMap<String, GameNode> children = new HashMap<String, GameNode>();
-        public GameNode parent;
-    }
-
-    public static void main(String[] args) {
+    class GameNode{
+        private String nodeID;
+        private String dialogue;
+        private HashMap<String, String> pointers = new HashMap<String, String>();
 
     }
 
-    private String gameID;
+    private static int gameID;
+    //1st digit is template number, for example, 1 for template 1
     private String gameName;
     private String gameAuthor;
-    private boolean gamePublic = false;
+    private GameNode firstNode;
+    private String gameState;
     private int choicesNum;
-    private GameNode initialNode;
-    private ArrayList<GameNode> publicGames = new ArrayList<GameNode>();
-    private ArrayList<GameNode> privateGames = new ArrayList<GameNode>();
 
-
-    public Game(String gameName, String gameAuthor, int choicesNum) {
-        this.gameID = generateID();
+    public Game(String gameName, String gameAuthor, String gameState, int choicesNum, GameNode firstNode) {
         this.gameName = gameName;
         this.gameAuthor = gameAuthor;
+        this.gameState = gameState;
         this.choicesNum = choicesNum;
+        this.firstNode = firstNode;
     }
 
-    private String generateID() {
+    public int GameIdGetters(){return gameID;}
+    public String GameNameGetters(){return gameName;}
+    public String AuthorGetters(){return gameAuthor;}
+    public GameNode FirstNodeGetters(){return firstNode;}
+    public String GameStateGetters(){return gameState;}
+    public int ChoiceNumGetters(){return choicesNum;}
+
+    public void GameIdSetters(int givenGameId){
+        gameID = givenGameId;}
+    private String generateID(){
         return "123";
     }
 
-    public String getGameName() {
-        return this.gameName;
-    }
-
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
-    public String getGameAuthor() {
-        return gameAuthor;
-    }
-
-    public void setGameAuthor(String gameAuthor) {
-        this.gameAuthor = gameAuthor;
-    }
-
-    public boolean isGamePublic() {
-        return gamePublic;
-    }
-
-    public void setGamePublic(boolean gamePublic) {
-        this.gamePublic = gamePublic;
-    }
-
-    public int getChoicesNum() {
-        return choicesNum;
-    }
-
-    public void setChoicesNum(int choicesNum) {
-        this.choicesNum = choicesNum;
-    }
-
-    public String getGameDialogue(String nodeID){
-        return "";
-    }
 }
