@@ -1,3 +1,5 @@
+package Exception;
+
 public class AddDialogueException extends Exception{
     public static void main(String[] args) {
         Exception exception = new AddDialogueException("bruh", new IndexOutOfBoundsException());

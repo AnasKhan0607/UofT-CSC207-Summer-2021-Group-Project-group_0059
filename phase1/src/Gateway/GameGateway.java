@@ -1,3 +1,7 @@
+package Gateway;
+
+import Interface.SaveLoadGame;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -5,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class GameGateway implements SaveLoadGame{
+public class GameGateway implements SaveLoadGame {
 
     String myPath = new File("").getAbsolutePath();
 

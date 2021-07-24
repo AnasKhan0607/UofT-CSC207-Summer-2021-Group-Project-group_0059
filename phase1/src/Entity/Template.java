@@ -1,3 +1,5 @@
+package Entity;
+
 public class Template {
     private String templatename;
     private String description;

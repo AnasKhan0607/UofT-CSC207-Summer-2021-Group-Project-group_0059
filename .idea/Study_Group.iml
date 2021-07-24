@@ -3,14 +3,7 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/phase1/Controller" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/phase1/Entity" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/phase1/Exception" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/phase1/Gateway" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/phase1/Interface" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/phase1/Main" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/phase1/Presenter" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/phase1/UseCase" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/phase1/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />

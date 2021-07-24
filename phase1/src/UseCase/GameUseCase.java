@@ -1,3 +1,7 @@
+package UseCase;
+import Entity.Game;
+import Interface.SaveLoadGame;
+
 import java.util.ArrayList;
 
 public class GameUseCase {

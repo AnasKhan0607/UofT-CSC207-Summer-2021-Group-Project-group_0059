@@ -1,3 +1,7 @@
+package Entity;
+
+import Interface.GameStorage;
+
 public class Game {
     public static void main(String[] args) {
         Game bruh = new Game("BRUH", "le bruh", 4, "Bro Bruh Bruh Bro");
