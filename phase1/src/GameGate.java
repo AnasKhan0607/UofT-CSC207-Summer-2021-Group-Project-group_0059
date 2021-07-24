@@ -8,7 +8,7 @@ public class GameGate {
 
     public Game load_game() {
 
-
+        return null;
 
     }
 
