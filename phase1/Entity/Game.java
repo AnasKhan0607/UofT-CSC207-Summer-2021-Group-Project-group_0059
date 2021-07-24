@@ -1,7 +1,15 @@
 public class Game {
     public static void main(String[] args) {
         Game bruh = new Game("BRUH", "le bruh", 4, "Bro Bruh Bruh Bro");
-        System.out.println(bruh.getDialogueById(0));
+        bruh.addChoiceToDialogue("1", 0);
+        bruh.addChoiceToDialogue("2", 0);
+        bruh.addChoiceToDialogue("3", 0);
+        bruh.addChoiceToDialogue("4", 0);
+        bruh.addChoiceToDialogue("9", 2);
+
+
+
+        System.out.println(bruh);
     }
 
     // game name must be unique
@@ -71,7 +79,7 @@ public class Game {
         return gameStorage.deleteDialogueById(id);
     }
 
-    void addChoiceToDialogue(String childDialogue, int parentDialogueId){
+    public void addChoiceToDialogue(String childDialogue, int parentDialogueId){
         gameStorage.addChoiceToDialogue(childDialogue, parentDialogueId);
     }
 }
