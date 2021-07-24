@@ -1,3 +1,7 @@
+package Interface;
+
+import Entity.GameTree;
+
 public interface GameStorage {
     String toString();
     int size();

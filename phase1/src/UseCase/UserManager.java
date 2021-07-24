@@ -1,3 +1,10 @@
+package UseCase;
+
+import Entity.AdminUser;
+import Entity.GuestUser;
+import Entity.RegularUser;
+import Entity.User;
+
 import java.util.ArrayList;
 import java.util.List;
 

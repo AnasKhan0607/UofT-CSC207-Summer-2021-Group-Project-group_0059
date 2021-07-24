@@ -1,7 +1,13 @@
+package Entity;
+
+import Interface.GameStorage;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameTree implements GameStorage{
+import Exception.AddDialogueException;
+
+public class GameTree implements GameStorage {
     public static void main(String[] args) {
         GameTree it = (GameTree) GameStorage.initializeStorage(4, "0");
         System.out.println(it.choiceNumLimit + it.id);
@@ -33,7 +39,7 @@ public class GameTree implements GameStorage{
         this.id = this.setId();
     }
 
-    private GameTree(String childDialogue, int parentDialogueId, GameTree initialTree) throws AddDialogueException{
+    private GameTree(String childDialogue, int parentDialogueId, GameTree initialTree) throws AddDialogueException {
         this.dialogue = childDialogue;
         try{
             this.parentTree = initialTree.getTreeById(parentDialogueId);

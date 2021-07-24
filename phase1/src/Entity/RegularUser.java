@@ -1,3 +1,5 @@
+package Entity;
+
 public class RegularUser extends User {
     private String password;
 
