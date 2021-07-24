@@ -3,7 +3,7 @@ import java.util.List;
 
 public class GameTree implements GameStorage{
     public static void main(String[] args) {
-        GameTree it = (GameTree) initializeStorage(4, "0");
+        GameTree it = (GameTree) GameStorage.initializeStorage(4, "0");
         System.out.println(it.choiceNumLimit + it.id);
         it.addChoiceToDialogue("1", 0);
         it.addChoiceToDialogue("2", 0);
@@ -26,7 +26,7 @@ public class GameTree implements GameStorage{
     private List<GameTree> subtrees = new ArrayList<GameTree>();
     private GameTree parentTree;
 
-    private GameTree(int choiceNumLimit, String initialDialogue){
+    public GameTree(int choiceNumLimit, String initialDialogue){
         this.choiceNumLimit = choiceNumLimit;
         this.dialogue = initialDialogue;
         this.parentTree = null;
@@ -49,10 +49,6 @@ public class GameTree implements GameStorage{
         }
 
         this.id = this.setId();
-    }
-
-    public static GameStorage initializeStorage(int choiceNumLimit, String initialDialogue){
-        return new GameTree(choiceNumLimit, initialDialogue);
     }
 
     public void addChoiceToDialogue(String childDialogue, int parentDialogueId){

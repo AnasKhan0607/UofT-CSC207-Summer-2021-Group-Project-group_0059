@@ -8,7 +8,7 @@ public interface GameStorage {
     boolean deleteDialogueById(int id);
 
     static GameStorage initializeStorage(int choiceNumLimit, String initialDialogue) {
-        return null;
+        return new GameTree(choiceNumLimit, initialDialogue);
     }
     void addChoiceToDialogue(String childDialogue, int parentDialogueId);
 }

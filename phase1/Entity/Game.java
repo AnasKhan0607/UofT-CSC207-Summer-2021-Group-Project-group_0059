@@ -1,32 +1,77 @@
 public class Game {
+    public static void main(String[] args) {
+        Game bruh = new Game("BRUH", "le bruh", 4, "Bro Bruh Bruh Bro");
+        System.out.println(bruh.getDialogueById(0));
+    }
 
-    private static int gameID;
-    //1st digit is template number, for example, 1 for template 1
+    // game name must be unique
     private String gameName;
     private String gameAuthor;
-    private GameStorage firstTree;
-    private String gameState;
-    private int choicesNum;
+    private boolean gamePublic = false;
+    private int choiceNumLimit;
+    private GameStorage gameStorage;
 
-    public Game(String gameName, String gameAuthor, String gameState, int choicesNum, GameStorage firstTree) {
+
+    public Game(String gameName, String gameAuthor, boolean gamePublic, int choiceNumLimit, GameStorage gameStorage) {
         this.gameName = gameName;
         this.gameAuthor = gameAuthor;
-        this.gameState = gameState;
-        this.choicesNum = choicesNum;
-        this.firstTree = firstTree;
+        this.gamePublic = gamePublic;
+        this.choiceNumLimit = choiceNumLimit;
+        this.gameStorage = gameStorage;
     }
 
-    public int getGameID(){return gameID;}
+    public Game(String gameName, String gameAuthor, int choiceNumLimit, String initialDialogue) {
+        this.gameName = gameName;
+        this.gameAuthor = gameAuthor;
+        this.choiceNumLimit = choiceNumLimit;
+        this.gameStorage = GameStorage.initializeStorage(choiceNumLimit, initialDialogue);
+    }
+
     public String getGameName(){return gameName;}
-    public String getGameAuthor(){return gameAuthor;}
-    public GameStorage getFirstTree(){return firstTree;}
-    public String getGameState(){return gameState;}
-    public int getChoicesNum(){return choicesNum;}
-
-    public void GameIdSetters(int givenGameId){
-        gameID = givenGameId;}
-    private String generateID(){
-        return "123";
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 
+    public String getGameAuthor(){return gameAuthor;}
+    public void setGameAuthor(String gameAuthor) {
+        this.gameAuthor = gameAuthor;
+    }
+
+    public boolean getGamePublic(){return gamePublic;}
+    public void setGamePublic(boolean gamePublic) {
+        this.gamePublic = gamePublic;
+    }
+
+    public int getchoiceNumLimit(){return choiceNumLimit;}
+    public void setChoiceNumLimit(int choiceNumLimit) {
+        this.choiceNumLimit = choiceNumLimit;
+    }
+
+    public String toString(){
+        return gameStorage.toString();
+    }
+
+    public int size(){
+        return gameStorage.size();
+    }
+
+    String getDialogueById(int id) {
+        return gameStorage.getDialogueById(id);
+    }
+
+    public int getIdByDialogue(String dialogue){
+        return gameStorage.getIdByDialogue(dialogue);
+    }
+
+    public boolean setDialogueById(int id, String dialogue){
+        return gameStorage.setDialogueById(id, dialogue);
+    }
+
+    public boolean deleteDialogueById(int id){
+        return gameStorage.deleteDialogueById(id);
+    }
+
+    void addChoiceToDialogue(String childDialogue, int parentDialogueId){
+        gameStorage.addChoiceToDialogue(childDialogue, parentDialogueId);
+    }
 }
