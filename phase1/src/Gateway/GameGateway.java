@@ -2,12 +2,11 @@ package Gateway;
 
 import Interface.SaveLoadGame;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 public class GameGateway implements SaveLoadGame {
 
@@ -33,15 +32,61 @@ public class GameGateway implements SaveLoadGame {
     // remember to return an arraylist
     public List<HashMap> load_games() {
 
-        CsvToTable CTT = new CsvToTable();
+        // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
 
-        return null;
+        List<HashMap> gameMaps = null;
+
+        try {
+            FileInputStream fileInput = new FileInputStream(
+                    myPath + "\\phase1\\data\\SerializedMaps.txt");
+
+            ObjectInputStream objectInput
+                    = new ObjectInputStream(fileInput);
+
+            gameMaps = (List<HashMap>) objectInput.readObject();
+
+            objectInput.close();
+            fileInput.close();
+        }
+
+        catch (IOException obj1) {
+            obj1.printStackTrace();
+
+        }
+
+        catch (ClassNotFoundException obj2) {
+            System.out.println("Class not found");
+            obj2.printStackTrace();
+
+        }
+
+        return gameMaps;
     }
 
     // an arraylist will be passed here
     public void save_games(List<HashMap> gameTable){
+        // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
+        try {
+            FileOutputStream myFileOutStream
+                    = new FileOutputStream(
+                    myPath + "\\phase1\\data\\SerializedMaps.txt");
 
+            ObjectOutputStream myObjectOutStream
+                    = new ObjectOutputStream(myFileOutStream);
+
+            myObjectOutStream.writeObject(gameTable);
+
+            // closing FileOutputStream and
+            // ObjectOutputStream
+            myObjectOutStream.close();
+            myFileOutStream.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
 
 }
 
