@@ -5,12 +5,25 @@ public class UserManager {
     private List<User> bufferedUsers;
 
     public UserManager(){
-        this.bufferedUsers = new ArrayList<User>();
+        this.bufferedUsers = new ArrayList<>();
     }
 
     public void addUser(ArrayList<String> info){
-        User temp = new User(info.get(0));
-        this.bufferedUsers.add(temp);
+        if (info.size() == 2){
+            String username = info.get(0);
+            String password = info.get(1);
+            if (username.charAt(0) == 'A'){
+                AdminUser tempUser = new AdminUser(username, password);
+                this.bufferedUsers.add(tempUser);
+            } else {
+                RegularUser tempUser = new RegularUser(username, password);
+                this.bufferedUsers.add(tempUser);
+            }
+        } else {
+            String username = info.get(0);
+            GuestUser tempUser = new GuestUser(username);
+            this.bufferedUsers.add(tempUser);
+        }
     }
 
     public User SearchUser(String username){

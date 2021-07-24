@@ -1,15 +1,17 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 
 public class GameGate {
 
     String myPath = new File("").getAbsolutePath();
 
-    public Game load_game() {
+    public GameTree load_game() {
 
-        return null;
+        CsvToTable CTT = new CsvToTable();
 
+        return new GameTree(1,"Test");
     }
 
 

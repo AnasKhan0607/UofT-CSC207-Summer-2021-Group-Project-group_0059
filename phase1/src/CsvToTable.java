@@ -17,8 +17,8 @@ public class CsvToTable {
 
 
     public List<String[]> read(String fileLocation) throws IOException {
-
-        BufferedReader csvReader = new BufferedReader(new FileReader(myPath + "\\phase1\\data\\GameData.csv"));
+        //        \phase1\data\GameData.csv
+        BufferedReader csvReader = new BufferedReader(new FileReader(myPath + fileLocation));
         String aRow;
         List<String[]> rows = new ArrayList<>();
 
