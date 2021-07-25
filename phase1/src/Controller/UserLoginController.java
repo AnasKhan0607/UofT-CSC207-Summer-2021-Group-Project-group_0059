@@ -1,5 +1,7 @@
 package Controller;
 
+import Entity.AdminUser;
+import Entity.RegularUser;
 import Entity.User;
 import Presenter.UserLoginPresenter;
 import UseCase.UserManager;
@@ -22,11 +24,14 @@ public class UserLoginController {
         Scanner myObj = new Scanner(System.in);
         UserLoginPresenter.display();
         this.userName = myObj.nextLine();
-        if (this.userName == "Signup"){
+        if (this.userName.equals("Signup")){
             /* Jump to signup */
             UserSignupController signup1 = new UserSignupController(this.testUM);
+            signup1.UserInput();
+            /* Maybe a new NormalUserinput to be called? */
 
-        } else if (this.userName == "Guest"){
+
+        } else if (this.userName.equals("Guest")){
             GuestUserInput();
         } else {
             this.password = myObj.nextLine();
@@ -59,6 +64,14 @@ public class UserLoginController {
     }
 
     public void redirect(User user){
+        String username = user.getUsername();
+        if (username.charAt(0) == 'A'){
+            AdminUserNavigatorController.run();
+        } else if(username.charAt(0) == 'R'){
+            RegularUserNavigatorController.run();
+        } else {
+            GuestUserNavigatorController.run();
+        }
 
     }
 
