@@ -2,9 +2,13 @@ package Entity;
 
 import Interface.GameStorage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Game {
     public static void main(String[] args) {
-        Game bruh = new Game("BRUH", "le bruh", 4, "Bro Bruh Bruh Bro");
+        Game bruh = new Game("BRUH", "le bruh", false,4, "Bro Bruh Bruh Bro");
         bruh.addChoiceToDialogue("1", 0);
         bruh.addChoiceToDialogue("2", 0);
         bruh.addChoiceToDialogue("3", 0);
@@ -24,17 +28,18 @@ public class Game {
     private GameStorage gameStorage;
 
 
-    public Game(String gameName, String gameAuthor, boolean gamePublic, int choiceNumLimit, GameStorage gameStorage) {
+//    public Game(String gameName, String gameAuthor, boolean gamePublic, int choiceNumLimit, GameStorage gameStorage) {
+//        this.gameName = gameName;
+//        this.gameAuthor = gameAuthor;
+//        this.gamePublic = gamePublic;
+//        this.choiceNumLimit = choiceNumLimit;
+//        this.gameStorage = gameStorage;
+//    }
+
+    public Game(String gameName, String gameAuthor, boolean gamePublic, int choiceNumLimit, String initialDialogue) {
         this.gameName = gameName;
         this.gameAuthor = gameAuthor;
         this.gamePublic = gamePublic;
-        this.choiceNumLimit = choiceNumLimit;
-        this.gameStorage = gameStorage;
-    }
-
-    public Game(String gameName, String gameAuthor, int choiceNumLimit, String initialDialogue) {
-        this.gameName = gameName;
-        this.gameAuthor = gameAuthor;
         this.choiceNumLimit = choiceNumLimit;
         this.gameStorage = GameStorage.initializeStorage(choiceNumLimit, initialDialogue);
     }
@@ -67,7 +72,7 @@ public class Game {
         return gameStorage.size();
     }
 
-    String getDialogueById(int id) {
+    public String getDialogueById(int id) {
         return gameStorage.getDialogueById(id);
     }
 
@@ -83,7 +88,15 @@ public class Game {
         return gameStorage.deleteDialogueById(id);
     }
 
-    public void addChoiceToDialogue(String childDialogue, int parentDialogueId){
-        gameStorage.addChoiceToDialogue(childDialogue, parentDialogueId);
+    public ArrayList<Integer> getParentDialogueIds(ArrayList<Integer> childrenDialogueIds){
+        return gameStorage.getParentDialogueIds(childrenDialogueIds);
+    };
+
+    public ArrayList<Integer> getAllId(){
+        return gameStorage.getAllId();
+    };
+
+    public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
+        return gameStorage.addChoiceToDialogue(childDialogue, parentDialogueId);
     }
 }

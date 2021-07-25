@@ -14,18 +14,18 @@ public class GameGateway implements SaveLoadGame {
 
     /*
     * Each hashmap in the list of hashmaps should have this specific format:
-    *  ___________________________________
-    * |Key         | Value                |
-    * |___________________________________|
-    * |Name        | "Bruhther's Broments"|
-    * |Author      | "Le Bruh"            |
-    * |Public      | false                |
-    * |ChoiceLimit | 4                    |
-    * |0           | "Dialogue 0"         |
-    * |1           | "Dialogue 1"         |
-    * |2           | "Dialogue 2"         |
-    * |...         | ...                  |
-    * |___________________________________|
+    *  _______________________________________
+    * |Key             | Value                |
+    * |_______________________________________|
+    * |-4 (Name)       | "Bruhther's Broments"|
+    * |-3 (Author)     | "Le Bruh"            |
+    * |-2 (Public)     | "false"              |
+    * |-1 (ChoiceLimit)| "4"                  |
+    * |0               | "Dialogue 0"         |
+    * |1               | "Dialogue 1"         |
+    * |2               | "Dialogue 2"         |
+    * |...             | ...                  |
+    * |_______________________________________|
     * Remember that java hashmap is just dict in python
      * */
 
