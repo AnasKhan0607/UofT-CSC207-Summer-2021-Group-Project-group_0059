@@ -1,3 +1,5 @@
+package Entity;
+
 public class AdminUser extends User {
     private String password;
 
