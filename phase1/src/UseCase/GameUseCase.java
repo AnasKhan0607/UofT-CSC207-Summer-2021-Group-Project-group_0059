@@ -43,6 +43,7 @@ public class GameUseCase {
     private ArrayList<Game> publicGames = new ArrayList<>();
     private ArrayList<Game> privateGames = new ArrayList<>();
     private SaveLoadGame database;
+    private Game currentGame;
 
     public GameUseCase(SaveLoadGame database){
         this.database = database;
@@ -61,6 +62,24 @@ public class GameUseCase {
     public void createGame(int number_choice, String game_name, String author_name, String initial_dialogue){
         Game game = new Game(game_name, author_name, false, number_choice, initial_dialogue);
         privateGames.add(game);
+    }
+
+    public String getGameAsString(String gameName){
+        return this.getGameByName(gameName).toString();
+    }
+
+    private Game getGameByName(String gameName){
+        for(Game game: publicGames){
+            if (game.getGameName().equals(gameName)){
+                return game;
+            }
+        }
+        for(Game game: privateGames){
+            if (game.getGameName().equals(gameName)){
+                return game;
+            }
+        }
+        return null;
     }
 
     public ArrayList<String> getPublicGames(){
