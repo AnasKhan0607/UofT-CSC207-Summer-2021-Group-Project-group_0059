@@ -28,26 +28,14 @@ public class UserLoginController {
             /* Jump to signup */
             UserSignupController signup1 = new UserSignupController(this.testUM);
             signup1.UserInput();
-            /* Maybe a new NormalUserinput to be called? */
-
-
+            // Going through the login process again
+            UserLoginPresenter.display3(); // using display 3 to remove dialogue of giving the user the option to signup or login as guest
+            this.userName = myObj.nextLine();
+            RegularLogin();
         } else if (this.userName.equals("Guest")){
             GuestUserInput();
         } else {
-            this.password = myObj.nextLine();
-            if (testUM.SearchUser(this.userName) == null){
-                UserLoginPresenter.errorMessage();
-            } else {
-                User tempUser = testUM.SearchUser(this.userName);
-                String temppassword = tempUser.getPassword();
-                if (!temppassword.equals(this.password)){
-                    UserLoginPresenter.errorMessage();
-                } else {
-                    UserLoginPresenter.successMessage();
-                    redirect(tempUser);
-                }
-
-            }
+            RegularLogin();
         }
 
     }
@@ -75,7 +63,24 @@ public class UserLoginController {
 
     }
 
+    // helper method
 
+    private void RegularLogin() {
+        Scanner myObj = new Scanner(System.in);
+        this.password = myObj.nextLine();
+        if (testUM.SearchUser(this.userName) == null) {
+            UserLoginPresenter.errorMessage();
+        } else {
+            User tempUser = testUM.SearchUser(this.userName);
+            String temppassword = tempUser.getPassword();
+            if (!temppassword.equals(this.password)) {
+                UserLoginPresenter.errorMessage();
+            } else {
+                UserLoginPresenter.successMessage();
+                redirect(tempUser);
+            }
+        }
+    }
 }
 
 
