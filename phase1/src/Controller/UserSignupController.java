@@ -12,10 +12,11 @@ public class UserSignupController {
     private String password;
     private UserManager testUM = new UserManager();
 
-    public UserSignupController() {
+    public UserSignupController(UserManager um1) {
         this.username = null;
         this.password = null;
         this.userInput = new ArrayList<>();
+        this.testUM = um1;
     }
 
     public void UserInput() {

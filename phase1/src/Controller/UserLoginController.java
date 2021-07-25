@@ -1,5 +1,6 @@
 package Controller;
 
+import Entity.User;
 import Presenter.UserLoginPresenter;
 import UseCase.UserManager;
 
@@ -23,6 +24,8 @@ public class UserLoginController {
         this.userName = myObj.nextLine();
         if (this.userName == "Signup"){
             /* Jump to signup */
+            UserSignupController signup1 = new UserSignupController(this.testUM);
+
         } else if (this.userName == "Guest"){
             GuestUserInput();
         } else {
@@ -30,11 +33,13 @@ public class UserLoginController {
             if (testUM.SearchUser(this.userName) == null){
                 UserLoginPresenter.errorMessage();
             } else {
-                String temppassword = testUM.SearchUser(this.userName).getPassword();
+                User tempUser = testUM.SearchUser(this.userName);
+                String temppassword = tempUser.getPassword();
                 if (!temppassword.equals(this.password)){
                     UserLoginPresenter.errorMessage();
                 } else {
                     UserLoginPresenter.successMessage();
+                    redirect(tempUser);
                 }
 
             }
@@ -51,6 +56,10 @@ public class UserLoginController {
         info.add(this.userName);
         testUM.addUser(info);
         UserLoginPresenter.successMessage();
+    }
+
+    public void redirect(User user){
+
     }
 
 

@@ -46,6 +46,10 @@ public class UserManager {
         return null;
     }
 
+    public void Load(){}
+    /* for the constructor */
+    public void Save(){}
+    /* for the addUser()*/
     @Override
     public String toString() {
         return "UserManager{" +
