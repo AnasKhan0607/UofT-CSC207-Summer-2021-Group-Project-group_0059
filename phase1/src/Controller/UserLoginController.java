@@ -1,6 +1,7 @@
 package Controller;
 
 import Entity.AdminUser;
+import Entity.GuestUser;
 import Entity.RegularUser;
 import Entity.User;
 import Presenter.UserLoginPresenter;
@@ -54,11 +55,17 @@ public class UserLoginController {
     public void redirect(User user){
         String username = user.getUsername();
         if (username.charAt(0) == 'A'){
-            AdminUserNavigatorController.run();
+            AdminUser tempUser = new AdminUser(user.getUsername(), user.getPassword());
+            AdminUserNavigatorController aunc = new AdminUserNavigatorController(tempUser);
+            aunc.run();
         } else if(username.charAt(0) == 'R'){
-            RegularUserNavigatorController.run();
+            RegularUser tempUser = new RegularUser(user.getUsername(), user.getPassword());
+            RegularUserNavigatorController runc = new RegularUserNavigatorController(tempUser);
+            runc.run();
         } else {
-            GuestUserNavigatorController.run();
+            GuestUser tempUser = new GuestUser(user.getUsername());
+            GuestUserNavigatorController gunc = new GuestUserNavigatorController(tempUser);
+            gunc.run();
         }
 
     }
