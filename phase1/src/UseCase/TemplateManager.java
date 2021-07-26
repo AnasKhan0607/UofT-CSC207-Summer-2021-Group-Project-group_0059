@@ -7,6 +7,10 @@ import java.util.HashMap;
 public class TemplateManager {
     private ArrayList<Template> templates;
 
+    public ArrayList<Template> getTemplates(){
+        return this.templates;
+    }
+
     public ArrayList<HashMap<String, Template>> All_templates() {
         ArrayList<HashMap<String, Template>> all_templates = new ArrayList<>();
         for (Template template : templates) {
@@ -16,7 +20,6 @@ public class TemplateManager {
         }
         return all_templates;
     }
-
     public Template Find_template(String name){
         int counter;
         for (counter = 0; counter < templates.size(); counter++) {

@@ -20,10 +20,6 @@ public class TemplatePresenter {
         System.out.println("Template Description: " + template.getDescription());
         System.out.println("Template # of choices: " + template.getNumchoice());
     }
-    public static void chose_template_to_edit(ArrayList<Template> templates) {
-        System.out.println("Which template would you like to chose to edit?");
-        display_templates(templates);
-    }
     public static void chose_template_for_game(ArrayList<Template> templates) {
         System.out.println("Which template would you like to chose to make a game with?");
         display_templates(templates);
@@ -32,5 +28,6 @@ public class TemplatePresenter {
         System.out.println("You have selected " + template.getTemplatename() + " template");
         System.out.println("Redirecting...");
     }
+
 
 }
