@@ -1,17 +1,24 @@
 package Controller;
 
+import Entity.AdminUser;
+import Presenter.AdminUserNavigatorPresenter;
 import Presenter.UserLoginPresenter;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminUserNavigatorController implements UserNavigatorController{
+    private AdminUser currentUser;
+
+    public AdminUserNavigatorController(AdminUser a){
+        currentUser = a;
+    }
 
 
 
-    public static void run(){
+    public void run(){
         Scanner myObj = new Scanner(System.in);
-        UserLoginPresenter.display();
+        AdminUserNavigatorPresenter.display(currentUser.getUsername());
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
             /* GamePlay*/

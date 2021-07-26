@@ -1,18 +1,24 @@
 package Controller;
 
+import Entity.GuestUser;
+import Presenter.GuestUserNavigatorPresenter;
 import Presenter.UserLoginPresenter;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GuestUserNavigatorController implements UserNavigatorController{
-    private ArrayList<String> userInput;
+    private GuestUser currentUser;
+
+    public GuestUserNavigatorController(GuestUser g){
+        currentUser = g;
+    }
 
 
 
-    public static void run() {
+    public void run() {
         Scanner myObj = new Scanner(System.in);
-        UserLoginPresenter.display();
+        GuestUserNavigatorPresenter.display(currentUser.getUsername());
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
             /* GamePlay*/
