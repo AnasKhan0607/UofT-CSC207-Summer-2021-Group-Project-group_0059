@@ -14,6 +14,10 @@ public class UserLoginPresenter {
         System.out.println("input username. press enter to continue");
     }
 
+    public static void display3() {
+        System.out.println("Please input your username first, press enter and then" +
+                "your password, and press enter again to continue.");
+    }
 
     public static void errorMessage(){System.out.println("Sorry, but either username or password is incorrect");}
 

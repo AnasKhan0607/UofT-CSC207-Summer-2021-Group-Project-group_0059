@@ -2,6 +2,9 @@ package Interface;
 
 import Entity.GameTree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface GameStorage {
     String toString();
     int size();
@@ -10,10 +13,12 @@ public interface GameStorage {
     int getIdByDialogue(String dialogue);
     boolean setDialogueById(int id, String dialogue);
     boolean deleteDialogueById(int id);
+    ArrayList<Integer> getParentDialogueIds(List<Integer> childrenDialogueIds);
+    ArrayList<Integer> getAllId();
 
     static GameStorage initializeStorage(int choiceNumLimit, String initialDialogue) {
         return new GameTree(choiceNumLimit, initialDialogue);
     }
-    void addChoiceToDialogue(String childDialogue, int parentDialogueId);
+    boolean addChoiceToDialogue(String childDialogue, int parentDialogueId);
 }
 

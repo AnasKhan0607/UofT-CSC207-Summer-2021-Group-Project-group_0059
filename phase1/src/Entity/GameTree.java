@@ -19,11 +19,18 @@ public class GameTree implements GameStorage {
         it.addChoiceToDialogue("8", 1);
         it.addChoiceToDialogue("9", 2);
         it.addChoiceToDialogue("25", 6);
-        System.out.println(it);
-        System.out.println(it.getDialogueById(25));
-        it.deleteDialogueById(5);
-        System.out.println(it);
-        System.out.println(it.getDialogueById(21));
+//        System.out.println(it);
+//        System.out.println(it.getDialogueById(25));
+//        it.deleteDialogueById(5);
+//        System.out.println(it);
+//        System.out.println(it.getDialogueById(21));
+        System.out.println(it.addChoiceToDialogue("bruh", 70));
+        System.out.println(it.getParentId(3));
+        System.out.println(it.getParentId(2));
+        System.out.println(it.getParentId(5));
+
+
+
     }
 
     private int id;
@@ -57,12 +64,14 @@ public class GameTree implements GameStorage {
         this.id = this.setId();
     }
 
-    public void addChoiceToDialogue(String childDialogue, int parentDialogueId){
+    public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
         try{
             new GameTree(childDialogue, parentDialogueId, this);
+            return true;
         }
         catch (AddDialogueException b){
             System.out.println(b.getMessage());
+            return false;
         }
     }
 
@@ -82,6 +91,35 @@ public class GameTree implements GameStorage {
         for (GameTree tree: subtrees){
             tree.resetAllId();
         }
+    }
+
+    public ArrayList<Integer> getAllId(){
+        ArrayList<Integer> allId = new ArrayList<>();
+        allId.add(this.id);
+        for (GameTree subtree : this.subtrees) {
+            allId.addAll(subtree.getAllId());
+        }
+        return allId;
+    }
+
+    private Integer getParentId(int childId){
+        if (childId == 0){
+            return null;
+        }
+        else if (childId % choiceNumLimit == 0){
+            return childId / choiceNumLimit - 1;
+        }
+        else{
+            return childId / choiceNumLimit;
+        }
+    }
+
+    public ArrayList<Integer> getParentDialogueIds(List<Integer> childrenDialogueIds){
+        ArrayList<Integer> parentIds = new ArrayList<>();
+        for (int children: childrenDialogueIds){
+            parentIds.add(getParentId(children));
+        }
+        return parentIds;
     }
 
     private boolean addToSubtrees(GameTree tree){
