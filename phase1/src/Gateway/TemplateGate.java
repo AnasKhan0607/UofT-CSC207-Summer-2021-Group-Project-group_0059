@@ -26,11 +26,11 @@ public class TemplateGate implements TemplateSaveLoader {
      * */
 
     // remember to return an arraylist
-    public List<HashMap> load_templates() {
+    public List<HashMap<Integer, String>> load_templates() {
 
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
 
-        List<HashMap> templatesMaps = null;
+        List<HashMap<Integer, String>> templatesMaps = null;
 
         try {
             FileInputStream fileInput = new FileInputStream(
@@ -39,7 +39,7 @@ public class TemplateGate implements TemplateSaveLoader {
             ObjectInputStream objectInput
                     = new ObjectInputStream(fileInput);
 
-            templatesMaps = (List<HashMap>) objectInput.readObject();
+            templatesMaps = (List<HashMap<Integer, String>>) objectInput.readObject();
 
             objectInput.close();
             fileInput.close();
@@ -60,7 +60,7 @@ public class TemplateGate implements TemplateSaveLoader {
     }
 
     // an arraylist will be passed here
-    public void save_templates(List<HashMap> templatesTable){
+    public void save_templates(List<HashMap<Integer, String>> templatesTable){
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
         try {
             FileOutputStream myFileOutStream

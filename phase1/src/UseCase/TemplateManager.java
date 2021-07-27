@@ -1,13 +1,30 @@
 package UseCase;
 import Entity.Template;
+import Gateway.TemplateGate;
+import Interface.TemplateSaveLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class TemplateManager {
     private ArrayList<Template> templates;
 
-    public ArrayList<Template> getTemplates(){
+    public TemplateManager(){
+        this.templates = new ArrayList<>();
+        TemplateSaveLoader t = new TemplateGate();
+
+        List<HashMap<Integer, String>> template_maps = t.load_templates();
+        for (HashMap<Integer, String> template_map : template_maps){
+            Template a = new Template(template_map.get(0));
+            a.setTemplatename(template_map.get(0));
+            a.setDescription(template_map.get(1));
+            a.setNumchoice(Integer.parseInt(template_map.get(2)));
+            this.templates.add(a);
+        }
+    }
+
+    public ArrayList<Template> getTemplates() {
         return this.templates;
     }
 
