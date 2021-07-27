@@ -4,15 +4,31 @@ import Entity.AdminUser;
 import Entity.GuestUser;
 import Entity.RegularUser;
 import Entity.User;
+import Gateway.UserGate;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class UserManager {
     private List<User> bufferedUsers;
 
     public UserManager(){
         this.bufferedUsers = new ArrayList<>();
+        HashMap<String, String> tempUsers = UserGate.readFile();
+
+        for (Map.Entry mapElement :tempUsers.entrySet()){
+            String username = (String)mapElement.getKey();
+            String password = (String)mapElement.getValue();
+            if (username.charAt(0) == 'A'){
+                AdminUser tempUser = new AdminUser(username, password);
+                this.bufferedUsers.add(tempUser);
+            } else {
+                RegularUser tempUser = new RegularUser(username, password);
+                this.bufferedUsers.add(tempUser);
+            }
+        }
+
+
+        /*buffered array gets updated with what's in tempUsers*/
     }
 
     public void addUser(ArrayList<String> info){
