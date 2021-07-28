@@ -1,6 +1,8 @@
 package Controller;
 
 import Gateway.GameGate;
+import Interface.TemplateData;
+import Interface.UserData;
 import Presenter.GamePresenter;
 import UseCase.GameUseCase;
 
@@ -10,12 +12,13 @@ import java.util.Scanner;
 
 public class GameMainController {
     public static void main(String[] args) {
-        GameMainController gameController = new GameMainController();
+//        GameMainController gameController = new GameMainController();
 //        gameController.regularGameMenu();
 //        gameController.guestViewsGame();
-        gameController.guestGameMenu();
+//        gameController.guestGameMenu();
     }
 
+    private UserData userData;
     private GameUseCase gameUseCase;
     private GameCreateController gameCreator;
     private GamePlayController gamePlayer;
@@ -24,15 +27,33 @@ public class GameMainController {
     private Scanner scanner = new Scanner(System.in);
 
 
-    public GameMainController(){
+    public GameMainController(TemplateData templateData){
         gameUseCase = new GameUseCase(new GameGate());
-        gameCreator = new GameCreateController(gameUseCase);
+        gameCreator = new GameCreateController(gameUseCase, templateData);
         gameEditor = new GameEditController(gameUseCase);
         gamePlayer = new GamePlayController(gameUseCase);
     }
 
+    public GameMainController(TemplateData templateData, UserData userData){
+        gameUseCase = new GameUseCase(new GameGate());
+        gameCreator = new GameCreateController(gameUseCase, templateData, userData);
+        gameEditor = new GameEditController(gameUseCase, userData);
+        gamePlayer = new GamePlayController(gameUseCase, userData);
+        this.userData = userData;
+    }
+
+    public void gameMenu(){
+        if (userData == null){
+            guestGameMenu();
+        }
+        else{
+            regularGameMenu();
+        }
+    }
+
+
     // This game menu is for regular/admin users
-    public void regularGameMenu(){
+    private void regularGameMenu(){
         gamePresenter.displayScene("Choose and enter the corresponding integer.",
                 new ArrayList<>(Arrays.asList(new String[]{
                 "1: Create Game", "2: Edit Game", "3: Play Game", "4: View Games", "5: Exit"})));
@@ -46,29 +67,26 @@ public class GameMainController {
                 System.out.println(e);
             }
 
-            switch (userChoice){
-                case 1:{
-                    System.out.println("bruh");
-                }
-                case 2:{
-                    System.out.println("bruh");
-                }
-                case 3:{
-                    System.out.println("bruh");
-                }
-                case 4:{
-                    System.out.println("bruh");
-                }
-                case 5:{
-                    break;
-                }
+            if(userChoice == 1){
+                System.out.println("bruh");
+            }
+            else if(userChoice == 2){
+                System.out.println("?");
+            }
+            else if(userChoice == 3){
+//                    this.viewGames(gameUseCase.getPublicGames());
+            }
+            else if(userChoice == 4){
+                this.viewGamesMenu();
+            }
+            else if(userChoice == 5){
+                break;
             }
         }
     }
 
-
     // This game menu is for guest users
-    public void guestGameMenu(){
+    private void guestGameMenu(){
 
         int userChoice = 0;
         while (true){
@@ -89,7 +107,7 @@ public class GameMainController {
                 System.out.println("?");
             }
             else if(userChoice == 3){
-                this.guestViewsGame();
+                this.viewGames(gameUseCase.getPublicGames());
             }
             else if(userChoice == 4){
                 break;
@@ -97,11 +115,40 @@ public class GameMainController {
         }
     }
 
-    private void guestViewsGame(){
+    private void viewGamesMenu(){
+
         int userChoice = 0;
         while (true) {
-            ArrayList<String> publicGames = gameUseCase.getPublicGames();
-            gamePresenter.displayScene("Enter 1 to exit.", publicGames);
+            gamePresenter.displayScene("Choose and enter the corresponding integer.",
+                    new ArrayList<>(Arrays.asList(new String[]{"1: View Private Games (Created by You)",
+                            "2: View Public Games", "3: View All Public Games Created by You",
+                            "4: Exit"})));
+            try {
+                userChoice = Integer.valueOf(scanner.next());
+            }
+            catch (NumberFormatException e) {
+                System.out.println(e);
+            }
+
+            if (userChoice == 1){
+                this.viewGames(gameUseCase.getPrivateGames(userData.currentUserName()));
+            }
+            else if (userChoice == 2){
+                this.viewGames(gameUseCase.getPublicGames());
+            }
+            else if (userChoice == 3){
+                this.viewGames(gameUseCase.getPublicGamesByAuthor(userData.currentUserName()));
+            }
+            else if (userChoice == 4){
+                break;
+            }
+        }
+    }
+
+    private void viewGames(ArrayList<String> games){
+        int userChoice = 0;
+        while (true) {
+            gamePresenter.displayScene("Enter 1 to exit.", games);
             try {
                 userChoice = Integer.valueOf(scanner.next());
             }

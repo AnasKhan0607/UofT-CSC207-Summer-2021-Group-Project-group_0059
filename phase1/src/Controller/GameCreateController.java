@@ -11,21 +11,24 @@ public class GameCreateController {
     private GameUseCase gameUseCase;
     private GamePresenter gamePresenter = new GamePresenter();
 
-    public GameCreateController(GameUseCase gameUseCase){
+    public GameCreateController(GameUseCase gameUseCase, TemplateData templateData){
         this.gameUseCase = gameUseCase;
+        this.templateData = templateData;
+    }
+
+    public GameCreateController(GameUseCase gameUseCase, TemplateData templateData, UserData userData){
+        this.gameUseCase = gameUseCase;
+        this.userData = userData;
+        this.templateData = templateData;
     }
 
     public void createGame(){
-        int choiceNumLimit;
-        // if statement for testing purpose only
-        if (this.templateData != null){
-            choiceNumLimit = templateData.chooseTemplate();
+        int choiceNumLimit = templateData.chooseTemplate();
+        String gameName = "";
+        String initialDialogue = "";
+        gameUseCase.createGame(choiceNumLimit, gameName, userData.currentUserName(), initialDialogue);
 
-        }
 
-        else{
-            choiceNumLimit = 4;
-        }
 
     }
 }

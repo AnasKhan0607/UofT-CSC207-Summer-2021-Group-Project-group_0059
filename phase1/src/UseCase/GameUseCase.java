@@ -205,71 +205,29 @@ public class GameUseCase {
         database.save(gamesData);
     }
 
-    public HashMap<Integer, String> openGame(String gameName){
+    public ArrayList<Object> openGame(String gameName){
         Game game = getGameByName(gameName);
         this.currentGame = game;
         ArrayList<Integer> parentDialogue = game.getAllId();
         int initialDialogueId = parentDialogue.get(0);
         String initialDialogueSt = currentGame.getDialogueById(initialDialogueId);
-        HashMap hashMap = new HashMap();
-        hashMap.put(initialDialogueId, initialDialogueSt);
-        return hashMap;
+        ArrayList<Object> arrayList= new ArrayList<>();
+        arrayList.add(initialDialogueId);
+        arrayList.add(initialDialogueSt);
+        return arrayList;
     }
 
-    public ArrayList<String> choiceOfDialogue(String dialogue){
-//        ArrayList<Integer> list = currentGame.getAllId();
-//        ArrayList<Integer> list2 = new ArrayList<>();
-//        ArrayList<String> list3 = new ArrayList<>();
-//        int idOfDialogue = currentGame.getIdByDialogue(dialogue);
-//        for(int i = 0; i < list.size(); i++){
-//            int childId = list.get(i);
-//            if (childId == 0){
-//                list2.add(000000);
-//            }
-//            else if ((childId % currentGame.getchoiceNumLimit()) == 0){
-//                 list2.add(childId / currentGame.getchoiceNumLimit() - 1);
-//            }
-//            else{
-//                list2.add(childId / currentGame.getchoiceNumLimit());
-//            }
-//            }
-//        for(int i = 0; i<list2.size(); i++){
-//            int id = list2.get(i);
-//            if(id != 000000){
-//                if(id == idOfDialogue){
-//                    list3.add(currentGame.getDialogueById(list.get(i)));
-//            }
-//        }
-//        }
-//        return list3;
+    // change later to get dialogue choices by id
+    public ArrayList<String> getDialogueChoices(String dialogue){
         return currentGame.getChildrenDialogues(currentGame.getIdByDialogue(dialogue));
     }
 
-    public static ArrayList<Integer> choiceOfDialogue2(String dialogue, Game game){
-        ArrayList<Integer> list = game.getAllId();
-        ArrayList<Integer> list2 = new ArrayList<>();
-        ArrayList<Integer> list3 = new ArrayList<>();
-        int idOfDialogue = game.getIdByDialogue(dialogue);
-        for(int i = 0; i < list.size(); i++){
-            int childId = list.get(i);
-            if (childId == 0){
-                list2.add(000000);
-            }
-            else if ((childId % game.getchoiceNumLimit()) == 0){
-                list2.add(childId / game.getchoiceNumLimit() - 1);
-            }
-            else{
-                list2.add(childId / game.getchoiceNumLimit());
-            }
+    public ArrayList<Integer> getDialogueChoiceIds(String dialogue){
+        ArrayList<String> childrenDialogues = this.getDialogueChoices(dialogue);
+        ArrayList<Integer> childrenIds = new ArrayList<>();
+        for (String children: childrenDialogues){
+            childrenIds.add(currentGame.getIdByDialogue(children));
         }
-        for(int i = 0; i<list2.size(); i++){
-            int id = list2.get(i);
-            if(id != 000000){
-                if(id == idOfDialogue){
-                    list3.add(list.get(i));
-                }
-            }
-        }
-        return list3;
+        return childrenIds;
     }
 }
