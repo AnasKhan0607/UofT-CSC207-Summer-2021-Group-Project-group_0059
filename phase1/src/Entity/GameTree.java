@@ -271,4 +271,18 @@ public class GameTree implements GameStorage {
         }
         return space.toString();
     }
+
+    public ArrayList<String> getChildrenDialogues(int parentDialogueId){
+        ArrayList<String> childrenDialogues = new ArrayList<>();
+        try{
+            GameTree parentTree = getTreeById(parentDialogueId);
+        }
+        catch (IndexOutOfBoundsException b){
+            return null;
+        }
+        for (GameTree tree: parentTree.subtrees){
+            childrenDialogues.add(tree.dialogue);
+        }
+        return childrenDialogues;
+    }
 }

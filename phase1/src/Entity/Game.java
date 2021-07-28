@@ -88,6 +88,10 @@ public class Game {
         return gameStorage.deleteDialogueById(id);
     }
 
+    public ArrayList<String> getChildrenDialogues(int parentDialogueId){
+        return gameStorage.getChildrenDialogues(parentDialogueId);
+    };
+
     public ArrayList<Integer> getParentDialogueIds(ArrayList<Integer> childrenDialogueIds){
         return gameStorage.getParentDialogueIds(childrenDialogueIds);
     };

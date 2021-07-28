@@ -15,7 +15,7 @@ public class UserManager {
         this.bufferedUsers = new ArrayList<>();
 
         UserGate myGate = new UserGate();
-        HashMap<String, String> tempUsers = myGate.load().get(0);
+        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load().get(0);
 
         for (Map.Entry mapElement :tempUsers.entrySet()){
             String username = (String)mapElement.getKey();
@@ -46,7 +46,7 @@ public class UserManager {
             }
             HashMap<String, String> newUser = new HashMap<>();
             newUser.put(username, password);
-            UserGate.saveUser(newUser); // need this UserGate method that adds the new user to the file
+            UserGate.save(newUser); // need this UserGate method that adds the new user to the file
         } else {
             String username = info.get(0);
             GuestUser tempUser = new GuestUser(username);
