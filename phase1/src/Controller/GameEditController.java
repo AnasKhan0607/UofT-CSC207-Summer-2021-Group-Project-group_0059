@@ -1,9 +1,18 @@
 package Controller;
 import Entity.Game;
+import Presenter.GamePresenter;
 import UseCase.GameUseCase;
 
 
-public class GameController {
+public class GameEditController {
+
+    private GameUseCase gameUseCase;
+    private GamePresenter gamePresenter = new GamePresenter();
+
+
+    public GameEditController(GameUseCase gameUseCase){
+        this.gameUseCase = gameUseCase;
+    }
 
     public boolean gameChangeDialogue(Game game, String dialogue,int id ) {
         return game.setDialogueById(id, dialogue);
