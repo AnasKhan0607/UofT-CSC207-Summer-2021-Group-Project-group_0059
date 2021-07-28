@@ -8,17 +8,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RegularUserNavigatorController implements UserNavigatorController{
-    private RegularUser currentUser;
+    private String username;
 
-    public RegularUserNavigatorController(RegularUser r){
-        currentUser = r;
+    public RegularUserNavigatorController(String un){
+        username = un;
+    }
+
+    public String currentUser(){
+        return username;
     }
 
 
 
     public void run() {
         Scanner myObj = new Scanner(System.in);
-        RegularUserNavigatorPresenter.display(currentUser.getUsername());
+        RegularUserNavigatorPresenter.display(username);
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
             /* GamePlay*/
