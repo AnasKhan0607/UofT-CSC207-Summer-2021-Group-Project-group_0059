@@ -14,7 +14,9 @@ public class AdminUserNavigatorController implements UserNavigatorController{
         currentUser = a;
     }
 
-
+    public String currentUser(){
+        return currentUser.getUsername();
+    }
 
     public void run(){
         Scanner myObj = new Scanner(System.in);

@@ -1,5 +1,6 @@
 package Controller;
 import Entity.Game;
+import Interface.UserData;
 import Presenter.GamePresenter;
 import UseCase.GameUseCase;
 
@@ -8,6 +9,7 @@ public class GameEditController {
 
     private GameUseCase gameUseCase;
     private GamePresenter gamePresenter = new GamePresenter();
+    private UserData userData;
 
 
     public GameEditController(GameUseCase gameUseCase){

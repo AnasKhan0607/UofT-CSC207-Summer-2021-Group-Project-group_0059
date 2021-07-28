@@ -1,22 +1,31 @@
 package Controller;
 
-import Gateway.GameGate;
-import Interface.TemplateInteracter;
+import Interface.TemplateData;
+import Interface.UserData;
 import Presenter.GamePresenter;
 import UseCase.GameUseCase;
 
 public class GameCreateController {
-    private TemplateInteracter templateInteractor;
+    private TemplateData templateData;
+    private UserData userData;
     private GameUseCase gameUseCase;
     private GamePresenter gamePresenter = new GamePresenter();
-
 
     public GameCreateController(GameUseCase gameUseCase){
         this.gameUseCase = gameUseCase;
     }
 
     public void createGame(){
-        int choiceNumLimit = templateInteractor.chooseTemplate();
+        int choiceNumLimit;
+        // if statement for testing purpose only
+        if (this.templateData != null){
+            choiceNumLimit = templateData.chooseTemplate();
+
+        }
+
+        else{
+            choiceNumLimit = 4;
+        }
 
     }
 }
