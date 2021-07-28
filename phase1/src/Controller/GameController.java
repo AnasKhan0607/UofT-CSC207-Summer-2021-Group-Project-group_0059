@@ -3,7 +3,7 @@ import Entity.Game;
 import UseCase.GameUseCase;
 
 
-public class GameUpdater {
+public class GameController {
 
     public boolean gameChangeDialogue(Game game, String dialogue,int id ) {
         return game.setDialogueById(id, dialogue);
@@ -17,6 +17,10 @@ public class GameUpdater {
     public void SetGamePrivate(Game game){
         game.setGamePublic(false);
     }
+    public void SetGamePublic(Game game){
+        game.setGamePublic(true);
+    }
+
 
     public boolean addDialogue(Game game, String dialogue, int parentId){
         String P = game.getDialogueById(parentId);

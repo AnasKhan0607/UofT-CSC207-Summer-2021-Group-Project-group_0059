@@ -94,7 +94,7 @@ public class GameUseCase {
         return game_list;
     }
 
-    public ArrayList<String> getPrivateGamesByAuthor(String author_name){
+    public ArrayList<String> getPrivateGames(String author_name){
         ArrayList<String> game_list = new ArrayList<>();
         for(Game game: privateGames){
             if (game.getGameAuthor().equals(author_name)){
