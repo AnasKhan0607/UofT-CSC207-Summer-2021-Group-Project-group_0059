@@ -12,9 +12,9 @@ public class TemplateManager {
 
     public TemplateManager(){
         this.templates = new ArrayList<>();
-        TemplateSaveLoader t = new TemplateGate();
+        TemplateGate t = new TemplateGate();
 
-        List<HashMap<Integer, String>> template_maps = t.load_templates();
+        List<HashMap> template_maps = t.load();
         for (HashMap<Integer, String> template_map : template_maps){
             Template a = new Template(template_map.get(0));
             a.setTemplatename(template_map.get(0));

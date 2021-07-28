@@ -1,6 +1,8 @@
 package UseCase;
 import Entity.Game;
+import Gateway.GameGate;
 import Gateway.GameGateway;
+import Interface.LoadSave;
 import Interface.SaveLoadGame;
 
 import javax.swing.text.html.parser.Entity;
@@ -27,10 +29,10 @@ public class GameUseCase {
 
         List<HashMap> gamesData = new ArrayList<>();
         gamesData.add(gameData);
-        GameGateway bruh = new GameGateway();
-        bruh.save_games(gamesData);
+        GameGate bruh = new GameGate();
+        bruh.save(gamesData);
 
-        GameUseCase gameUseCase = new GameUseCase(new GameGateway());
+        GameUseCase gameUseCase = new GameUseCase(new GameGate());
         Game game = gameUseCase.privateGames.get(0);
         System.out.println(game);
 //        System.out.println(game.getDialogueById(1));
@@ -43,12 +45,12 @@ public class GameUseCase {
 
     private ArrayList<Game> publicGames = new ArrayList<>();
     private ArrayList<Game> privateGames = new ArrayList<>();
-    private SaveLoadGame database;
+    private LoadSave database;
     private Game currentGame;
 
-    public GameUseCase(SaveLoadGame database){
+    public GameUseCase(LoadSave database){
         this.database = database;
-        List<HashMap> gamesData = database.load_games();
+        List<HashMap> gamesData = database.load();
         for (HashMap gameData: gamesData){
             Game game = hashMapToGame(gameData);
             if (game.getGamePublic()){
@@ -92,7 +94,7 @@ public class GameUseCase {
         return game_list;
     }
 
-    public ArrayList<String> getPrivateGamesByAuthor(String author_name){
+    public ArrayList<String> getPrivateGames(String author_name){
         ArrayList<String> game_list = new ArrayList<>();
         for(Game game: privateGames){
             if (game.getGameAuthor().equals(author_name)){
@@ -200,7 +202,7 @@ public class GameUseCase {
             gamesData.add(this.gameToHashMap(game));
         }
 
-        database.save_games(gamesData);
+        database.save(gamesData);
     }
 
     public HashMap<Integer, String> openGame(String gameName){
@@ -215,29 +217,58 @@ public class GameUseCase {
     }
 
     public ArrayList<String> choiceOfDialogue(String dialogue){
-        ArrayList<Integer> list = currentGame.getAllId();
+//        ArrayList<Integer> list = currentGame.getAllId();
+//        ArrayList<Integer> list2 = new ArrayList<>();
+//        ArrayList<String> list3 = new ArrayList<>();
+//        int idOfDialogue = currentGame.getIdByDialogue(dialogue);
+//        for(int i = 0; i < list.size(); i++){
+//            int childId = list.get(i);
+//            if (childId == 0){
+//                list2.add(000000);
+//            }
+//            else if ((childId % currentGame.getchoiceNumLimit()) == 0){
+//                 list2.add(childId / currentGame.getchoiceNumLimit() - 1);
+//            }
+//            else{
+//                list2.add(childId / currentGame.getchoiceNumLimit());
+//            }
+//            }
+//        for(int i = 0; i<list2.size(); i++){
+//            int id = list2.get(i);
+//            if(id != 000000){
+//                if(id == idOfDialogue){
+//                    list3.add(currentGame.getDialogueById(list.get(i)));
+//            }
+//        }
+//        }
+//        return list3;
+        return currentGame.getChildrenDialogues(currentGame.getIdByDialogue(dialogue));
+    }
+
+    public static ArrayList<Integer> choiceOfDialogue2(String dialogue, Game game){
+        ArrayList<Integer> list = game.getAllId();
         ArrayList<Integer> list2 = new ArrayList<>();
-        ArrayList<String> list3 = new ArrayList<>();
-        int idOfDialogue = currentGame.getIdByDialogue(dialogue);
+        ArrayList<Integer> list3 = new ArrayList<>();
+        int idOfDialogue = game.getIdByDialogue(dialogue);
         for(int i = 0; i < list.size(); i++){
             int childId = list.get(i);
             if (childId == 0){
                 list2.add(000000);
             }
-            else if ((childId % currentGame.getchoiceNumLimit()) == 0){
-                 list2.add(childId / currentGame.getchoiceNumLimit() - 1);
+            else if ((childId % game.getchoiceNumLimit()) == 0){
+                list2.add(childId / game.getchoiceNumLimit() - 1);
             }
             else{
-                list2.add(childId / currentGame.getchoiceNumLimit());
+                list2.add(childId / game.getchoiceNumLimit());
             }
-            }
+        }
         for(int i = 0; i<list2.size(); i++){
             int id = list2.get(i);
             if(id != 000000){
                 if(id == idOfDialogue){
-                    list3.add(currentGame.getDialogueById(list.get(i)));
+                    list3.add(list.get(i));
+                }
             }
-        }
         }
         return list3;
     }

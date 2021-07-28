@@ -15,6 +15,7 @@ public interface GameStorage {
     boolean deleteDialogueById(int id);
     ArrayList<Integer> getParentDialogueIds(List<Integer> childrenDialogueIds);
     ArrayList<Integer> getAllId();
+    ArrayList<String> getChildrenDialogues(int parentDialogueId);
 
     static GameStorage initializeStorage(int choiceNumLimit, String initialDialogue) {
         return new GameTree(choiceNumLimit, initialDialogue);
