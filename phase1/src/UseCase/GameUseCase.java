@@ -244,4 +244,32 @@ public class GameUseCase {
 //        return list3;
         return currentGame.getChildrenDialogues(currentGame.getIdByDialogue(dialogue));
     }
+
+    public static ArrayList<Integer> choiceOfDialogue2(String dialogue, Game game){
+        ArrayList<Integer> list = game.getAllId();
+        ArrayList<Integer> list2 = new ArrayList<>();
+        ArrayList<Integer> list3 = new ArrayList<>();
+        int idOfDialogue = game.getIdByDialogue(dialogue);
+        for(int i = 0; i < list.size(); i++){
+            int childId = list.get(i);
+            if (childId == 0){
+                list2.add(000000);
+            }
+            else if ((childId % game.getchoiceNumLimit()) == 0){
+                list2.add(childId / game.getchoiceNumLimit() - 1);
+            }
+            else{
+                list2.add(childId / game.getchoiceNumLimit());
+            }
+        }
+        for(int i = 0; i<list2.size(); i++){
+            int id = list2.get(i);
+            if(id != 000000){
+                if(id == idOfDialogue){
+                    list3.add(list.get(i));
+                }
+            }
+        }
+        return list3;
+    }
 }
