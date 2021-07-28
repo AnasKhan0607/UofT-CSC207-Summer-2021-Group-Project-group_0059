@@ -8,17 +8,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GuestUserNavigatorController implements UserNavigatorController{
-    private GuestUser currentUser;
+    private String username;
 
-    public GuestUserNavigatorController(GuestUser g){
-        currentUser = g;
+    public GuestUserNavigatorController(String un){
+        username = un;
+    }
+
+    public String currentUser(){
+        return username;
     }
 
 
 
     public void run() {
         Scanner myObj = new Scanner(System.in);
-        GuestUserNavigatorPresenter.display(currentUser.getUsername());
+        GuestUserNavigatorPresenter.display(username);
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
             /* GamePlay*/

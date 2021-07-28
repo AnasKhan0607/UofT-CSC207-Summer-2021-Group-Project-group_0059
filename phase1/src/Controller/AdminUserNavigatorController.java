@@ -8,25 +8,27 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminUserNavigatorController implements UserNavigatorController{
-    private AdminUser currentUser;
+    private String username;
 
-    public AdminUserNavigatorController(AdminUser a){
-        currentUser = a;
+    public AdminUserNavigatorController(String un){
+        username = un;
     }
 
     public String currentUser(){
-        return currentUser.getUsername();
+        return username;
     }
 
     public void run(){
         Scanner myObj = new Scanner(System.in);
-        AdminUserNavigatorPresenter.display(currentUser.getUsername());
+        AdminUserNavigatorPresenter.display(username);
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
             /* GamePlay*/
 
         } else if (choice == 2) {
             /* TemplateEditor*/
+            TemplateEditorController tec = TemplateEditorController();
+            tec.run();
         } else if (choice == 3) {
             /* GameCreator*/
         } else if (choice == 4) {

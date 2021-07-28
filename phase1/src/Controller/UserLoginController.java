@@ -55,16 +55,13 @@ public class UserLoginController {
     public void redirect(User user){
         String username = user.getUsername();
         if (username.charAt(0) == 'A'){
-            AdminUser tempUser = new AdminUser(user.getUsername(), user.getPassword());
-            AdminUserNavigatorController aunc = new AdminUserNavigatorController(tempUser);
+            AdminUserNavigatorController aunc = new AdminUserNavigatorController(username);
             aunc.run();
         } else if(username.charAt(0) == 'R'){
-            RegularUser tempUser = new RegularUser(user.getUsername(), user.getPassword());
-            RegularUserNavigatorController runc = new RegularUserNavigatorController(tempUser);
+            RegularUserNavigatorController runc = new RegularUserNavigatorController(username);
             runc.run();
         } else {
-            GuestUser tempUser = new GuestUser(user.getUsername());
-            GuestUserNavigatorController gunc = new GuestUserNavigatorController(tempUser);
+            GuestUserNavigatorController gunc = new GuestUserNavigatorController(username);
             gunc.run();
         }
 
