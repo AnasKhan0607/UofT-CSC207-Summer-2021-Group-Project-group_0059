@@ -10,10 +10,6 @@ import UseCase.TemplateManager;
 import java.util.Scanner;
 
 public class TemplateEditorController {
-    public static void main(String[] args) {
-        TemplateEditorController templatePresenter = new TemplateEditorController(new TemplateManager());
-        templatePresenter.run();
-    }
     private TemplateManager templates;
 
     public TemplateEditorController(){

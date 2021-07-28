@@ -1,6 +1,7 @@
 package UseCase;
 import Entity.Template;
 import Gateway.TemplateGate;
+import Interface.SaveLoadGame;
 import Interface.TemplateSaveLoader;
 
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class TemplateManager {
     }
 
     public void Save_changes(){
-        ArrayList<HashMap<Integer, String>> template_maps = new ArrayList<>();
-        TemplateSaveLoader t = new TemplateGate();
+        List<HashMap> template_maps = new ArrayList<>();
+        TemplateGate t = new TemplateGate();
         for (Template template : this.templates){
             HashMap<Integer, String> template_map = new HashMap<>();
             template_map.put(0, template.getTemplatename());
@@ -34,7 +35,7 @@ public class TemplateManager {
             template_map.put(2, Integer.toString(template.getNumchoice()));
             template_maps.add(template_map);
         }
-        t.save_templates(template_maps);
+        t.save(template_maps);
     }
 
     public ArrayList<Template> getTemplates() {
