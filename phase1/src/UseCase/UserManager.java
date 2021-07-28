@@ -13,7 +13,9 @@ public class UserManager {
 
     public UserManager(){
         this.bufferedUsers = new ArrayList<>();
-        HashMap<String, String> tempUsers = UserGate.readFile();
+
+        UserGate myGate = new UserGate();
+        HashMap<String, String> tempUsers = myGate.load().get(0);
 
         for (Map.Entry mapElement :tempUsers.entrySet()){
             String username = (String)mapElement.getKey();
