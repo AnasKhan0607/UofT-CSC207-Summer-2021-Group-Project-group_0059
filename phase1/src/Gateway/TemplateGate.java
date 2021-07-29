@@ -9,6 +9,25 @@ import java.util.List;
 
 
 public class TemplateGate implements LoadSave {
+    public static void main(String[] args) {
+
+        HashMap<Integer, String> TemplateData = new HashMap<>();
+        TemplateData.put(0, "SampleTemplateOne");
+        TemplateData.put(1, "SampleOfTemplateDescriptionOne");
+        TemplateData.put(2, "3");
+
+        List<HashMap> TemplatesData = new ArrayList<>();
+        TemplatesData.add(TemplateData);
+        TemplateGate bruh = new TemplateGate();
+        bruh.save(TemplatesData);
+
+        List<HashMap> loadTest = bruh.load();
+
+        HashMap<Integer, String> firstMap = loadTest.get(0);
+
+        System.out.println(firstMap.get(1));
+
+    }
 
     /*
      * Similar format as GameGateway
@@ -24,7 +43,7 @@ public class TemplateGate implements LoadSave {
      * */
 
     // remember to return an arraylist
-    String myPath = new File("").getAbsolutePath() + "\\phase1\\data\\SerialTemplates.txt";
+    String myPath = new File("").getAbsolutePath() + "//phase1//data//SerialTemplates.txt";
 
     // remember to return an arraylist
     public List<HashMap> load() {

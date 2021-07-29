@@ -27,7 +27,7 @@ public class AdminUserNavigatorController implements UserNavigatorController{
 
         } else if (choice == 2) {
             /* TemplateEditor*/
-            TemplateEditorController tec = TemplateEditorController();
+            TemplateEditorController tec = new TemplateEditorController();
             tec.run();
         } else if (choice == 3) {
             /* GameCreator*/

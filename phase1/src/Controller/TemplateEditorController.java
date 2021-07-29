@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 public class TemplateEditorController {
     public static void main(String[] args) {
-//        TemplateEditorController editorController = new TemplateEditorController();
-//        editorController.run();
+        TemplateEditorController editorController = new TemplateEditorController();
+        editorController.run();
     }
     private TemplateManager templates;
 
