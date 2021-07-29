@@ -1,7 +1,13 @@
 package Presenter;
 
+/**
+ * Presenter for the login process.
+ * @author Ahmad I., Ruilin P.
+ */
 public class UserLoginPresenter {
-
+    /**
+     * Gives the user their first instructions for logging in.
+     */
     public static void display(){
         System.out.println("Please login first:");
         System.out.println("Please input your username first, press enter and then" +
@@ -10,17 +16,29 @@ public class UserLoginPresenter {
 
     }
 
+    /**
+     * The instructions for logging in as a guest.
+     */
     public static void display2(){
         System.out.println("input username. press enter to continue");
     }
 
+    /**
+     * Instructions for logging in after creating a new account.
+     */
     public static void display3() {
         System.out.println("Please input your username first, press enter and then" +
                 "your password, and press enter again to continue.");
     }
 
+    /**
+     * The error message for an incorrect login.
+     */
     public static void errorMessage(){System.out.println("Sorry, but either username or password is incorrect");}
 
+    /**
+     * The message after successfully logging in.
+     */
     public static void successMessage(){
         System.out.println("Logged in as Guest");
         System.out.println("Redirecting...");

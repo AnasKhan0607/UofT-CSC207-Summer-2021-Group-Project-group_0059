@@ -8,9 +8,16 @@ import Gateway.UserGate;
 
 import java.util.*;
 
+/**
+ * The use case class for the users.
+ * @author Ahmad I., Ruilin P.
+ */
 public class UserManager {
     private List<User> bufferedUsers;
 
+    /**
+     * Creates a list of users using the UserGate class.
+     */
     public UserManager(){
         this.bufferedUsers = new ArrayList<>();
 
@@ -37,6 +44,10 @@ public class UserManager {
         /*buffered array gets updated with what's in tempUsers*/
     }
 
+    /**
+     * Adds a user to the list of users in UserManager and in the file.
+     * @param info Contains the user's username and password.
+     */
     public void addUser(ArrayList<String> info){
         if (info.size() == 2){
             String username = info.get(0);
@@ -64,6 +75,11 @@ public class UserManager {
         }
     }
 
+    /**
+     * Checks if a user exists with the given username.
+     * @param username The user's username.
+     * @return The user object that the username corresponds to, or null.
+     */
     public User SearchUser(String username){
         int i;
         User temp;
@@ -77,10 +93,10 @@ public class UserManager {
         return null;
     }
 
-    public void Load(){}
-    /* for the constructor */
-    public void Save(){}
-    /* for the addUser()*/
+    /**
+     * Converts the list of users to a string.
+     * @return A string containing the list of users.
+     */
     @Override
     public String toString() {
         return "UserManager{" +

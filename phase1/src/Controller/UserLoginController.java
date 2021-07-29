@@ -10,17 +10,28 @@ import UseCase.UserManager;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Controller for the user login process.
+ * @author Ahmad I., Ruilin P.
+ */
 public class UserLoginController {
 
     private String userName;
     private String password;
     private UserManager testUM = new UserManager();
 
+    /**
+     * Creates a new UserLoginController object that will set the userName and password attributes to what the
+     * user inputs.
+     */
     public UserLoginController(){
         this.userName = null;
         this.password = null;
     }
 
+    /**
+     * Uses user input as well as the UserLoginPresenter to allow the user to login to their account, or login as guest.
+     */
     public void NormalUserinput(){
         Scanner myObj = new Scanner(System.in);
         UserLoginPresenter.display();
@@ -41,6 +52,9 @@ public class UserLoginController {
 
     }
 
+    /**
+     * Unique prompts, inputs, and actions taken if the user selects logging in as a guest.
+     */
     public void GuestUserInput(){
         Scanner myObj = new Scanner(System.in);
         ArrayList<String> info = new ArrayList<>();
@@ -52,6 +66,10 @@ public class UserLoginController {
         UserLoginPresenter.successMessage();
     }
 
+    /**
+     * Uses the UserNavigator classes to redirect the user to a new UI once they have logged in.
+     * @param user a User object that shows whether it is an Admin, Regular, or Guest user to redirect to a new UI
+     */
     public void redirect(User user){
         String username = user.getUsername();
         if (username.charAt(0) == 'A'){
