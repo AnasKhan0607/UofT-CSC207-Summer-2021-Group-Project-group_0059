@@ -29,13 +29,14 @@ public class GameEditController {
             return;
         }
 
+        gameUseCase.openGame(gameName);
+
         int userChoice = 0;
         while (true){
             gamePresenter.displayScene(
                     "Choose and enter the corresponding integer.",
                     new ArrayList<>(Arrays.asList(new String[]{
-                            "1: Make Game Public", "2: Change Game Dialogue", "3: Add Dialogue",
-                            "4: Delete Dialogue", "5: Exit"})));
+                            "1: Make Game Public", "2: Edit Game Dialogues", "3: Exit"})));
 
             try{
                 userChoice = Integer.valueOf(scanner.next());
@@ -49,15 +50,16 @@ public class GameEditController {
                 break;
             }
             else if(userChoice == 2){
-                changeGameDialogueMenu(gameName);
+                gamePresenter.displayScene("Enter r to return to the parent dialogue, " +
+                                "v + id to view the game structure starting from the dialogue with that id (e.g. v1), " +
+                                "s + id to show the dialogue associated with that id, " +
+                                "c + id to change a game dialogue, " +
+                                "a + id to add a dialogue, d + id to delete a dialogue " +
+                                "and e to exit",
+                        gameUseCase.getGameAsString(gameName, 69));
+                editGameDialogues(gameName);
             }
             else if(userChoice == 3){
-                addDialogueMenu(gameName);
-            }
-            else if(userChoice == 4){
-                deleteDialogueMenu(gameName);
-            }
-            else if(userChoice == 5){
                 break;
             }
         }
@@ -95,8 +97,12 @@ public class GameEditController {
         return true;
     }
 
-    private void changeGameDialogueMenu(String gameName){
-        gamePresenter.displayScene("Enter -1 to goto the last dialogue, -2 to change a game dialogue",
+    private void editGameDialogues(String gameName){
+        gamePresenter.displayScene("Enter r to return to the parent dialogue, " +
+                        "j + id to view the game structure starting from the dialogue with that id (e.g. j1), " +
+                        "v + id to view the dialogue associated with that id, " +
+                        "c + id to change a game dialogue, " +
+                        "a + id to add a dialogue, and d + id to delete a dialogue.",
                 gameUseCase.getGameAsString(gameName, 69));
 
     }
