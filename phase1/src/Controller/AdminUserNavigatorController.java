@@ -1,13 +1,11 @@
 package Controller;
 
-import Entity.AdminUser;
+import Interface.UserData;
 import Presenter.AdminUserNavigatorPresenter;
-import Presenter.UserLoginPresenter;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class AdminUserNavigatorController implements UserNavigatorController{
+public class AdminUserNavigatorController implements UserData {
     private String username;
 
     public AdminUserNavigatorController(String un){

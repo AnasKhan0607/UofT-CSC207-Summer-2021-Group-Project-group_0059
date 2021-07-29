@@ -2,6 +2,7 @@ package Controller;
 
 import Entity.AdminUser;
 import Entity.Template;
+import Interface.TemplateData;
 import Presenter.AdminUserNavigatorPresenter;
 import Presenter.TemplateEditorPresenter;
 import Presenter.TemplatePresenter;
@@ -9,19 +10,38 @@ import UseCase.TemplateManager;
 
 import java.util.Scanner;
 
-public class TemplateEditorController {
+public class TemplateEditorController implements TemplateData {
     public static void main(String[] args) {
         TemplateEditorController editorController = new TemplateEditorController();
-        editorController.run();
+        System.out.println(editorController.chooseTemplate());
     }
     private TemplateManager templates;
+    private Scanner myObj = new Scanner(System.in);
 
     public TemplateEditorController(){
         this.templates = new TemplateManager();
     }
 
+    public int chooseTemplate(){
+        for (;;) {
+            TemplateEditorPresenter.chose_template_to_edit(this.templates.getTemplates());
+            String choice;
+            choice = String.valueOf(myObj.nextLine());
+            while (!this.templates.getTemplates().contains(this.templates.Find_template(choice)) && Integer.parseInt(choice) != -1) {
+                TemplateEditorPresenter.try_agin();
+                choice = String.valueOf(myObj.nextLine());
+
+            }
+            if (choice.equals("-1")) {
+                break;
+            }
+            Template template = this.templates.Find_template(choice);
+            return template.getNumchoice();
+        }
+        return -1;
+    }
+
     public void run(){
-        Scanner myObj = new Scanner(System.in);
         for (;;){
             TemplateEditorPresenter.chose_template_to_edit(this.templates.getTemplates());
             String choice;
@@ -29,8 +49,9 @@ public class TemplateEditorController {
             while (!this.templates.getTemplates().contains(this.templates.Find_template(choice))&&Integer.parseInt(choice)!=-1){
                 TemplateEditorPresenter.try_agin();
                 choice = String.valueOf(myObj.nextLine());
+
             }
-            if (Integer.parseInt(choice)==-1){
+            if (choice.equals("-1")){
                 break;
             }
             Template template = this.templates.Find_template(choice);

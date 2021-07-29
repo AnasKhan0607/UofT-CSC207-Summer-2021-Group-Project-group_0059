@@ -1,5 +1,7 @@
 package Interface;
 
 public interface UserData {
-    String currentUserName();
+    public static void run(){};
+
+    String currentUser();
 }

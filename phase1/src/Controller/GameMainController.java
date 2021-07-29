@@ -131,13 +131,13 @@ public class GameMainController {
             }
 
             if (userChoice == 1){
-                this.viewGames(gameUseCase.getPrivateGames(userData.currentUserName()));
+                this.viewGames(gameUseCase.getPrivateGames(userData.currentUser()));
             }
             else if (userChoice == 2){
                 this.viewGames(gameUseCase.getPublicGames());
             }
             else if (userChoice == 3){
-                this.viewGames(gameUseCase.getPublicGamesByAuthor(userData.currentUserName()));
+                this.viewGames(gameUseCase.getPublicGamesByAuthor(userData.currentUser()));
             }
             else if (userChoice == 4){
                 break;

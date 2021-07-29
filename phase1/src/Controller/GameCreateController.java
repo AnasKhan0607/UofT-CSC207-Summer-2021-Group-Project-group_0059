@@ -26,7 +26,7 @@ public class GameCreateController {
         int choiceNumLimit = templateData.chooseTemplate();
         String gameName = "";
         String initialDialogue = "";
-        gameUseCase.createGame(choiceNumLimit, gameName, userData.currentUserName(), initialDialogue);
+        gameUseCase.createGame(choiceNumLimit, gameName, userData.currentUser(), initialDialogue);
 
 
 

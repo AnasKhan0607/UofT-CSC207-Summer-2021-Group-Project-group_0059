@@ -1,13 +1,11 @@
 package Controller;
 
-import Entity.GuestUser;
+import Interface.UserData;
 import Presenter.GuestUserNavigatorPresenter;
-import Presenter.UserLoginPresenter;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GuestUserNavigatorController implements UserNavigatorController{
+public class GuestUserNavigatorController implements UserData {
     private String username;
 
     public GuestUserNavigatorController(String un){
