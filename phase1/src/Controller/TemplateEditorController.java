@@ -81,7 +81,7 @@ public class TemplateEditorController implements TemplateData {
                     String read = String.valueOf(myObj.nextLine());
                     while (!changable){
                         try{
-                            Integer test = Integer.parseInt(read);
+                            Integer testint = Integer.parseInt(read);
                             break;
                         }
                         catch (NumberFormatException ne){
