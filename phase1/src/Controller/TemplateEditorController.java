@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class TemplateEditorController implements TemplateData {
     public static void main(String[] args) {
         TemplateEditorController editorController = new TemplateEditorController();
-        System.out.println(editorController.chooseTemplate());
+        editorController.run();
     }
     private TemplateManager templates;
     private Scanner myObj = new Scanner(System.in);
@@ -35,8 +35,7 @@ public class TemplateEditorController implements TemplateData {
             if (choice.equals("-1")) {
                 break;
             }
-            Template template = this.templates.Find_template(choice);
-            return template.getNumchoice();
+            return this.templates.getNumChoices(choice);
         }
         return -1;
     }
@@ -54,7 +53,6 @@ public class TemplateEditorController implements TemplateData {
             if (choice.equals("-1")){
                 break;
             }
-            Template template = this.templates.Find_template(choice);
             for (;;) {
                 TemplatePresenter.selected_template(this.templates.Find_template(choice));
                 TemplatePresenter.display_template(this.templates.Find_template(choice));
@@ -70,24 +68,22 @@ public class TemplateEditorController implements TemplateData {
                 if (edit_choice==0){
                     TemplateEditorPresenter.change_name();
                     String name = String.valueOf(myObj.nextLine());
-                    template.setTemplatename(name);
+                    this.templates.setNewName(choice, name);
                 }
                 if (edit_choice==1){
                     TemplateEditorPresenter.change_description();
                     String description = String.valueOf(myObj.nextLine());
-                    template.setDescription(description);
+                    this.templates.setNewDescription(choice, description);
                 }
                 if (edit_choice==2){
                     TemplateEditorPresenter.change_name();
                     Integer choices = Integer.valueOf(myObj.nextLine());
-                    template.setNumchoice(choices);
+                    this.templates.setNewChoicesNum(choice, choices);
                 }
             }
 
         }
         this.templates.Save_changes();
-
-
 
     }
 }
