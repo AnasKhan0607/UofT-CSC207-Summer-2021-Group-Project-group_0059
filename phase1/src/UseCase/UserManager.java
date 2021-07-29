@@ -22,11 +22,9 @@ public class UserManager {
         this.bufferedUsers = new ArrayList<>();
 
         UserGate myGate = new UserGate();
-        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load();
+        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load().get(0);
 
-        tempUsers = new HashMap<String,String>();
-        AdminUser Ruilin = new AdminUser("Admin_Ruilin", "123");
-        tempUsers.put("Admin_Ruilin", "123");
+
 
         for (Map.Entry mapElement :tempUsers.entrySet()){
             String username = (String)mapElement.getKey();
@@ -60,7 +58,7 @@ public class UserManager {
                 this.bufferedUsers.add(tempUser);
             }
             UserGate myGate = new UserGate();
-            HashMap<String, String> oldUsers = (HashMap<String, String>) myGate.load();
+            HashMap<String, String> oldUsers = (HashMap<String, String>) myGate.load().get(0);
             oldUsers = new HashMap<String,String>();
             AdminUser Ruilin = new AdminUser("Admin_Ruilin", "123");
             oldUsers.put("Admin_Ruilin", "123");
