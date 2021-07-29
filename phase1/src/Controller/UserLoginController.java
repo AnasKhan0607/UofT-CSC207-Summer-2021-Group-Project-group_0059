@@ -56,14 +56,9 @@ public class UserLoginController {
      * Unique prompts, inputs, and actions taken if the user selects logging in as a guest.
      */
     public void GuestUserInput(){
-        Scanner myObj = new Scanner(System.in);
-        ArrayList<String> info = new ArrayList<>();
-        /*UserLoginPresenter.displayUsername();*/
-        UserLoginPresenter.display2();
-        this.userName = myObj.nextLine();
-        info.add(this.userName);
-        testUM.addUser(info);
-        UserLoginPresenter.successMessage();
+
+        UserLoginPresenter.successMessage("Guest");
+        redirect(testUM.CreateGuestUser());
     }
 
     /**
@@ -98,7 +93,11 @@ public class UserLoginController {
             if (!temppassword.equals(this.password)) {
                 UserLoginPresenter.errorMessage();
             } else {
-                UserLoginPresenter.successMessage();
+                if (this.userName.charAt(0) == 'A'){
+                    UserLoginPresenter.successMessage("Admin");
+                } else {
+                    UserLoginPresenter.successMessage("Regular");
+                }
                 redirect(tempUser);
             }
         }

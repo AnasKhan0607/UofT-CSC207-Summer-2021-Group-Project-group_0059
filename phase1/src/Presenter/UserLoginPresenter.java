@@ -20,7 +20,7 @@ public class UserLoginPresenter {
      * The instructions for logging in as a guest.
      */
     public static void display2(){
-        System.out.println("input username. press enter to continue");
+        System.out.println("Dear Guest");
     }
 
     /**
@@ -39,8 +39,8 @@ public class UserLoginPresenter {
     /**
      * The message after successfully logging in.
      */
-    public static void successMessage(){
-        System.out.println("Logged in as Guest");
+    public static void successMessage(String UserType){
+        System.out.println("Logged in as " + UserType);
         System.out.println("Redirecting...");
     }
 }

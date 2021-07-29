@@ -60,7 +60,11 @@ public class UserManager {
                 this.bufferedUsers.add(tempUser);
             }
             UserGate myGate = new UserGate();
-            HashMap<String, String> oldUsers = (HashMap<String, String>) myGate.load().get(0);
+            HashMap<String, String> oldUsers = (HashMap<String, String>) myGate.load();
+            oldUsers = new HashMap<String,String>();
+            AdminUser Ruilin = new AdminUser("Admin_Ruilin", "123");
+            oldUsers.put("Admin_Ruilin", "123");
+
 
             oldUsers.put(username, password);
             List<HashMap> userData = new ArrayList<HashMap>();
@@ -69,7 +73,7 @@ public class UserManager {
             myGate.save(userData); // need this UserGate method that adds the new user to the file
 
         } else {
-            String username = info.get(0);
+            String username = "Guest";
             GuestUser tempUser = new GuestUser(username);
             this.bufferedUsers.add(tempUser);
         }
@@ -91,6 +95,10 @@ public class UserManager {
         }
         /* Username not found */
         return null;
+    }
+
+    public GuestUser CreateGuestUser(){
+        return new GuestUser("Guest");
     }
 
     /**
