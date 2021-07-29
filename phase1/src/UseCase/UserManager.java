@@ -15,7 +15,11 @@ public class UserManager {
         this.bufferedUsers = new ArrayList<>();
 
         UserGate myGate = new UserGate();
-        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load().get(0);
+        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load();
+
+        tempUsers = new HashMap<String,String>();
+        AdminUser Ruilin = new AdminUser("Admin_Ruilin", "123");
+        tempUsers.put("Admin_Ruilin", "123");
 
         for (Map.Entry mapElement :tempUsers.entrySet()){
             String username = (String)mapElement.getKey();
