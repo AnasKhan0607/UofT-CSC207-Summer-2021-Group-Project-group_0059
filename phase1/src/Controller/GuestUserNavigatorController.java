@@ -6,11 +6,11 @@ import Presenter.GuestUserNavigatorPresenter;
 import java.util.Scanner;
 
 public class GuestUserNavigatorController implements UserData {
-    private String username;
+    private String username = "Guest";
 
-    public GuestUserNavigatorController(String un){
-        username = un;
-    }
+//    public GuestUserNavigatorController(){
+//        username = un;
+//    }
 
     public String currentUser(){
         return username;

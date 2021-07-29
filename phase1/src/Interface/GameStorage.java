@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface GameStorage {
     String toString();
+    String toString(int id);
     int size();
 
     String getDialogueById(int id);

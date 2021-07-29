@@ -10,19 +10,12 @@ import java.util.Scanner;
 
 public class GamePlayController {
 
-    private UserData userData;
     private GameUseCase gameUseCase;
     private GamePresenter gamePresenter = new GamePresenter();
     private Scanner scanner = new Scanner(System.in);
 
-
     public GamePlayController(GameUseCase gameUseCase){
         this.gameUseCase = gameUseCase;
-    }
-
-    public GamePlayController(GameUseCase gameUseCase, UserData userData){
-        this.gameUseCase = gameUseCase;
-        this.userData = userData;
     }
 
     public void playGame(String gameName){

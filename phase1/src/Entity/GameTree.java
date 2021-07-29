@@ -250,6 +250,10 @@ public class GameTree implements GameStorage {
         return printTree(0);
     }
 
+    public String toString(int id){
+        return getTreeById(id).printTree(0);
+    }
+
     private String printTree(int depth){
         String space = this.depthToPrespace(depth);
 

@@ -67,6 +67,10 @@ public class Game {
     public String toString(){
         return gameStorage.toString();
     }
+    public String toString(int id){
+        return gameStorage.toString(id);
+    }
+
 
     public int size(){
         return gameStorage.size();

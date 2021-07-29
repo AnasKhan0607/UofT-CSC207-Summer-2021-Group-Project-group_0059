@@ -79,7 +79,7 @@ public class UserLoginController {
             RegularUserNavigatorController runc = new RegularUserNavigatorController(username);
             runc.run();
         } else {
-            GuestUserNavigatorController gunc = new GuestUserNavigatorController(username);
+            GuestUserNavigatorController gunc = new GuestUserNavigatorController();
             gunc.run();
         }
 

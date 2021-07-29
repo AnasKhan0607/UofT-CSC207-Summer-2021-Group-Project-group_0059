@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class TemplateEditorPresenter {
 
     public static void chose_template_to_edit(ArrayList<Template> templates) {
-        System.out.println("Which template would you like to chose to edit? Enter the Name or -1 to Cancel.");
+        System.out.println("Which template would you like to choose? Enter the Name or -1 to Cancel.");
         TemplatePresenter.display_templates(templates);
     }
 

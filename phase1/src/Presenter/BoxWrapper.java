@@ -94,6 +94,11 @@ public class BoxWrapper {
                         (splitText.get(i).length() - this.textWidth + 1)/2,
                         splitText.get(i).length() - (splitText.get(i).length() - this.textWidth)/2));
             }
+            else if(splitText.get(i).length() < this.textWidth){
+                splitText.set(i, splitText.get(i) +
+                        new String(new char[this.textWidth - splitText.get(i).length()]).
+                                replace("\0", " "));
+            }
         }
 //        System.out.println(String.join("", splitText));
 
