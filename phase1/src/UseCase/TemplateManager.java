@@ -1,8 +1,6 @@
 package UseCase;
 import Entity.Template;
 import Gateway.TemplateGate;
-import Interface.SaveLoadGame;
-import Interface.TemplateSaveLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,5 +57,17 @@ public class TemplateManager {
             }
         }
         return null;
+    }
+    public void setNewName(String name, String new_){
+        Find_template(name).setTemplatename(new_);
+    }
+    public void setNewDescription(String name, String new_){
+        Find_template(name).setDescription(new_);
+    }
+    public void setNewChoicesNum(String name, Integer new_){
+        Find_template(name).setNumchoice(new_);
+    }
+    public Integer getNumChoices(String name){
+        return Find_template(name).getNumchoice();
     }
 }
