@@ -22,7 +22,8 @@ public class UserManager {
         this.bufferedUsers = new ArrayList<>();
 
         UserGate myGate = new UserGate();
-        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load().get(0);
+        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load().get(0);;
+
 
 
 
