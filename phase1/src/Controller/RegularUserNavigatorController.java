@@ -34,12 +34,14 @@ public class RegularUserNavigatorController implements UserData {
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
             /* Game*/
+            RegularUserNavigatorPresenter.redirectingMessage();
             TemplateEditorController te = new TemplateEditorController();
             GameMainController gc = new GameMainController(te ,this::currentUser);
             gc.gameMenu();
 
         } else if (choice == 2) {
             /*logout*/
+            RegularUserNavigatorPresenter.logoutMessage();
 
         }
     }
