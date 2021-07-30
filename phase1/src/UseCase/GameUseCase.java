@@ -271,22 +271,8 @@ public class GameUseCase {
         return currentGame.deleteDialogueById(id);
     }
 
-    // change later to get dialogue choices by id
-    public ArrayList<String> getDialogueChoices(String dialogue){
-        return currentGame.getChildrenDialogues(currentGame.getIdByDialogue(dialogue));
-    }
-
     public ArrayList<String> getDialogueChoices(int dialogueId){
         return currentGame.getChildrenDialogues(dialogueId);
-    }
-
-    public ArrayList<Integer> getDialogueChoiceIds(String dialogue){
-        ArrayList<String> childrenDialogues = this.getDialogueChoices(dialogue);
-        ArrayList<Integer> childrenIds = new ArrayList<>();
-        for (String children: childrenDialogues){
-            childrenIds.add(currentGame.getIdByDialogue(children));
-        }
-        return childrenIds;
     }
 
     public ArrayList<Integer> getDialogueChoiceIds(int dialogueId){
