@@ -42,7 +42,7 @@ public class TemplateGate implements LoadSave {
     }
 
     /*
-     * Similar format as GameGateway
+     * Similar format as GameGate
      * Each hashmap in the list of hashmaps should have this specific format:
      *  _______________________________________
      * |Key             | Value                |
