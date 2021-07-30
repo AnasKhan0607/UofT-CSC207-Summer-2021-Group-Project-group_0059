@@ -1,7 +1,6 @@
 package Gateway;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,8 +49,8 @@ public class UserGate {
     }
 
 
-
-    String myPath = new File("").getAbsolutePath() + "\\phase1\\data\\SerialUser.txt";
+    // remember to return an arraylist
+    String myPath = new File("").getAbsolutePath() + "\\data\\SerialUser.txt";
 
     // remember to return an arraylist
     public List<HashMap> load() {
