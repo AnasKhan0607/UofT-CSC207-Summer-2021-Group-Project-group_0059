@@ -21,7 +21,7 @@ public class AdminUserNavigatorController implements UserData {
         AdminUserNavigatorPresenter.display(username);
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
-            /* GamePlay*/
+            /* Game*/
             TemplateEditorController te = new TemplateEditorController();
             GameMainController gc = new GameMainController(te ,this::currentUser);
             gc.gameMenu();

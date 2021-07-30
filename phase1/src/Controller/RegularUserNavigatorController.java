@@ -23,13 +23,12 @@ public class RegularUserNavigatorController implements UserData {
         RegularUserNavigatorPresenter.display(username);
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
-            /* GamePlay*/
+            /* Game*/
+            TemplateEditorController te = new TemplateEditorController();
+            GameMainController gc = new GameMainController(te ,this::currentUser);
+            gc.gameMenu();
 
         } else if (choice == 2) {
-            /* GameCreator*/
-        } else if (choice == 3) {
-            /* GameEditor*/
-        } else if (choice == 4) {
             /*logout*/
 
         }
