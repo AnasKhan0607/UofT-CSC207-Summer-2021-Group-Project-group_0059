@@ -13,7 +13,7 @@ public class AdminUserNavigatorController implements UserData {
 
     /**
      * the constructor for this controller class
-     * @param un
+     * @param un the username received as a parameter
      */
     public AdminUserNavigatorController(String un){
         username = un;
@@ -36,17 +36,20 @@ public class AdminUserNavigatorController implements UserData {
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
             /* Game*/
+            AdminUserNavigatorPresenter.redirectingMessage();
             TemplateEditorController te = new TemplateEditorController();
             GameMainController gc = new GameMainController(te ,this::currentUser);
             gc.gameMenu();
 
         } else if (choice == 2) {
             /* TemplateEditor*/
+            AdminUserNavigatorPresenter.redirectingMessage();
             TemplateEditorController tec = new TemplateEditorController();
             tec.run();
 
         } else if (choice == 3) {
             /*logout*/
+            AdminUserNavigatorPresenter.logoutMessage();
 
         }
     }

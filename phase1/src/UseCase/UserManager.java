@@ -94,6 +94,10 @@ public class UserManager {
         return null;
     }
 
+    /**
+     * create a GuestUser instance and return it
+     * @return the GuestUser instance
+     */
     public GuestUser CreateGuestUser(){
         return new GuestUser("Guest");
     }
