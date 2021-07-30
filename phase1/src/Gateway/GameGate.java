@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameGate implements LoadSave {
-    public static void main(String[] args) {
-        new GameGate();
-    }
 
     /**
      *
