@@ -22,7 +22,7 @@ public class UserManager {
         this.bufferedUsers = new ArrayList<>();
 
         UserGate myGate = new UserGate();
-        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load().get(0);;
+        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load().get(0);
 
 
 
@@ -51,7 +51,7 @@ public class UserManager {
         if (info.size() == 2){
             String username = info.get(0);
             String password = info.get(1);
-            if (username.charAt(0) == 'A'){
+            if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
             } else {

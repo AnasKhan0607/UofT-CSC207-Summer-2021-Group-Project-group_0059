@@ -94,7 +94,7 @@ public class UserLoginController {
             if (!temppassword.equals(this.password)) {
                 UserLoginPresenter.errorMessage();
             } else {
-                if (this.userName.charAt(0) == 'A'){
+                if (this.userName.startsWith("Admin_")) {
                     UserLoginPresenter.successMessage("Admin");
                 } else {
                     UserLoginPresenter.successMessage("Regular");
