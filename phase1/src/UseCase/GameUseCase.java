@@ -4,7 +4,6 @@ import Controller.RegularUserNavigatorController;
 import Controller.TemplateEditorController;
 import Entity.Game;
 import Gateway.GameGate;
-import Gateway.GameGateway;
 import Interface.LoadSave;
 import Interface.SaveLoadGame;
 

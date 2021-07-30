@@ -1,10 +1,53 @@
 package Gateway;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class UserGate {
+
+    /**
+     *
+     * A Gateway class used to implement <I>LoadSave</I> for loading and saving all the users.
+     * The save method takes a /List</Hashmap>> which represents the users
+     * and saves it to a serialized txt file.
+     * The load method reads the serialized txt file and returns a /List</Hashmap>>
+     * which represents the users.
+     *
+     * @param args
+     */
+
+    public static void main(String[] args) {
+
+        HashMap<Integer, String> gameData = new HashMap<>();
+        gameData.put(-4, "bruh");
+        gameData.put(-3, "le bruh");
+        gameData.put(-2, "false");
+        gameData.put(-1, "4");
+        gameData.put(0, "0");
+        gameData.put(1, "1");
+        gameData.put(2, "2");
+        gameData.put(3, "3");
+        gameData.put(4, "4");
+        gameData.put(5, "5");
+        gameData.put(21, "21");
+        gameData.put(9, "9");
+
+        List<HashMap> gamesData = new ArrayList<>();
+        gamesData.add(gameData);
+        UserGate bruh = new UserGate();
+        bruh.save(gamesData);
+
+        List<HashMap> loadTest = bruh.load();
+
+        HashMap<Integer, String> firstMap = loadTest.get(0);
+
+        System.out.println(firstMap.get(2));
+        System.out.println(new File("").getAbsolutePath());
+
+
+    }
 
 
     // remember to return an arraylist
