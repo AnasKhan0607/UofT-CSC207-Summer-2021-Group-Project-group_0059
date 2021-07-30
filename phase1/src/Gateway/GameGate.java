@@ -36,7 +36,7 @@ public class GameGate implements LoadSave {
      * Remember that java hashmap is just dict in python
      * */
 
-    String myPath = new File("").getAbsolutePath() + "\\phase1\\data\\SerialGames.txt";
+    String myPath = new File("").getAbsolutePath() + "\\data\\SerialGames.txt";
 
     // remember to return an arraylist
     public List<HashMap> load() {
