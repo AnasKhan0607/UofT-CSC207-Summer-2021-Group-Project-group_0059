@@ -27,7 +27,7 @@ public class UserLoginPresenter {
      * Instructions for logging in after creating a new account.
      */
     public static void display3() {
-        System.out.println("Please input your username first, press enter and then" +
+        System.out.println("Please input your username first, press enter and then " +
                 "your password, and press enter again to continue.");
     }
 
