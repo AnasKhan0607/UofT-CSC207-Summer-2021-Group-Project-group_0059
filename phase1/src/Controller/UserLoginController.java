@@ -70,12 +70,13 @@ public class UserLoginController {
         if (username.charAt(0) == 'A'){
             AdminUserNavigatorController aunc = new AdminUserNavigatorController(username);
             aunc.run();
-        } else if(username.charAt(0) == 'R'){
-            RegularUserNavigatorController runc = new RegularUserNavigatorController(username);
-            runc.run();
-        } else {
+        } else if(username.charAt(0) == 'G'){
             GuestUserNavigatorController gunc = new GuestUserNavigatorController();
             gunc.run();
+
+        } else {
+            RegularUserNavigatorController runc = new RegularUserNavigatorController(username);
+            runc.run();
         }
 
     }
