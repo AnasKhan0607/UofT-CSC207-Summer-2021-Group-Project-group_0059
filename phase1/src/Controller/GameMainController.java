@@ -29,7 +29,7 @@ public class GameMainController {
         gameUseCase = new GameUseCase(new GameGate());
         gameCreator = new GameCreateController(gameUseCase, templateData, userData);
         gameEditor = new GameEditController(gameUseCase, userData);
-        gamePlayer = new GamePlayController(gameUseCase);
+        gamePlayer = new GamePlayController(gameUseCase, userData);
         this.userData = userData;
     }
 
@@ -57,7 +57,7 @@ public class GameMainController {
                 gameEditor.editGame();
             }
             else if(userChoice == 3){
-                System.out.println("Not yet done.");
+                gamePlayer.playGame();
             }
             else if(userChoice == 4){
                 this.viewGamesMenu();

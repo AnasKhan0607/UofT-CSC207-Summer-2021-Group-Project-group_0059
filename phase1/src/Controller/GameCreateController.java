@@ -21,6 +21,9 @@ public class GameCreateController {
 
     public void createGame(){
         int choiceNumLimit = templateData.chooseTemplate();
+        if (choiceNumLimit == -1){
+            return;
+        }
         gamePresenter.displayScene("Please enter the game name.");
         String gameName = String.valueOf(scanner.nextLine());
         gamePresenter.displayScene("Please enter the first dialogue.");

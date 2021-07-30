@@ -253,8 +253,9 @@ public class GameTree implements GameStorage {
 
     public ArrayList<String> getChildrenDialogues(int parentDialogueId){
         ArrayList<String> childrenDialogues = new ArrayList<>();
+        GameTree parentTree;
         try{
-            GameTree parentTree = getTreeById(parentDialogueId);
+            parentTree = getTreeById(parentDialogueId);
         }
         catch (IndexOutOfBoundsException b){
             return null;
@@ -262,6 +263,7 @@ public class GameTree implements GameStorage {
         for (GameTree tree: parentTree.subtrees){
             childrenDialogues.add(tree.dialogue);
         }
+
         return childrenDialogues;
     }
 }

@@ -10,7 +10,7 @@ import Interface.SaveLoadGame;
 import java.util.*;
 
 public class GameUseCase {
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
 //        HashMap<Integer, String> gameData = new HashMap<>();
 //        gameData.put(-4, "bruh");
 //        gameData.put(-3, "Daniel Liu");
@@ -29,19 +29,19 @@ public class GameUseCase {
 //        gamesData.add(gameData);
 //        GameGate bruh = new GameGate();
 //        bruh.save(gamesData);
-//
+
 //        GameUseCase gameUseCase = new GameUseCase(new GameGate());
 //        GameMainController gameController = new GameMainController(new TemplateEditorController(), new RegularUserNavigatorController("Daniel Liu"));
 //        gameController.gameMenu();
-//
-////        System.out.println(game);4
-////        System.out.println(game.getDialogueById(1));
-////        System.out.println(game.getDialogueById(4));
-////        System.out.println(game.getDialogueById(21));
-////        System.out.println(game.getDialogueById(9));
-////        System.out.println(game.getDialogueById(5));
-//
-//    }
+
+//        System.out.println(game);4
+//        System.out.println(game.getDialogueById(1));
+//        System.out.println(game.getDialogueById(4));
+//        System.out.println(game.getDialogueById(21));
+//        System.out.println(game.getDialogueById(9));
+//        System.out.println(game.getDialogueById(5));
+
+    }
 
     private ArrayList<Game> publicGames = new ArrayList<>();
     private ArrayList<Game> privateGames = new ArrayList<>();
@@ -276,8 +276,21 @@ public class GameUseCase {
         return currentGame.getChildrenDialogues(currentGame.getIdByDialogue(dialogue));
     }
 
+    public ArrayList<String> getDialogueChoices(int dialogueId){
+        return currentGame.getChildrenDialogues(dialogueId);
+    }
+
     public ArrayList<Integer> getDialogueChoiceIds(String dialogue){
         ArrayList<String> childrenDialogues = this.getDialogueChoices(dialogue);
+        ArrayList<Integer> childrenIds = new ArrayList<>();
+        for (String children: childrenDialogues){
+            childrenIds.add(currentGame.getIdByDialogue(children));
+        }
+        return childrenIds;
+    }
+
+    public ArrayList<Integer> getDialogueChoiceIds(int dialogueId){
+        ArrayList<String> childrenDialogues = this.getDialogueChoices(dialogueId);
         ArrayList<Integer> childrenIds = new ArrayList<>();
         for (String children: childrenDialogues){
             childrenIds.add(currentGame.getIdByDialogue(children));

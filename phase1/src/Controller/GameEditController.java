@@ -27,7 +27,7 @@ public class GameEditController {
     }
 
     public void editGame(){
-        gamePresenter.displayScene("Enter the game name you want to edit.");
+        gamePresenter.displayScene("Enter the name of the game you want to edit.");
         String gameName = String.valueOf(scanner.next());
         if(!verifyEditGameRight(gameName)){ return; }
         ArrayList<Object> initialIdAndDialogue = gameUseCase.openGame(gameName);
@@ -37,7 +37,7 @@ public class GameEditController {
             gamePresenter.displayScene(
                     "Choose and enter the corresponding integer.",
                     new ArrayList<>(Arrays.asList(new String[]{
-                            "1: Make Game Public", "2: Edit Game Dialogues", "3: Exit"})));
+                            "1: Make Game Public", "2: Edit Game Dialogues", "3: Exit and Save"})));
 
             try{
                 userChoice = Integer.valueOf(scanner.next());
@@ -54,6 +54,7 @@ public class GameEditController {
                 editGameDialogues(gameName, (String) initialIdAndDialogue.get(1), (int) initialIdAndDialogue.get(0));
             }
             else if(userChoice == 3){
+                gameUseCase.saveGames();
                 break;
             }
         }
