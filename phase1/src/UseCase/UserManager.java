@@ -60,9 +60,7 @@ public class UserManager {
             }
             UserGate myGate = new UserGate();
             HashMap<String, String> oldUsers = (HashMap<String, String>) myGate.load().get(0);
-            oldUsers = new HashMap<String,String>();
-            AdminUser Ruilin = new AdminUser("Admin_Ruilin", "123");
-            oldUsers.put("Admin_Ruilin", "123");
+
 
 
             oldUsers.put(username, password);

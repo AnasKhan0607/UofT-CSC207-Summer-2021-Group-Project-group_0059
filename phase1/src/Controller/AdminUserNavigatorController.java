@@ -22,16 +22,16 @@ public class AdminUserNavigatorController implements UserData {
         Integer choice = Integer.valueOf(myObj.nextLine());
         if (choice == 1) {
             /* GamePlay*/
+            TemplateEditorController te = new TemplateEditorController();
+            GameMainController gc = new GameMainController(te ,this::currentUser);
+            gc.gameMenu();
 
         } else if (choice == 2) {
             /* TemplateEditor*/
             TemplateEditorController tec = new TemplateEditorController();
             tec.run();
+
         } else if (choice == 3) {
-            /* GameCreator*/
-        } else if (choice == 4) {
-            /* GameEditor*/
-        } else if (choice == 5) {
             /*logout*/
 
         }
