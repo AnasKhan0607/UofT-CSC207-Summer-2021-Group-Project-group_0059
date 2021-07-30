@@ -1,6 +1,7 @@
 package Gateway;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,9 +16,12 @@ public class UserGate {
 
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
 
-        List<HashMap> myMaps = null;
+        List<HashMap> myMaps = new ArrayList<>();
 
         try {
+            File userFile = new File(myPath);
+            userFile.createNewFile();
+
             FileInputStream fileInput = new FileInputStream(myPath);
 
             ObjectInputStream objectInput
@@ -30,14 +34,15 @@ public class UserGate {
         }
 
         catch (IOException obj1) {
-            obj1.printStackTrace();
-
+            myMaps.add(new HashMap<String, String>());
+            System.out.println("Loading...\n" +
+                    "No Saved Users.");
+//            obj1.printStackTrace();
         }
 
         catch (ClassNotFoundException obj2) {
             System.out.println("Class not found");
-            obj2.printStackTrace();
-
+//            obj2.printStackTrace();
         }
 
         return myMaps;
@@ -61,7 +66,8 @@ public class UserGate {
             myFileOutStream.close();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
+//            e.printStackTrace();
         }
     }
 }

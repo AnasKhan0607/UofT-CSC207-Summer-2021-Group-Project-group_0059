@@ -3,23 +3,8 @@ package Entity;
 import Interface.GameStorage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class Game {
-    public static void main(String[] args) {
-//        Game bruh = new Game("BRUH", "le bruh", false,4, "Bro Bruh Bruh Bro");
-//        bruh.addChoiceToDialogue("1", 0);
-//        bruh.addChoiceToDialogue("2", 0);
-//        bruh.addChoiceToDialogue("3", 0);
-//        bruh.addChoiceToDialogue("4", 0);
-//        bruh.addChoiceToDialogue("9", 2);
-//
-//
-//
-//        System.out.println(bruh);
-    }
-
     // game name must be unique
     private String gameName;
     private String gameAuthor;

@@ -10,7 +10,7 @@ public class UserLoginPresenter {
      */
     public static void display(){
         System.out.println("Please login first:");
-        System.out.println("Please input your username first, press enter and then" +
+        System.out.println("Please input your username first, press enter and then " +
                 "your password, and press enter again to continue.");
         System.out.println("Don't have an account? Type Signup to register or Guest to login as a guest");
 
@@ -34,7 +34,8 @@ public class UserLoginPresenter {
     /**
      * The error message for an incorrect login.
      */
-    public static void errorMessage(){System.out.println("Sorry, but either username or password is incorrect");}
+    public static void errorMessage(){System.out.println(
+            "Sorry, but either the username or the password is incorrect");}
 
     /**
      * The message after successfully logging in.

@@ -57,7 +57,7 @@ public class GameMainController {
                 gameEditor.editGame();
             }
             else if(userChoice == 3){
-//                    this.viewGames(gameUseCase.getPublicGames());
+                System.out.println("Not yet done.");
             }
             else if(userChoice == 4){
                 this.viewGamesMenu();

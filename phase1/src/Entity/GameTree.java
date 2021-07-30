@@ -8,31 +8,6 @@ import java.util.List;
 import Exception.AddDialogueException;
 
 public class GameTree implements GameStorage {
-    public static void main(String[] args) {
-        GameTree it = (GameTree) GameStorage.initializeStorage(4, "0");
-        System.out.println(it.choiceNumLimit + it.id);
-        it.addChoiceToDialogue("1", 0);
-        it.addChoiceToDialogue("2", 0);
-        it.addChoiceToDialogue("5", 1);
-        it.addChoiceToDialogue("6", 1);
-        it.addChoiceToDialogue("7", 1);
-        it.addChoiceToDialogue("8", 1);
-        it.addChoiceToDialogue("9", 2);
-        it.addChoiceToDialogue("25", 6);
-//        System.out.println(it);
-//        System.out.println(it.getDialogueById(25));
-//        it.deleteDialogueById(5);
-//        System.out.println(it);
-//        System.out.println(it.getDialogueById(21));
-        System.out.println(it.addChoiceToDialogue("bruh", 70));
-        System.out.println(it.getParentId(3));
-        System.out.println(it.getParentId(2));
-        System.out.println(it.getParentId(5));
-
-
-
-    }
-
     private int id;
     final int choiceNumLimit;
     private String dialogue;

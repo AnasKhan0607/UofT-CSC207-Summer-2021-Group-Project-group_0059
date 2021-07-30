@@ -67,9 +67,12 @@ public class TemplateGate implements LoadSave {
 
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
 
-        List<HashMap> myMaps = null;
+        List<HashMap> myMaps = new ArrayList<>();
 
         try {
+            File templateFile = new File(myPath);
+            templateFile.createNewFile();
+
             FileInputStream fileInput = new FileInputStream(myPath);
 
             ObjectInputStream objectInput
@@ -82,13 +85,14 @@ public class TemplateGate implements LoadSave {
         }
 
         catch (IOException obj1) {
-            obj1.printStackTrace();
+            System.out.println("Loading...\n" +
+                    "No Saved Templates.");
 
         }
 
         catch (ClassNotFoundException obj2) {
             System.out.println("Class not found");
-            obj2.printStackTrace();
+//            obj2.printStackTrace();
 
         }
 
@@ -113,7 +117,8 @@ public class TemplateGate implements LoadSave {
             myFileOutStream.close();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
+//            e.printStackTrace();
         }
     }
 
