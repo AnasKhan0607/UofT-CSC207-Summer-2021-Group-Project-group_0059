@@ -60,7 +60,7 @@ public class TemplateGate implements LoadSave {
      * */
 
     // remember to return an arraylist
-    String myPath = new File("").getAbsolutePath() + "//phase1//data//SerialTemplates.txt";
+    String myPath = new File("").getAbsolutePath() + "//data//SerialTemplates.txt";
 
     // remember to return an arraylist
     public List<HashMap> load() {
