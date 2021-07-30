@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Controller class to edit games.
+ */
 
 public class GameEditController {
 
@@ -20,11 +23,21 @@ public class GameEditController {
             "a + id to add a dialogue, d + id to delete a dialogue, " +
             "and e to exit.";
 
+    /**
+     * Contructor for the class.
+     *
+     * @param gameUseCase A <GameUseCase> containing current game data.
+     * @param userData A UserData interface containing info on current existing users.
+     */
 
     public GameEditController(GameUseCase gameUseCase, UserData userData){
         this.gameUseCase = gameUseCase;
         this.userData = userData;
     }
+
+    /**
+     * Method to edit existing games. Interacts with GameUseCase and allows users to make changes to existing games.
+     */
 
     public void editGame(){
         gamePresenter.displayScene("Enter the name of the game you want to edit.");
