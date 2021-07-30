@@ -23,13 +23,18 @@ public class TemplateGate implements LoadSave {
 
     public static void main(String[] args) {
 
-        HashMap<Integer, String> TemplateData = new HashMap<>();
-        TemplateData.put(0, "SampleTemplateOne");
-        TemplateData.put(1, "SampleOfTemplateDescriptionOne");
-        TemplateData.put(2, "3");
+        HashMap<Integer, String> TemplateData1 = new HashMap<>();
+        HashMap<Integer, String> TemplateData2 = new HashMap<>();
+        TemplateData1.put(0, "SampleTemplateOne");
+        TemplateData1.put(1, "SampleOfTemplateDescriptionOne");
+        TemplateData1.put(2, "3");
+        TemplateData2.put(0, "SampleTemplateTwo");
+        TemplateData2.put(1, "SampleOfTemplateDescriptionTwo");
+        TemplateData2.put(2, "2");
 
         List<HashMap> TemplatesData = new ArrayList<>();
-        TemplatesData.add(TemplateData);
+        TemplatesData.add(TemplateData1);
+        TemplatesData.add(TemplateData2);
         TemplateGate bruh = new TemplateGate();
         bruh.save(TemplatesData);
 
