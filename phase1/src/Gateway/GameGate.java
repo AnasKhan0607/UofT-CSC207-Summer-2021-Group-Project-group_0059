@@ -91,7 +91,8 @@ public class GameGate implements LoadSave {
         }
 
         catch (IOException obj1) {
-            System.out.println("File is empty!");
+            System.out.println("Loading...\n" +
+                    "No Saved Games.");
 //            obj1.printStackTrace();
 
         }

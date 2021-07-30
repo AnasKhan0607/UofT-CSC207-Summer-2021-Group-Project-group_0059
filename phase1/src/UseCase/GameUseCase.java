@@ -11,28 +11,28 @@ import java.util.*;
 
 public class GameUseCase {
     public static void main(String[] args) {
-//        HashMap<Integer, String> gameData = new HashMap<>();
-//        gameData.put(-4, "bruh");
-//        gameData.put(-3, "Daniel Liu");
-//        gameData.put(-2, "true");
-//        gameData.put(-1, "4");
-//        gameData.put(0, "0");
-//        gameData.put(1, "1");
-//        gameData.put(2, "2");
-//        gameData.put(3, "3");
-//        gameData.put(4, "4");
-//        gameData.put(5, "5");
-//        gameData.put(21, "21");
-//        gameData.put(9, "9");
-//
-//        List<HashMap> gamesData = new ArrayList<>();
-//        gamesData.add(gameData);
-//        GameGate bruh = new GameGate();
-//        bruh.save(gamesData);
+        HashMap<Integer, String> gameData = new HashMap<>();
+        gameData.put(-4, "bruh");
+        gameData.put(-3, "Daniel Liu");
+        gameData.put(-2, "true");
+        gameData.put(-1, "4");
+        gameData.put(0, "Dialogue 1");
+        gameData.put(1, "1");
+        gameData.put(2, "2");
+        gameData.put(3, "3");
+        gameData.put(4, "4");
+        gameData.put(5, "5");
+        gameData.put(21, "21");
+        gameData.put(9, "9");
 
-//        GameUseCase gameUseCase = new GameUseCase(new GameGate());
-//        GameMainController gameController = new GameMainController(new TemplateEditorController(), new RegularUserNavigatorController("Daniel Liu"));
-//        gameController.gameMenu();
+        List<HashMap> gamesData = new ArrayList<>();
+        gamesData.add(gameData);
+        GameGate bruh = new GameGate();
+        bruh.save(gamesData);
+
+        GameUseCase gameUseCase = new GameUseCase(new GameGate());
+        GameMainController gameController = new GameMainController(new TemplateEditorController(), new RegularUserNavigatorController("Daniel Liu"));
+        gameController.gameMenu();
 
 //        System.out.println(game);4
 //        System.out.println(game.getDialogueById(1));
@@ -71,21 +71,8 @@ public class GameUseCase {
         return this.getGameByName(gameName).toString();
     }
 
-    public String getGameAsString(String gameName, int widthLimit){
-        String gameAsString = this.getGameAsString(gameName);
-        ArrayList<String> splitString = new ArrayList<>(Arrays.asList(gameAsString.split("\n")));
-
-        for (int i = 0; i < splitString.size(); i++){
-            if (splitString.get(i).length() > widthLimit){
-                splitString.set(i, splitString.get(i).substring(0, widthLimit - 1));
-            }
-        }
-
-        return String.join("\n", splitString);
-    }
-
-    public String getGameAsString(String gameName, int widthLimit, int id){
-        String gameAsString = this.getGameByName(gameName).toString(id);
+    public String getGameAsString(String gameName, int widthLimit, int startPoint){
+        String gameAsString = this.getGameByName(gameName).toString(startPoint);
         ArrayList<String> splitString = new ArrayList<>(Arrays.asList(gameAsString.split("\n")));
 
         for (int i = 0; i < splitString.size(); i++){
@@ -175,7 +162,7 @@ public class GameUseCase {
             return null;
         }
 
-        addDialoguesToGame(parentDialogueIds, childrenDialogueIds, game, hashMap,0);
+        addDialoguesToGames(parentDialogueIds, childrenDialogueIds, game, hashMap,0);
 
         return game;
     }
@@ -190,7 +177,7 @@ public class GameUseCase {
         return true;
     }
 
-    private void addDialoguesToGame(ArrayList<Integer> parentDialogueIds, ArrayList<Integer> childrenDialogueIds,
+    private void addDialoguesToGames(ArrayList<Integer> parentDialogueIds, ArrayList<Integer> childrenDialogueIds,
                                     Game game, HashMap<Integer, String> hashMap, int parentDialogueId){
         ArrayList<Integer> queue = new ArrayList<>();
         for (int i = 0; i < parentDialogueIds.size(); i++){
@@ -202,28 +189,8 @@ public class GameUseCase {
 
         for (int childId: queue){
             game.addChoiceToDialogue(hashMap.get(childId), parentDialogueId);
-            addDialoguesToGame(parentDialogueIds, childrenDialogueIds, game, hashMap, childId);
+            addDialoguesToGames(parentDialogueIds, childrenDialogueIds, game, hashMap, childId);
         }
-    }
-
-    public boolean changeGameState(String game_name){
-        for (Game game: this.privateGames){
-            if(game.getGameName().equals(game_name)){
-                game.setGamePublic(true);
-                publicGames.add(game);
-                privateGames.remove(game);
-                return true;
-            }
-        }
-        for (Game game: this.publicGames){
-            if(game.getGameName().equals(game_name)){
-                game.setGamePublic(false);
-                privateGames.add(game);
-                publicGames.remove(game);
-                return true;
-            }
-        }
-        return false;
     }
 
     public void saveGames(){
@@ -253,6 +220,55 @@ public class GameUseCase {
         arrayList.add(initialDialogueId);
         arrayList.add(initialDialogueSt);
         return arrayList;
+    }
+
+    public boolean changeGameState(String game_name){
+        for (Game game: this.privateGames){
+            if(game.getGameName().equals(game_name)){
+                game.setGamePublic(true);
+                publicGames.add(game);
+                privateGames.remove(game);
+                return true;
+            }
+        }
+        for (Game game: this.publicGames){
+            if(game.getGameName().equals(game_name)){
+                game.setGamePublic(false);
+                privateGames.add(game);
+                publicGames.remove(game);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isIdInGame(int id){
+        return currentGame.getAllId().contains(id);
+    }
+
+    public int getParentDialogueId(int childrenDialogueId){
+        ArrayList<Integer> childrenDialogueIds = new ArrayList<>();
+        childrenDialogueIds.add(childrenDialogueId);
+        if (currentGame.getParentDialogueIds(childrenDialogueIds).get(0) == null){
+            return -1;
+        }
+        return currentGame.getParentDialogueIds(childrenDialogueIds).get(0);
+    }
+
+    public String getDialogueById(int id){
+        return currentGame.getDialogueById(id);
+    }
+
+    public boolean setDialogueById(int id, String dialogue){
+        return currentGame.setDialogueById(id, dialogue);
+    }
+
+    public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
+        return currentGame.addChoiceToDialogue(childDialogue, parentDialogueId);
+    }
+
+    public boolean deleteDialogueById(int id){
+        return currentGame.deleteDialogueById(id);
     }
 
     // change later to get dialogue choices by id

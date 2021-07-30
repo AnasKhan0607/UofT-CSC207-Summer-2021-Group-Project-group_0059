@@ -271,7 +271,7 @@ public class GameTree implements GameStorage {
     private String depthToPrespace(int depth){
         StringBuilder space = new StringBuilder("\n");
         for (int i = 0; i < depth; i++){
-            space.append("     ");
+            space.append("       ");
         }
         return space.toString();
     }
