@@ -68,7 +68,14 @@ public class TemplateEditorController implements TemplateData {
                 if (edit_choice.equals("0")){
                     TemplateEditorPresenter.change_name();
                     String name = String.valueOf(myObj.nextLine());
-                    this.templates.setNewName(choice, name);
+                    if (name.equals("-1")){
+                        TemplateEditorPresenter.try_agin_name();
+                    }
+                    else {
+                        this.templates.setNewName(choice, name);
+                        choice = name;
+
+                    }
                 }
                 if (edit_choice.equals("1")){
                     TemplateEditorPresenter.change_description();

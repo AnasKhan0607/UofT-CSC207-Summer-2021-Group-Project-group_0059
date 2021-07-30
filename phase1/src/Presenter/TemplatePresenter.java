@@ -13,6 +13,7 @@ public class TemplatePresenter {
             System.out.println("Template Name: " + templates.get(counter).getTemplatename());
             System.out.println("Template Description: " + templates.get(counter).getDescription());
             System.out.println("Template # of choices: " + templates.get(counter).getNumchoice());
+            System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
         }
     }
     public static void display_template(Template template){
