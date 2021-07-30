@@ -21,7 +21,7 @@ public class TemplateEditorPresenter {
     }
 
     public static void change_name() {
-        System.out.println("What would you like to change the name of the Template to.");
+        System.out.println("What would you like to change the name of the Template to.(Please do not use -1)");
     }
 
     public static void change_description() {
@@ -38,6 +38,10 @@ public class TemplateEditorPresenter {
     public static void try_agin_option() {
         System.out.println("No such option. Please enter an option provided.");
     }
+    public static void try_agin_name() {
+        System.out.println("Please try another name.");
+    }
+
 
 
 }
