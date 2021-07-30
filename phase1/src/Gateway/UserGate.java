@@ -6,6 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserGate {
+
+    /**
+     *
+     * A Gateway class used to implement <I>LoadSave</I> for loading and saving all the users.
+     * The save method takes a /List</Hashmap>> which represents the users
+     * and saves it to a serialized txt file.
+     * The load method reads the serialized txt file and returns a /List</Hashmap>>
+     * which represents the users.
+     *
+     * @param args
+     */
+
     public static void main(String[] args) {
 
         HashMap<Integer, String> gameData = new HashMap<>();
