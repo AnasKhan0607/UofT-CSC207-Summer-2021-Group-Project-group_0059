@@ -13,38 +13,39 @@ public class TemplateGate implements LoadSave {
     /**
      *
      * A Gateway class used to implement <I>LoadSave</I> for loading and saving users.
+     *
      * The save method takes a /List</Hashmap>> which represents the games
      * and saves it to a serialized txt file.
+     *
      * The load method reads the serialized txt file and returns a /List</Hashmap>>
      * which represents the games.
      *
-     * @param args
      */
 
-    public static void main(String[] args) {
-
-        HashMap<Integer, String> TemplateData1 = new HashMap<>();
-        HashMap<Integer, String> TemplateData2 = new HashMap<>();
-        TemplateData1.put(0, "SampleTemplateOne");
-        TemplateData1.put(1, "SampleOfTemplateDescriptionOne");
-        TemplateData1.put(2, "3");
-        TemplateData2.put(0, "SampleTemplateTwo");
-        TemplateData2.put(1, "SampleOfTemplateDescriptionTwo");
-        TemplateData2.put(2, "2");
-
-        List<HashMap> TemplatesData = new ArrayList<>();
-        TemplatesData.add(TemplateData1);
-        TemplatesData.add(TemplateData2);
-        TemplateGate bruh = new TemplateGate();
-        bruh.save(TemplatesData);
-
-        List<HashMap> loadTest = bruh.load();
-
-        HashMap<Integer, String> firstMap = loadTest.get(0);
-
-        System.out.println(firstMap.get(1));
-
-    }
+//    public static void main(String[] args) {
+//
+//        HashMap<Integer, String> TemplateData1 = new HashMap<>();
+//        HashMap<Integer, String> TemplateData2 = new HashMap<>();
+//        TemplateData1.put(0, "SampleTemplateOne");
+//        TemplateData1.put(1, "SampleOfTemplateDescriptionOne");
+//        TemplateData1.put(2, "3");
+//        TemplateData2.put(0, "SampleTemplateTwo");
+//        TemplateData2.put(1, "SampleOfTemplateDescriptionTwo");
+//        TemplateData2.put(2, "2");
+//
+//        List<HashMap> TemplatesData = new ArrayList<>();
+//        TemplatesData.add(TemplateData1);
+//        TemplatesData.add(TemplateData2);
+//        TemplateGate bruh = new TemplateGate();
+//        bruh.save(TemplatesData);
+//
+//        List<HashMap> loadTest = bruh.load();
+//
+//        HashMap<Integer, String> firstMap = loadTest.get(0);
+//
+//        System.out.println(firstMap.get(1));
+//
+//    }
 
     /*
      * Similar format as GameGate

@@ -14,6 +14,11 @@ public class GameTree implements GameStorage {
     private List<GameTree> subtrees = new ArrayList<GameTree>();
     private GameTree parentTree;
 
+    /**
+     *
+     * @param choiceNumLimit
+     * @param initialDialogue
+     */
     public GameTree(int choiceNumLimit, String initialDialogue){
         this.choiceNumLimit = choiceNumLimit;
         this.dialogue = initialDialogue;
@@ -39,6 +44,12 @@ public class GameTree implements GameStorage {
         this.id = this.setId();
     }
 
+    /**
+     *
+     * @param childDialogue
+     * @param parentDialogueId
+     * @return
+     */
     public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
         try{
             new GameTree(childDialogue, parentDialogueId, this);

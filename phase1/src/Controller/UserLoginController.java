@@ -67,10 +67,10 @@ public class UserLoginController {
      */
     public void redirect(User user){
         String username = user.getUsername();
-        if (username.charAt(0) == 'A'){
+        if (username.startsWith("Admin_")){
             AdminUserNavigatorController aunc = new AdminUserNavigatorController(username);
             aunc.run();
-        } else if(username.charAt(0) == 'G'){
+        } else if(username.startsWith("Guest")){
             GuestUserNavigatorController gunc = new GuestUserNavigatorController();
             gunc.run();
 
@@ -94,7 +94,7 @@ public class UserLoginController {
             if (!temppassword.equals(this.password)) {
                 UserLoginPresenter.errorMessage();
             } else {
-                if (this.userName.charAt(0) == 'A'){
+                if (this.userName.startsWith("Admin_")) {
                     UserLoginPresenter.successMessage("Admin");
                 } else {
                     UserLoginPresenter.successMessage("Regular");

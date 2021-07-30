@@ -11,12 +11,13 @@ public class GameGate implements LoadSave {
     /**
      *
      * A Gateway class used to implement <I>LoadSave</I> for loading and saving games.
+     *
      * The save method takes a /List</Hashmap>> which represents the games
      * and saves it to a serialized txt file.
+     *
      * The load method reads the serialized txt file and returns a /List</Hashmap>>
      * which represents the games.
      *
-     * @param args
      */
 
 
