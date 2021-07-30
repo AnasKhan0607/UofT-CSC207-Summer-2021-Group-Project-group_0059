@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * The main Controller class for games. Enables users to Create, Edit, and View games.
+ */
+
 public class GameMainController {
     public static void main(String[] args) {
 
@@ -32,6 +36,12 @@ public class GameMainController {
         gamePlayer = new GamePlayController(gameUseCase, userData);
         this.userData = userData;
     }
+
+    /**
+     * The game's menu which takes user input and calls the respective controller for their choice.
+     *
+     * Interacts with gamePresenter, gameCreator, gameEditor, and gamePlayer.
+     */
 
     public void gameMenu(){
         int userChoice = 0;
