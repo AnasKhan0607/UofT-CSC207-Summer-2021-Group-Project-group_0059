@@ -22,32 +22,31 @@ public class GameGate implements LoadSave {
      */
 
     public static void main(String[] args) {
-
-        HashMap<Integer, String> gameData = new HashMap<>();
-        gameData.put(-4, "bruh");
-        gameData.put(-3, "le bruh");
-        gameData.put(-2, "false");
-        gameData.put(-1, "4");
-        gameData.put(0, "0");
-        gameData.put(1, "1");
-        gameData.put(2, "2");
-        gameData.put(3, "3");
-        gameData.put(4, "4");
-        gameData.put(5, "5");
-        gameData.put(21, "21");
-        gameData.put(9, "9");
-
-        List<HashMap> gamesData = new ArrayList<>();
-        gamesData.add(gameData);
-        GameGate bruh = new GameGate();
-        bruh.save(gamesData);
-
-        List<HashMap> loadTest = bruh.load();
-
-        HashMap<Integer, String> firstMap = loadTest.get(0);
-
-        System.out.println(firstMap.get(2));
-
+//
+//        HashMap<Integer, String> gameData = new HashMap<>();
+//        gameData.put(-4, "bruh");
+//        gameData.put(-3, "le bruh");
+//        gameData.put(-2, "false");
+//        gameData.put(-1, "4");
+//        gameData.put(0, "0");
+//        gameData.put(1, "1");
+//        gameData.put(2, "2");
+//        gameData.put(3, "3");
+//        gameData.put(4, "4");
+//        gameData.put(5, "5");
+//        gameData.put(21, "21");
+//        gameData.put(9, "9");
+//
+//        List<HashMap> gamesData = new ArrayList<>();
+//        gamesData.add(gameData);
+//        GameGate bruh = new GameGate();
+//        bruh.save(gamesData);
+//
+//        List<HashMap> loadTest = bruh.load();
+//
+//        HashMap<Integer, String> firstMap = loadTest.get(0);
+//
+//        System.out.println(firstMap.get(2));
     }
 
     /*
@@ -74,9 +73,12 @@ public class GameGate implements LoadSave {
 
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
 
-        List<HashMap> myMaps = null;
+        List<HashMap> myMaps = new ArrayList<>();
 
         try {
+            File gameFile = new File(myPath);
+            gameFile.createNewFile();
+
             FileInputStream fileInput = new FileInputStream(myPath);
 
             ObjectInputStream objectInput
@@ -89,13 +91,14 @@ public class GameGate implements LoadSave {
         }
 
         catch (IOException obj1) {
-            obj1.printStackTrace();
+            System.out.println("File is empty!");
+//            obj1.printStackTrace();
 
         }
 
         catch (ClassNotFoundException obj2) {
-            System.out.println("Class not found");
-            obj2.printStackTrace();
+            System.out.println("Class not found!");
+//            obj2.printStackTrace();
 
         }
 
