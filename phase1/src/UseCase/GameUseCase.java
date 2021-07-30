@@ -7,6 +7,7 @@ import Gateway.GameGate;
 import Interface.LoadSave;
 import Interface.SaveLoadGame;
 
+import java.io.File;
 import java.util.*;
 
 public class GameUseCase {
@@ -25,14 +26,14 @@ public class GameUseCase {
 //        gameData.put(21, "21");
 //        gameData.put(9, "9");
 //
-//        List<HashMap> gamesData = new ArrayList<>();
+//        List<HashMap> game4sData = new ArrayList<>();
 //        gamesData.add(gameData);
 //        GameGate bruh = new GameGate();
 //        bruh.save(gamesData);
 
-//        GameUseCase gameUseCase = new GameUseCase(new GameGate());
-//        GameMainController gameController = new GameMainController(new TemplateEditorController(), new RegularUserNavigatorController("Daniel Liu"));
-//        gameController.gameMenu();
+        GameUseCase gameUseCase = new GameUseCase(new GameGate());
+        GameMainController gameController = new GameMainController(new TemplateEditorController(), new RegularUserNavigatorController("Daniel Liu"));
+        gameController.gameMenu();
 
 //        System.out.println(game);4
 //        System.out.println(game.getDialogueById(1));

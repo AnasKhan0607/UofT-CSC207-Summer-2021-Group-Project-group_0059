@@ -60,7 +60,32 @@ public class TemplateGate implements LoadSave {
      * */
 
     // remember to return an arraylist
-    String myPath = new File("").getAbsolutePath() + "//data//SerialTemplates.txt";
+    String myPath;
+
+    public TemplateGate(){
+        this.myPath = findSaveTemplateFile(System.getProperty("user.dir"));
+    }
+
+    private String findSaveTemplateFile(String filePath){
+        File dir = new File(filePath);
+        File[] directoryListing = dir.listFiles();
+        String foundPath = "";
+
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("SerialTemplates.txt")){
+                    return child.getAbsolutePath();
+                }
+                else{
+                    String path = findSaveTemplateFile(child.getAbsolutePath());
+                    if (!path.equals("")){
+                        return path;
+                    }
+                }
+            }
+        }
+        return foundPath;
+    }
 
     // remember to return an arraylist
     public List<HashMap> load() {

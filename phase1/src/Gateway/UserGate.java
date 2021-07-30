@@ -9,7 +9,32 @@ public class UserGate {
 
 
     // remember to return an arraylist
-    String myPath = new File("").getAbsolutePath() + "\\data\\SerialUser.txt";
+    String myPath;
+
+    public UserGate(){
+        this.myPath = findSaveUserFile(System.getProperty("user.dir"));
+    }
+
+    private String findSaveUserFile(String filePath){
+        File dir = new File(filePath);
+        File[] directoryListing = dir.listFiles();
+        String foundPath = "";
+
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("SerialUser.txt")){
+                    return child.getAbsolutePath();
+                }
+                else{
+                    String path = findSaveUserFile(child.getAbsolutePath());
+                    if (!path.equals("")){
+                        return path;
+                    }
+                }
+            }
+        }
+        return foundPath;
+    }
 
     // remember to return an arraylist
     public List<HashMap> load() {
@@ -19,8 +44,8 @@ public class UserGate {
         List<HashMap> myMaps = new ArrayList<>();
 
         try {
-            File userFile = new File(myPath);
-            userFile.createNewFile();
+//            File userFile = new File(myPath);
+//            userFile.createNewFile();
 
             FileInputStream fileInput = new FileInputStream(myPath);
 

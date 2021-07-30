@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameGate implements LoadSave {
+    public static void main(String[] args) {
+        new GameGate();
+    }
+
     /**
      *
      * A Gateway class used to implement <I>LoadSave</I> for loading and saving games.
@@ -35,8 +39,32 @@ public class GameGate implements LoadSave {
      * |_______________________________________|
      * Remember that java hashmap is just dict in python
      * */
+    String myPath;
 
-    String myPath = new File("").getAbsolutePath() + "\\phase1\\data\\SerialGames.txt";
+    public GameGate(){
+        this.myPath = findSaveGameFile(System.getProperty("user.dir"));
+    }
+
+    private String findSaveGameFile(String filePath){
+        File dir = new File(filePath);
+        File[] directoryListing = dir.listFiles();
+        String foundPath = "";
+
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("SerialGames.txt")){
+                    return child.getAbsolutePath();
+                }
+                else{
+                    String path = findSaveGameFile(child.getAbsolutePath());
+                    if (!path.equals("")){
+                        return path;
+                    }
+                }
+            }
+        }
+        return foundPath;
+    }
 
     // remember to return an arraylist
     public List<HashMap> load() {
@@ -46,8 +74,8 @@ public class GameGate implements LoadSave {
         List<HashMap> myMaps = new ArrayList<>();
 
         try {
-            File gameFile = new File(myPath);
-            gameFile.createNewFile();
+//            File gameFile = new File(myPath);
+//            gameFile.createNewFile();
 
             FileInputStream fileInput = new FileInputStream(myPath);
 
