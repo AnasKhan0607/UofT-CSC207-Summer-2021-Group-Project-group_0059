@@ -3,6 +3,9 @@ package Presenter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A presenter class used to wrap messages displayed to the user in boxes to make the output more visually appealing.
+ */
 public class BoxWrapper {
     public static void main(String[] args) {
 //        TextBox
@@ -14,6 +17,12 @@ public class BoxWrapper {
     private final int textWidth;
     private final int textHeight;
     private final int textStartLine;
+
+    /**
+     * The contructor class where different types of boxes can be initialized depending on the user input.
+     * Text will be wrapped in the type of box chosen.
+     * @param boxType An integer for the choice of box that is desired.
+     */
 
     public BoxWrapper(String boxType){
         if (boxType.equals("picture")){
@@ -68,10 +77,20 @@ public class BoxWrapper {
         }
     };
 
+    /**
+     * Returns an empty box depending on the choice when the class was initialized.
+     */
+
     @Override
     public String toString(){
         return this.box;
     }
+
+    /**
+     * Used to insert a ASCII art picture within a box.
+     * @param text the string representation of the ASCII art picture to be inserted.
+     * @return The string representation of the given ASCII art picture within a box.
+     */
 
     public String insertPicture(String text){
         String[] boxLines = this.box.split("\n");
@@ -104,6 +123,12 @@ public class BoxWrapper {
 
         return insertText(String.join("", splitText));
     }
+
+    /**
+     * Return a string which displays the given text within a box.
+     * @param text A string of the text to display within the box.
+     * @return The string representation of a box containing the given text.
+     */
 
     public String insertText(String text){
         String[] boxLines = this.box.split("\n");
