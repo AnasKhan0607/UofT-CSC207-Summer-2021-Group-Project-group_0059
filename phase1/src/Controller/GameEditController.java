@@ -40,7 +40,14 @@ public class GameEditController {
      */
 
     public void editGame(){
-        gamePresenter.displayScene("Enter the name of the game you want to edit.");
+        ArrayList<String> newGames = new ArrayList<>();
+        ArrayList<String> publicGames = gameUseCase.getPublicGamesByAuthor(userData.currentUser());
+        for (String game: publicGames){
+            newGames.add(game);
+        }
+        newGames.addAll(gameUseCase.getPrivateGames(userData.currentUser()));
+
+        gamePresenter.displayScene("Enter the name of the game you want to edit.", newGames);
         String gameName = String.valueOf(scanner.next());
         if(!verifyEditGameRight(gameName)){ return; }
         ArrayList<Object> initialIdAndDialogue = gameUseCase.openGame(gameName);
@@ -61,6 +68,7 @@ public class GameEditController {
 
             if(userChoice == 1){
                 gameUseCase.changeGameState(gameName);
+                gameUseCase.saveGames();
                 break;
             }
             else if(userChoice == 2){

@@ -9,18 +9,15 @@ import java.util.List;
  *
  * A Gateway class used to implement <I>LoadSave</I> for loading and saving users.
  *
- * The save method takes a /List</Hashmap>> which represents the users
- * and saves it to a serialized txt file.
- *
- * The load method reads the serialized txt file and returns a /List</Hashmap>>
- * which represents the users.
- *
  */
 
 public class UserGate {
 
-    // remember to return an arraylist
     String myPath;
+
+    /**
+     * The gateway's constructor that gets a relative path for the current directory.
+     */
 
     public UserGate(){
         this.myPath = findSaveUserFile(System.getProperty("user.dir"));
@@ -47,7 +44,12 @@ public class UserGate {
         return foundPath;
     }
 
-    // remember to return an arraylist
+    /**
+     * The load method reads the serialized txt file and returns a /List</Hashmap>>
+     * which represents the users.
+     * @return A list of Hashmaps that represents the saved users in the file.
+     */
+
     public List<HashMap> load() {
 
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
@@ -84,7 +86,12 @@ public class UserGate {
         return myMaps;
     }
 
-    // an arraylist will be passed here
+    /**
+     * The save method takes a /List</Hashmap>> which represents the users
+     * and saves it to a serialized txt file.
+     * @param myMap The list of Hashmaps to be saved.
+     */
+
     public void save(List<HashMap> myMap){
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
         try {

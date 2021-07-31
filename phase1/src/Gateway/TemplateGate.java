@@ -11,40 +11,9 @@ import java.util.List;
  *
  * A Gateway class used to implement <I>LoadSave</I> for loading and saving templates.
  *
- * The save method takes a /List</Hashmap>> which represents the templates
- * and saves it to a serialized txt file.
- *
- * The load method reads the serialized txt file and returns a /List</Hashmap>>
- * which represents the templates.
- *
  */
 
 public class TemplateGate implements LoadSave {
-
-//    public static void main(String[] args) {
-//
-//        HashMap<Integer, String> TemplateData1 = new HashMap<>();
-//        HashMap<Integer, String> TemplateData2 = new HashMap<>();
-//        TemplateData1.put(0, "SampleTemplateOne");
-//        TemplateData1.put(1, "SampleOfTemplateDescriptionOne");
-//        TemplateData1.put(2, "3");
-//        TemplateData2.put(0, "SampleTemplateTwo");
-//        TemplateData2.put(1, "SampleOfTemplateDescriptionTwo");
-//        TemplateData2.put(2, "2");
-//
-//        List<HashMap> TemplatesData = new ArrayList<>();
-//        TemplatesData.add(TemplateData1);
-//        TemplatesData.add(TemplateData2);
-//        TemplateGate bruh = new TemplateGate();
-//        bruh.save(TemplatesData);
-//
-//        List<HashMap> loadTest = bruh.load();
-//
-//        HashMap<Integer, String> firstMap = loadTest.get(0);
-//
-//        System.out.println(firstMap.get(1));
-//
-//    }
 
     /*
      * Similar format as GameGate
@@ -59,8 +28,11 @@ public class TemplateGate implements LoadSave {
      * Remember that java hashmap is just dict in python
      * */
 
-    // remember to return an arraylist
     String myPath;
+
+    /**
+     * The gateway's constructor that gets a relative path for the current directory.
+     */
 
     public TemplateGate(){
         this.myPath = findSaveTemplateFile(System.getProperty("user.dir"));
@@ -87,7 +59,12 @@ public class TemplateGate implements LoadSave {
         return foundPath;
     }
 
-    // remember to return an arraylist
+    /**
+     * The load method reads the serialized txt file and returns a /List</Hashmap>>
+     * which represents the templates.
+     * @return A list of Hashmaps that represents the saved templates in the file.
+     */
+
     public List<HashMap> load() {
 
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
@@ -123,6 +100,12 @@ public class TemplateGate implements LoadSave {
 
         return myMaps;
     }
+
+    /**
+     * The save method takes a /List</Hashmap>> which represents the templates
+     * and saves it to a serialized txt file.
+     * @param myMap The list of Hashmaps to be saved.
+     */
 
     // an arraylist will be passed here
     public void save(List<HashMap> myMap){
