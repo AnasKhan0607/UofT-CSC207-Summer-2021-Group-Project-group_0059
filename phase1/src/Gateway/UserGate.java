@@ -5,20 +5,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ *
+ * A Gateway class used to implement <I>LoadSave</I> for loading and saving users.
+ *
+ * The save method takes a /List</Hashmap>> which represents the users
+ * and saves it to a serialized txt file.
+ *
+ * The load method reads the serialized txt file and returns a /List</Hashmap>>
+ * which represents the users.
+ *
+ */
+
 public class UserGate {
-
-    /**
-     *
-     * A Gateway class used to implement <I>LoadSave</I> for loading and saving users.
-     *
-     * The save method takes a /List</Hashmap>> which represents the games
-     * and saves it to a serialized txt file.
-     *
-     * The load method reads the serialized txt file and returns a /List</Hashmap>>
-     * which represents the games.
-     *
-     */
-
 
     // remember to return an arraylist
     String myPath;

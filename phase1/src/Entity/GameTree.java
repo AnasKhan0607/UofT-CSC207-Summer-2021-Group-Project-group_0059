@@ -7,6 +7,11 @@ import java.util.List;
 
 import Exception.AddDialogueException;
 
+/**
+ * The entity class which represents a GameTree. This is a part of the tree structure containing different
+ * dialogues and options which users can navigate through to play the game.
+ */
+
 public class GameTree implements GameStorage {
     private int id;
     final int choiceNumLimit;
@@ -15,9 +20,11 @@ public class GameTree implements GameStorage {
     private GameTree parentTree;
 
     /**
+     * The contructor method for GameTree which initializes the tree with a dialogue, number of choices,
+     * and a generated id.
      *
-     * @param choiceNumLimit
-     * @param initialDialogue
+     * @param choiceNumLimit The limit for how many choices this tree can have.
+     * @param initialDialogue The initial dialogue that the user will see when they are at this tree.
      */
     public GameTree(int choiceNumLimit, String initialDialogue){
         this.choiceNumLimit = choiceNumLimit;
@@ -45,10 +52,11 @@ public class GameTree implements GameStorage {
     }
 
     /**
+     * A method which attempts to add choices by creating the next GameTree.
      *
-     * @param childDialogue
-     * @param parentDialogueId
-     * @return
+     * @param childDialogue The child's dialogue text that should be added
+     * @param parentDialogueId The Id of the parent tree.
+     * @return A boolean depending on whether the choice was successfully added.
      */
     public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
         try{
@@ -79,6 +87,11 @@ public class GameTree implements GameStorage {
         }
     }
 
+    /**
+     * Method to get the IDs of all subtrees in this tree.
+     * @return An ArrayList containing integers for the IDs of all subtrees.
+     */
+
     public ArrayList<Integer> getAllId(){
         ArrayList<Integer> allId = new ArrayList<>();
         allId.add(this.id);
@@ -99,6 +112,11 @@ public class GameTree implements GameStorage {
             return childId / choiceNumLimit;
         }
     }
+
+    /**
+     * Method to get the IDs of all parents in this tree.
+     * @return An ArrayList containing integers for the IDs of all parents.
+     */
 
     public ArrayList<Integer> getParentDialogueIds(List<Integer> childrenDialogueIds){
         ArrayList<Integer> parentIds = new ArrayList<>();
@@ -156,7 +174,12 @@ public class GameTree implements GameStorage {
         return path;
     }
 
-    // gets a specific dialogue through a tree ID
+    /**
+     * Gets a specific dialogue through a tree ID
+     * @param id The ID of the tree who's dialogue should be retrieved
+     * @return A string which is the dialogue of this tree, if it is found.
+     */
+
     public String getDialogueById(int id) {
         try{
             return getTreeById(id).dialogue;
@@ -165,6 +188,14 @@ public class GameTree implements GameStorage {
             return null;
         }
     }
+
+    /**
+     * A method for setting the dialogue of a particular tree according to its ID.
+     *
+     * @param id The ID of the tree who's dialogue should be set
+     * @param dialogue The new dialogue which will be set for this tree
+     * @return True if the dialogue is changed successfully, otherwise false
+     */
 
     public boolean setDialogueById(int id, String dialogue){
         try{
@@ -175,6 +206,12 @@ public class GameTree implements GameStorage {
             return false;
         }
     }
+
+    /**
+     * Deletes the dialogue of a tree with the given ID.
+     * @param id The ID of the tree who's dialogue should be deleted.
+     * @return True if the dialogue was successfully deleted, otherwise false.
+     */
 
     public boolean deleteDialogueById(int id){
         if (id == 0){ return false; }
@@ -213,11 +250,21 @@ public class GameTree implements GameStorage {
         return tree;
     }
 
+    /**
+     * Finds the ID of the tree with the given dialogue.
+     * @param dialogue the string containing the dialogue text of the tree you are searching for.
+     * @return The ID of the tree containing this dialogue.
+     */
+
     public int getIdByDialogue(String dialogue){
         return getInitialTree().getTreeByDialogue(dialogue).id;
     }
 
-    // Returns how many nodes the tree has
+    /**
+     * Returns the total number of nodes in this tree
+     * @return the number of nodes in the tree (the size of the tree)
+     */
+
     public int size(){
         int total = 0;
         for (GameTree subtree : this.subtrees) {
@@ -231,11 +278,20 @@ public class GameTree implements GameStorage {
         return total;
     }
 
+    /**
+     * Override the default string method to print the tree in a way the user can read it.
+     * @return a string representation of this tree.
+     */
     @Override
     public String toString(){
         return printTree(0);
     }
 
+    /**
+     * Get a string representation of a tree with a particular ID)
+     * @param id The ID of the desired tree
+     * @return the string which represents this tree
+     */
     public String toString(int id){
         return getTreeById(id).printTree(0);
     }
@@ -261,6 +317,12 @@ public class GameTree implements GameStorage {
         }
         return space.toString();
     }
+
+    /**
+     * Gets the dialogues of all the child trees.
+     * @param parentDialogueId the ID of the parent tree
+     * @return a list of strings which are the dialogues of all children tree.
+     */
 
     public ArrayList<String> getChildrenDialogues(int parentDialogueId){
         ArrayList<String> childrenDialogues = new ArrayList<>();
