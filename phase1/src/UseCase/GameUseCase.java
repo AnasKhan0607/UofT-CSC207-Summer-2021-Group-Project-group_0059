@@ -53,7 +53,8 @@ public class GameUseCase {
     /**
      * Contructor for the class. Gets all the games saved using GameGate and load them into this.publicGames and this.privateGames
      *
-     * @param  database A <database> the stored load save which store list of hashmap which can be transformed into needed data for a Game entity.
+     * @param  database A <database> the stored load save which store list of hashmap
+     *                  which can be transformed into needed data for a Game entity.
      */
     public GameUseCase(LoadSave database){
         this.database = database;
@@ -137,6 +138,7 @@ public class GameUseCase {
     /**
      * method for getting all made games which are private.
      * @return arraylist of names for private games.
+     * @param author_name String for author name.
      */
     public ArrayList<String> getPrivateGames(String author_name){
         ArrayList<String> game_list = new ArrayList<>();
@@ -150,6 +152,7 @@ public class GameUseCase {
     /**
      * method for getting all made games by author which are public bu giving author name.
      * @return arraylist of names for private games made by the given author name.
+     * @param author_name String for author name.
      */
     public ArrayList<String> getPublicGamesByAuthor(String author_name){
         ArrayList<String> game_list = new ArrayList<>();
@@ -247,6 +250,7 @@ public class GameUseCase {
     }
     /**
      * method for opening a game by giving the game's name.
+     * @param gameName String for game name.
      */
     public ArrayList<Object> openGame(String gameName){
         Game game = getGameByName(gameName);
@@ -263,6 +267,7 @@ public class GameUseCase {
      * method for changing public status of a game by giving the game's name.
      * because all games are private at the beginning, it just can change private game to public game.
      * @return if public status changing goes well it returns true, if anything goes wrong it returns false.
+     * @param game_name String for game name.
      */
     public boolean changeGameState(String game_name){
         for (Game game: this.privateGames){
@@ -286,6 +291,7 @@ public class GameUseCase {
     /**
      * method for checking if the id of a dialogue or choice(subtree) is inside the ides of a game.
      * @return true if it is insde the game ides , if not returns false.
+     * @param id , integers for initial subtree id.
      */
     public boolean isIdInGame(int id){
         return currentGame.getAllId().contains(id);
@@ -293,6 +299,7 @@ public class GameUseCase {
     /**
      * method for getting parent id of last opend game by user with giving a children id.
      * @return parent's id of the given id inside last open game.
+     * @param childrenDialogueId , integers for children dialogue subtree id.
      */
     public int getParentDialogueId(int childrenDialogueId){
         ArrayList<Integer> childrenDialogueIds = new ArrayList<>();
@@ -304,6 +311,7 @@ public class GameUseCase {
     }
     /**
      * method for getting dialogue string by giving it's id inside last opened game by user.
+     * @param id , integers for dialogue subtree id.
      * @return string of the given id inside the last opened gameTree.
      */
     public String getDialogueById(int id){
@@ -311,6 +319,8 @@ public class GameUseCase {
     }
     /**
      * method for setting dialogue string by giving it's id inside last opened game by user.
+     * @param id , integers for dialogue subtree id.
+     * @param dialogue , String for dialogue.
      * @return true if it set, else it returns false.
      */
     public boolean setDialogueById(int id, String dialogue){
@@ -318,6 +328,8 @@ public class GameUseCase {
     }
     /**
      * method for add a new dialogue  inside last opened game by user,by giving it's id and string.
+     * @param parentDialogueId , integers for dialogue subtree id.
+     * @param childDialogue, String for dialogue.
      * @return true if it added, else it returns false.
      */
     public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
@@ -325,6 +337,7 @@ public class GameUseCase {
     }
     /**
      * method for deleting a dialogue  inside last opened game by user,by giving it's id.
+     * @param id , integers for dialogue subtree id.
      * @return true if it deleted , else it returns false.
      */
     public boolean deleteDialogueById(int id){
@@ -332,6 +345,7 @@ public class GameUseCase {
     }
     /**
      * method for getting choices of a dialogue inside the last opened game of user, bu giving the dialogue id.
+     * @param dialogueId , integers for dialogue subtree id.
      * @return arraylist of choice's strings saved for the id of dialogue inside the last open game.
      */
     public ArrayList<String> getDialogueChoices(int dialogueId){
@@ -339,6 +353,7 @@ public class GameUseCase {
     }
     /**
      * method for getting choices of a dialogue inside the last opened game of user, bu giving the dialogue id.
+     * @param dialogueId , integers for dialogue subtree id.
      * @return arraylist of choice's ids saved for the id of dialogue inside the last open game.
      */
     public ArrayList<Integer> getDialogueChoiceIds(int dialogueId){
