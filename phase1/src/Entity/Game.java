@@ -51,6 +51,7 @@ public class Game {
     public String getGameName(){return gameName;}
     /**
      * the setter method for game name which set by author of the game.
+     * @param gameName a string for game name.
      */
     public void setGameName(String gameName) {
         this.gameName = gameName;
@@ -62,6 +63,7 @@ public class Game {
     public String getGameAuthor(){return gameAuthor;}
     /**
      * the setter method for name of game's author which set by author of the game.
+     * @param gameAuthor a string for author name.
      */
     public void setGameAuthor(String gameAuthor) {
         this.gameAuthor = gameAuthor;
@@ -74,6 +76,7 @@ public class Game {
     /**
      * the setters method for public situation of game which set by author of the game.
      * it is boolean, if set false , our game is private, if set true, our game is a public game.
+     *  @param gamePublic boolean for public status.
      */
     public void setGamePublic(boolean gamePublic) {
         this.gamePublic = gamePublic;
@@ -87,6 +90,7 @@ public class Game {
     /**
      * the setter method for maximum number of choices in game which set by author of the game with
      * choosing one of the given templates.
+     *  @param choiceNumLimit intigers for max number of choices.
      */
     public void setChoiceNumLimit(int choiceNumLimit) {
         this.choiceNumLimit = choiceNumLimit;
@@ -101,6 +105,7 @@ public class Game {
     /**
      * the method for the stored game tree, it will start to return(print)the tree from the given id subtree.
      * @return it prints the stored gameTree from the id of the subtree we give it.
+     *  @param id intigers for first subtree id.
      */
     public String toString(int id){
         return gameStorage.toString(id);
@@ -115,6 +120,7 @@ public class Game {
     /**
      * getter method for id of a dialogue by giving the stored string.
      * @return id of the given dialogue inside the gametree.
+     *  @param id integer dialogue id.
      */
     public String getDialogueById(int id) {
         return gameStorage.getDialogueById(id);
@@ -122,6 +128,7 @@ public class Game {
     /**
      * getter method for a dialogue by giving its Id inside the gametree.
      * @return dialogue string for the given id.
+     *  @param dialogue Atring for dialogue.
      */
     public int getIdByDialogue(String dialogue){
         return gameStorage.getIdByDialogue(dialogue);
@@ -136,6 +143,7 @@ public class Game {
     /**
      *  method for deleting a dialogue by giving its Id inside the gameTree.
      * @return if dialogue deleted it returns true, if anything goes wrong it returns false.
+     *  @param id integer for dialogue id.
      */
     public boolean deleteDialogueById(int id){
         return gameStorage.deleteDialogueById(id);
@@ -143,6 +151,7 @@ public class Game {
     /**
      * getter method for childeren of a dialogue by giving its Id inside the gametree.
      * @return Arraylist of stored string as a children of the given dialogue.
+     *  @param parentDialogueId integer for dialogue id.
      */
     public ArrayList<String> getChildrenDialogues(int parentDialogueId){
         return gameStorage.getChildrenDialogues(parentDialogueId);
@@ -150,6 +159,7 @@ public class Game {
     /**
      * getter method for parents dialogues by giving its children Ids inside the gametree.
      * @return Arraylist of ids for parents of given ids as children.
+     *  @param childrenDialogueIds arraylist for childeren dialogues.
      */
     public ArrayList<Integer> getParentDialogueIds(ArrayList<Integer> childrenDialogueIds){
         return gameStorage.getParentDialogueIds(childrenDialogueIds);
@@ -165,6 +175,8 @@ public class Game {
      * method for add anew choice the a dialogue.
      * @return true if the given string as dialogue added to the given id as its parent,
      * if anything goes wrong it returns false.
+     *  @param childDialogue dtring for child dialogue.
+     *  @param parentDialogueId int for parent dialogue.
      */
     public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
         return gameStorage.addChoiceToDialogue(childDialogue, parentDialogueId);
