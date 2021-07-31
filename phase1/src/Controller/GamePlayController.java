@@ -7,6 +7,12 @@ import UseCase.GameUseCase;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Controller class which allows the user to play an existing game.
+ *
+ * Interacts with GameUseCase, GamePresenter, and userData
+ */
+
 public class GamePlayController {
 
     private GameUseCase gameUseCase;
@@ -14,10 +20,24 @@ public class GamePlayController {
     private Scanner scanner = new Scanner(System.in);
     private UserData userData;
 
+    /**
+     * Constructor method for GamePlayController
+     *
+     * @param gameUseCase gameUseCase class to interact with current games
+     * @param userData Interface class for interacting with userData
+     */
+
     public GamePlayController(GameUseCase gameUseCase, UserData userData){
         this.gameUseCase = gameUseCase;
         this.userData = userData;
     }
+
+    /**
+     * The method which allows users to play games and select different choices.
+     * Handles what should happen when different choices are made.
+     *
+     * Interacts with gamePresenter, gameUseCase, and userData to play the game
+     */
 
     public void playGame(){
         gamePresenter.displayScene("Enter the name of the game you want to play.");
