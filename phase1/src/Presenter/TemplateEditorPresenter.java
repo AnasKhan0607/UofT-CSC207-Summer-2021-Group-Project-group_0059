@@ -2,14 +2,15 @@ package Presenter;
 
 import Entity.Template;
 import Presenter.TemplatePresenter;
+import UseCase.TemplateManager;
 
 import java.util.ArrayList;
 
 public class TemplateEditorPresenter {
 
-    public static void chose_template_to_edit(ArrayList<Template> templates) {
+    public static void chose_template_to_edit(TemplateManager manager) {
         System.out.println("Which template would you like to choose? Enter the Name or -1 to Cancel.");
-        TemplatePresenter.display_templates(templates);
+        TemplatePresenter.display_templates(manager);
     }
 
     public static void edit_template() {

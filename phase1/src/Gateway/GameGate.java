@@ -10,12 +10,6 @@ import java.util.List;
  *
  * A Gateway class used to implement <I>LoadSave</I> for loading and saving games.
  *
- * The save method takes a /List</Hashmap>> which represents the games
- * and saves it to a serialized txt file.
- *
- * The load method reads the serialized txt file and returns a /List</Hashmap>>
- * which represents the games.
- *
  */
 
 public class GameGate implements LoadSave {
@@ -34,9 +28,13 @@ public class GameGate implements LoadSave {
      * |2               | "Dialogue 2"         |
      * |...             | ...                  |
      * |_______________________________________|
-     * Remember that java hashmap is just dict in python
+     *
      * */
     String myPath;
+
+    /**
+     * The gateway's constructor that gets a relative path for the current directory.
+     */
 
     public GameGate(){
         this.myPath = findSaveGameFile(System.getProperty("user.dir"));
@@ -63,7 +61,12 @@ public class GameGate implements LoadSave {
         return foundPath;
     }
 
-    // remember to return an arraylist
+    /**
+     * The load method reads the serialized txt file and returns a /List</Hashmap>>
+     * which represents the games.
+     * @return A list of Hashmaps that represents the saved games in the file.
+     */
+
     public List<HashMap> load() {
 
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
@@ -101,7 +104,12 @@ public class GameGate implements LoadSave {
         return myMaps;
     }
 
-    // an arraylist will be passed here
+    /**
+     * The save method takes a /List</Hashmap>> which represents the games
+     * and saves it to a serialized txt file.
+     * @param myMap The list of Hashmaps to be saved.
+     */
+
     public void save(List<HashMap> myMap){
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
         try {

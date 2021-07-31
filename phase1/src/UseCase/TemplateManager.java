@@ -49,6 +49,15 @@ public class TemplateManager {
         }
         return all_templates;
     }
+
+    public ArrayList<String> Template_names() {
+        ArrayList<String> all_templates = new ArrayList<>();
+        for (Template template : templates) {
+            all_templates.add(template.getTemplatename());
+        }
+        return all_templates;
+    }
+
     public Template Find_template(String name){
         int counter;
         for (counter = 0; counter < templates.size(); counter++) {
@@ -69,5 +78,8 @@ public class TemplateManager {
     }
     public Integer getNumChoices(String name){
         return Find_template(name).getNumchoice();
+    }
+    public String getDescription(String name){
+        return Find_template(name).getDescription();
     }
 }
