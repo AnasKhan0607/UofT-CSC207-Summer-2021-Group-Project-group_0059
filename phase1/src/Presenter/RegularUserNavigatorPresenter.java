@@ -1,8 +1,11 @@
 package Presenter;
+
+import Interface.UserNavigatorPresenter;
+
 /**
  * the presenter class that display the textUI for RegularUser logged in
  */
-public class RegularUserNavigatorPresenter implements UserNavigatorPresenter{
+public class RegularUserNavigatorPresenter implements UserNavigatorPresenter {
     /**
      * display the options this user is qualified to do
      * @param username the username of this user
