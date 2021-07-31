@@ -5,7 +5,6 @@ import Controller.TemplateEditorController;
 import Entity.Game;
 import Gateway.GameGate;
 import Interface.LoadSave;
-import Interface.SaveLoadGame;
 
 import java.io.File;
 import java.util.*;
@@ -52,13 +51,9 @@ public class GameUseCase {
     private LoadSave database;
     private Game currentGame;
     /**
-     * Contructor for the class.
+     * Contructor for the class. Gets all the games saved using GameGate and load them into this.publicGames and this.privateGames
      *
-     * @param  publicGames A < publicGames> containing list of all public games.
-     * @param  privateGames A < privateGames> containing list of all private games.
-     * @param  currentGame A <currentGame > the last opened game by user.
-     * @param  database A <database> the stored load save which store list of hashmap.
-
+     * @param  database A <database> the stored load save which store list of hashmap which can be transformed into needed data for a Game entity.
      */
     public GameUseCase(LoadSave database){
         this.database = database;
@@ -82,10 +77,25 @@ public class GameUseCase {
         privateGames.add(game);
     }
 
+    /**
+     * Method that returns a string representing the game tree of a game with gameName.
+     *
+     * @param gameName the game name
+     * @return a printed tree representation of the game
+     */
     public String getGameAsString(String gameName){
         return this.getGameByName(gameName).toString();
     }
 
+    /**
+     * Method that returns the string representing the game tree of a gameName; this string needs to be at most
+     * widthLimit wide and starts from the node with id startPoint.
+     *
+     * @param gameName the game name
+     * @param widthLimit limits the returned string's width by a certain character count. For example, can be max 69 characters wide.
+     * @param startPoint makes the returned printed tree start from the node with the id represented by the startPoint.
+     * @return a printed tree representation of the game
+     */
     public String getGameAsString(String gameName, int widthLimit, int startPoint){
         String gameAsString = this.getGameByName(gameName).toString(startPoint);
         ArrayList<String> splitString = new ArrayList<>(Arrays.asList(gameAsString.split("\n")));
