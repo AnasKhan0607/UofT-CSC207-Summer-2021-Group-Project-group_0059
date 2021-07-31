@@ -8,6 +8,9 @@ After logged in successfully, we’ll have a navigator and by inputting the inte
 
 In the game GUI, there are 5 options. You can create a game, play a game that you created, edit a game that is created by you and also private, view games that are public, or private games created by you, and at last you can choose to exit the game GUI.
 
+In the Template editing Interface you follow the instructions on the screen and you should be able to edit existing template's
+attributes.
+
 design1.png  //the uml of Game
 design2.pdf   //the uml of User
 design3.png  //the uml of Template
