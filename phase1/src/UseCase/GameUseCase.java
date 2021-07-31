@@ -5,7 +5,6 @@ import Controller.TemplateEditorController;
 import Entity.Game;
 import Gateway.GameGate;
 import Interface.LoadSave;
-import Interface.SaveLoadGame;
 
 import java.io.File;
 import java.util.*;
