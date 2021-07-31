@@ -9,7 +9,10 @@ import Interface.SaveLoadGame;
 
 import java.io.File;
 import java.util.*;
-
+/**
+ * The UseCase class for games. it has some method for using the given game stored data in the game entity and
+ * let work with it with the put rules.
+ */
 public class GameUseCase {
     public static void main(String[] args) {
 //        HashMap<Integer, String> gameData = new HashMap<>();
@@ -48,7 +51,15 @@ public class GameUseCase {
     private ArrayList<Game> privateGames = new ArrayList<>();
     private LoadSave database;
     private Game currentGame;
+    /**
+     * Contructor for the class.
+     *
+     * @param  publicGames A < publicGames> containing list of all public games.
+     * @param  privateGames A < privateGames> containing list of all private games.
+     * @param  currentGame A <currentGame > the last opened game by user.
+     * @param  database A <database> the stored load save which store list of hashmap.
 
+     */
     public GameUseCase(LoadSave database){
         this.database = database;
         List<HashMap> gamesData = database.load();
@@ -62,7 +73,10 @@ public class GameUseCase {
             }
         }
     }
-
+    /**
+     * method for creating a new game , which gets number of choice, name of the game,
+     * name of author and initial dialogue.
+     */
     public void createGame(int number_choice, String game_name, String author_name, String initial_dialogue){
         Game game = new Game(game_name, author_name, false, number_choice, initial_dialogue);
         privateGames.add(game);
@@ -98,7 +112,10 @@ public class GameUseCase {
         }
         return null;
     }
-
+    /**
+     * method for getting all made games which are public.
+     * @return arraylist of names for public games.
+     */
     public ArrayList<String> getPublicGames(){
         ArrayList<String> game_list = new ArrayList<>();
         for(Game game: publicGames){
@@ -107,7 +124,10 @@ public class GameUseCase {
         }
         return game_list;
     }
-
+    /**
+     * method for getting all made games which are private.
+     * @return arraylist of names for private games.
+     */
     public ArrayList<String> getPrivateGames(String author_name){
         ArrayList<String> game_list = new ArrayList<>();
         for(Game game: privateGames){
@@ -117,7 +137,10 @@ public class GameUseCase {
         }
         return game_list;
     }
-
+    /**
+     * method for getting all made games by author which are public bu giving author name.
+     * @return arraylist of names for private games made by the given author name.
+     */
     public ArrayList<String> getPublicGamesByAuthor(String author_name){
         ArrayList<String> game_list = new ArrayList<>();
         for(Game game: publicGames){
@@ -193,7 +216,9 @@ public class GameUseCase {
             addDialoguesToGames(parentDialogueIds, childrenDialogueIds, game, hashMap, childId);
         }
     }
-
+    /**
+     * method for saving the created game if the author isn't Guest user.
+     */
     public void saveGames(){
         List<HashMap> gamesData = new ArrayList<HashMap>();
         for (Game game: this.privateGames){
@@ -210,7 +235,9 @@ public class GameUseCase {
 
         database.save(gamesData);
     }
-
+    /**
+     * method for opening a game by giving the game's name.
+     */
     public ArrayList<Object> openGame(String gameName){
         Game game = getGameByName(gameName);
         this.currentGame = game;
@@ -222,7 +249,11 @@ public class GameUseCase {
         arrayList.add(initialDialogueSt);
         return arrayList;
     }
-
+    /**
+     * method for changing public status of a game by giving the game's name.
+     * because all games are private at the beginning, it just can change private game to public game.
+     * @return if public status changing goes well it returns true, if anything goes wrong it returns false.
+     */
     public boolean changeGameState(String game_name){
         for (Game game: this.privateGames){
             if(game.getGameName().equals(game_name)){
@@ -242,11 +273,17 @@ public class GameUseCase {
         }
         return false;
     }
-
+    /**
+     * method for checking if the id of a dialogue or choice(subtree) is inside the ides of a game.
+     * @return true if it is insde the game ides , if not returns false.
+     */
     public boolean isIdInGame(int id){
         return currentGame.getAllId().contains(id);
     }
-
+    /**
+     * method for getting parent id of last opend game by user with giving a children id.
+     * @return parent's id of the given id inside last open game.
+     */
     public int getParentDialogueId(int childrenDialogueId){
         ArrayList<Integer> childrenDialogueIds = new ArrayList<>();
         childrenDialogueIds.add(childrenDialogueId);
@@ -255,27 +292,45 @@ public class GameUseCase {
         }
         return currentGame.getParentDialogueIds(childrenDialogueIds).get(0);
     }
-
+    /**
+     * method for getting dialogue string by giving it's id inside last opened game by user.
+     * @return string of the given id inside the last opened gameTree.
+     */
     public String getDialogueById(int id){
         return currentGame.getDialogueById(id);
     }
-
+    /**
+     * method for setting dialogue string by giving it's id inside last opened game by user.
+     * @return true if it set, else it returns false.
+     */
     public boolean setDialogueById(int id, String dialogue){
         return currentGame.setDialogueById(id, dialogue);
     }
-
+    /**
+     * method for add a new dialogue  inside last opened game by user,by giving it's id and string.
+     * @return true if it added, else it returns false.
+     */
     public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
         return currentGame.addChoiceToDialogue(childDialogue, parentDialogueId);
     }
-
+    /**
+     * method for deleting a dialogue  inside last opened game by user,by giving it's id.
+     * @return true if it deleted , else it returns false.
+     */
     public boolean deleteDialogueById(int id){
         return currentGame.deleteDialogueById(id);
     }
-
+    /**
+     * method for getting choices of a dialogue inside the last opened game of user, bu giving the dialogue id.
+     * @return arraylist of choice's strings saved for the id of dialogue inside the last open game.
+     */
     public ArrayList<String> getDialogueChoices(int dialogueId){
         return currentGame.getChildrenDialogues(dialogueId);
     }
-
+    /**
+     * method for getting choices of a dialogue inside the last opened game of user, bu giving the dialogue id.
+     * @return arraylist of choice's ids saved for the id of dialogue inside the last open game.
+     */
     public ArrayList<Integer> getDialogueChoiceIds(int dialogueId){
         ArrayList<String> childrenDialogues = this.getDialogueChoices(dialogueId);
         ArrayList<Integer> childrenIds = new ArrayList<>();

@@ -40,7 +40,14 @@ public class GamePlayController {
      */
 
     public void playGame(){
-        gamePresenter.displayScene("Enter the name of the game you want to play.");
+        ArrayList<String> newGames = new ArrayList<>();
+        ArrayList<String> publicGames = gameUseCase.getPublicGames();
+        for (String game: publicGames){
+            newGames.add(game);
+        }
+        newGames.addAll(gameUseCase.getPrivateGames(userData.currentUser()));
+
+        gamePresenter.displayScene("Enter the name of the game you want to play.", newGames);
         String gameName = String.valueOf(scanner.next());
         boolean privateGame = gameUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
         boolean publicGame = gameUseCase.getPublicGames().contains(gameName);
