@@ -6,9 +6,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The use case class for the Template.
+ * @author Anas, Tian
+ */
 public class TemplateManager {
     private ArrayList<Template> templates;
 
+    /**
+     * initializes template gateway to create a list of Templates.
+     */
     public TemplateManager(){
         this.templates = new ArrayList<>();
         TemplateGate t = new TemplateGate();
@@ -23,6 +30,9 @@ public class TemplateManager {
         }
     }
 
+    /**
+     * Saves the updated list of templates into the file.
+     */
     public void Save_changes(){
         List<HashMap> template_maps = new ArrayList<>();
         TemplateGate t = new TemplateGate();
@@ -36,10 +46,18 @@ public class TemplateManager {
         t.save(template_maps);
     }
 
+    /**
+     * geter fpr list of templates
+     * @return private list of templates
+     */
     public ArrayList<Template> getTemplates() {
         return this.templates;
     }
 
+    /**
+     * Creates an array of hashmaps with names and corresponding Templates.
+     * @return Array of Hashmaps containing name and corresponding Template.
+     */
     public ArrayList<HashMap<String, Template>> All_templates() {
         ArrayList<HashMap<String, Template>> all_templates = new ArrayList<>();
         for (Template template : templates) {
@@ -50,6 +68,10 @@ public class TemplateManager {
         return all_templates;
     }
 
+    /**
+     * creates array of all template names.
+     * @return Returns Array of all template names.
+     */
     public ArrayList<String> Template_names() {
         ArrayList<String> all_templates = new ArrayList<>();
         for (Template template : templates) {
@@ -58,6 +80,11 @@ public class TemplateManager {
         return all_templates;
     }
 
+    /**
+     * Finds Template according to name.
+     * @param name of Template
+     * @return Template or Null
+     */
     public Template Find_template(String name){
         int counter;
         for (counter = 0; counter < templates.size(); counter++) {
@@ -67,18 +94,45 @@ public class TemplateManager {
         }
         return null;
     }
+
+    /**
+     * Changes name of template
+     * @param name, new_ Strings of old name and new name of Template
+     */
     public void setNewName(String name, String new_){
         Find_template(name).setTemplatename(new_);
     }
+
+    /**
+     * Changes Description of template
+     * @param name, new_ Strings of name and new Description of template
+     */
     public void setNewDescription(String name, String new_){
         Find_template(name).setDescription(new_);
     }
+
+    /**
+     * Changes number of choices of template
+     * @param name, new_ String of name and Integer of new number of choices of template
+     */
     public void setNewChoicesNum(String name, Integer new_){
         Find_template(name).setNumchoice(new_);
     }
+
+    /**
+     * Returns Templates number of choices.
+     * @param name of template
+     * @return A Integer for num of choices
+     */
     public Integer getNumChoices(String name){
         return Find_template(name).getNumchoice();
     }
+
+    /**
+     * Returns Description of Template
+     * @param name of Template
+     * @return A string containing the user's password
+     */
     public String getDescription(String name){
         return Find_template(name).getDescription();
     }
