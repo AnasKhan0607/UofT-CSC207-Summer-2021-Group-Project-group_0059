@@ -5,6 +5,10 @@ import Entity.GameTree;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interface for storing game information.
+ */
+
 public interface GameStorage {
     String toString();
     String toString(int id);
