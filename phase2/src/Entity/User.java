@@ -7,6 +7,7 @@ public abstract class User {
 
 
     private String username;
+    private boolean suspensionFlag;
 
     /**
      * create a user with the given username
@@ -35,5 +36,9 @@ public abstract class User {
     public void setUsername (String username) {
         this.username = username;
     }
+
+    public void raiseFlag(){this.suspensionFlag = true;}
+
+    public boolean getflag(){return this.suspensionFlag;}
 }
 

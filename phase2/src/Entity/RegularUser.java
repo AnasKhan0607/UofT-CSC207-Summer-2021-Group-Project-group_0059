@@ -7,6 +7,7 @@ package Entity;
 public class RegularUser extends User {
     private String password;
 
+
     /**
      * Creates a regular user with a username and password.
      * @param username The user's username.
@@ -24,4 +25,6 @@ public class RegularUser extends User {
     public String getPassword() {
         return this.password;
     }
+
+
 }

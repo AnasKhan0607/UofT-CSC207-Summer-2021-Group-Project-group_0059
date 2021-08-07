@@ -37,6 +37,9 @@ public class UserLoginPresenter {
     public static void errorMessage(){System.out.println(
             "Sorry, but either the username or the password is incorrect");}
 
+    public static void suspensionMessage(String username){System.out.println("Suspended");
+    System.out.println("(" +username + ") is currently suspended. Please contact Ruilin or Ahmad for support." );}
+
     /**
      * The message after successfully logging in.
      */

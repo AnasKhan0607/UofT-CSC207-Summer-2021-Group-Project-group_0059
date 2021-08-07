@@ -93,6 +93,8 @@ public class UserLoginController {
             String temppassword = tempUser.getPassword();
             if (!temppassword.equals(this.password)) {
                 UserLoginPresenter.errorMessage();
+            } else if (tempUser.getflag()){
+                UserLoginPresenter.suspensionMessage(tempUser.getUsername());
             } else {
                 if (this.userName.startsWith("Admin_")) {
                     UserLoginPresenter.successMessage("Admin");

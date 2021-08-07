@@ -30,7 +30,7 @@ public class UserManager {
         for (Map.Entry mapElement :tempUsers.entrySet()){
             String username = (String)mapElement.getKey();
             String password = (String)mapElement.getValue();
-            if (username.charAt(0) == 'A'){
+            if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
             } else {
@@ -100,6 +100,19 @@ public class UserManager {
      */
     public GuestUser CreateGuestUser(){
         return new GuestUser("Guest");
+    }
+
+    public void suspendUser(String username){
+        int i;
+        User temp;
+        for (i = 0; i < bufferedUsers.size(); i++) {
+            temp = bufferedUsers.get(i);
+            if (temp.getUsername().equals(username)) {
+               temp.raiseFlag();
+            }
+        }
+
+
     }
 
     /**
