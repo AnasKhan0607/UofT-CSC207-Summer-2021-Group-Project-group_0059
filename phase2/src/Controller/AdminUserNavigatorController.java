@@ -51,6 +51,9 @@ public class AdminUserNavigatorController implements UserData {
             /*logout*/
             AdminUserNavigatorPresenter.logoutMessage();
 
+        } else if (choice == 4) {
+            SuspensionController sc1 = new SuspensionController();
+            sc1.suspend();
         }
     }
 }

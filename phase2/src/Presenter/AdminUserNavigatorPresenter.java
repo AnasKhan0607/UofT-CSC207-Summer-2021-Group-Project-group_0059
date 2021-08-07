@@ -15,6 +15,7 @@ public class AdminUserNavigatorPresenter implements UserNavigatorPresenter {
         System.out.println("1. Select a Game to create/edit/play");
         System.out.println("2. Select a Template to edit");
         System.out.println("3. Logout");
+        System.out.println("4. Suspend a User(RegularUser only)");
         System.out.println("Type in the number to indicate your choice");
     }
 
@@ -31,4 +32,6 @@ public class AdminUserNavigatorPresenter implements UserNavigatorPresenter {
     public static void logoutMessage(){
         System.out.println("Successfully logged out.");
     }
+
+
 }
