@@ -22,19 +22,25 @@ public class UserManager {
         this.bufferedUsers = new ArrayList<>();
 
         UserGate myGate = new UserGate();
-        HashMap<String, String> tempUsers = (HashMap<String, String>) myGate.load().get(0);
+        HashMap<String, List<Object>> tempUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
 
 
 
         for (Map.Entry mapElement :tempUsers.entrySet()){
             String username = (String)mapElement.getKey();
-            String password = (String)mapElement.getValue();
+            List lst = (List)mapElement.getValue();
+            String password = (String)lst.get(0);
+            boolean suspension = (boolean) lst.get(1);
+
             if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
             } else {
                 RegularUser tempUser = new RegularUser(username, password);
+                if (suspension) {
+                    tempUser.raiseFlag();
+                }
                 this.bufferedUsers.add(tempUser);
             }
         }
@@ -59,11 +65,13 @@ public class UserManager {
                 this.bufferedUsers.add(tempUser);
             }
             UserGate myGate = new UserGate();
-            HashMap<String, String> oldUsers = (HashMap<String, String>) myGate.load().get(0);
+            HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
 
-
-            oldUsers.put(username, password);
+            List<Object> sections = new ArrayList <Object>();
+            sections.add(password);
+            sections.add(false);
+            oldUsers.put(username, sections);
             List<HashMap> userData = new ArrayList<HashMap>();
             userData.add(oldUsers);
 
@@ -104,13 +112,26 @@ public class UserManager {
 
     public void suspendUser(String username){
         int i;
-        User temp;
+        User temp = bufferedUsers.get(0);
         for (i = 0; i < bufferedUsers.size(); i++) {
             temp = bufferedUsers.get(i);
             if (temp.getUsername().equals(username)) {
                temp.raiseFlag();
+               break;
             }
         }
+        UserGate myGate = new UserGate();
+        HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
+
+
+        List<Object> sections = new ArrayList <Object>();
+        sections.add(temp.getPassword());
+        sections.add(true);
+        oldUsers.put(username, sections);
+        List<HashMap> userData = new ArrayList<HashMap>();
+        userData.add(oldUsers);
+
+        myGate.save(userData);
 
 
     }
