@@ -12,6 +12,9 @@ import java.util.Scanner;
  */
 
 public class GameEditController {
+    public static void main(String[] args) {
+        
+    }
 
     private UserData userData;
     private GameUseCase gameUseCase;
@@ -134,32 +137,37 @@ public class GameEditController {
                 id = (int) actionAndId.get(1);
             }
 
-            switch (action){
-                case 'r':
-                    int parentId = gameUseCase.getParentDialogueId(currentId);
-                    if (parentId != -1){
-                        this.editGameDialogues(gameName, gameUseCase.getDialogueById(parentId), parentId);
-                        return;
-                    }
-                    break;
-                case 'v':
-                    this.editGameDialogues(gameName, gameUseCase.getDialogueById(id), id);
-                    return;
-                case 'c':
-                    this.changeDialogue(gameName, id, currentId);
-                    break;
-                case 'a':
-                    this.addDialogue(gameName, id, currentId);
-                    break;
-                case 'd':
-                    if (!gameUseCase.deleteDialogueById(id)){
-                        System.out.println("You cannot delete the first dialogue of the game!");
-                    }
-                    break;
-                case 'e':
-                    return;
-            }
+            if (chooseEditAction(gameName, currentId, action, id)) return;
         }
+    }
+
+    private boolean chooseEditAction(String gameName, int currentId, char action, int id) {
+        switch (action){
+            case 'r':
+                int parentId = gameUseCase.getParentDialogueId(currentId);
+                if (parentId != -1){
+                    this.editGameDialogues(gameName, gameUseCase.getDialogueById(parentId), parentId);
+                    return true;
+                }
+                break;
+            case 'v':
+                this.editGameDialogues(gameName, gameUseCase.getDialogueById(id), id);
+                return true;
+            case 'c':
+                this.changeDialogue(gameName, id, currentId);
+                break;
+            case 'a':
+                this.addDialogue(gameName, id, currentId);
+                break;
+            case 'd':
+                if (!gameUseCase.deleteDialogueById(id)){
+                    System.out.println("You cannot delete the first dialogue of the game!");
+                }
+                break;
+            case 'e':
+                return true;
+        }
+        return false;
     }
 
     private ArrayList<Object> EGDVerifyUserChoice(String userChoice){
@@ -204,5 +212,9 @@ public class GameEditController {
                 gameUseCase.getGameAsString(gameName, 69, currentId));
         String newDialogue = String.valueOf(scanner.next());
         gameUseCase.addChoiceToDialogue(newDialogue, id);
+    }
+
+    public void closeScanner(){
+        scanner.close();
     }
 }

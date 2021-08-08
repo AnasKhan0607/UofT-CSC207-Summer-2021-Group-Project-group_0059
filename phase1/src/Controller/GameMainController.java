@@ -73,6 +73,10 @@ public class GameMainController {
                 this.viewGamesMenu();
             }
             else if(userChoice == 5){
+                gameCreator.closeScanner();
+                gameEditor.closeScanner();
+                gamePlayer.closeScanner();
+                scanner.close();
                 break;
             }
         }

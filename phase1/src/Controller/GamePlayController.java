@@ -103,5 +103,9 @@ public class GamePlayController {
 
         return strings;
     }
+
+    public void closeScanner(){
+        scanner.close();
+    }
 }
 

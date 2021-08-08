@@ -49,4 +49,8 @@ public class GameCreateController {
         scanner.nextLine();
         gameUseCase.saveGames();
     }
+
+    public void closeScanner(){
+        scanner.close();
+    }
 }
