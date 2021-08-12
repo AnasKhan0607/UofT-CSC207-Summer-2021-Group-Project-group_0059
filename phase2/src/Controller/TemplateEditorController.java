@@ -78,7 +78,7 @@ public class TemplateEditorController implements TemplateData {
                     break;
                 }
                 if (edit_choice.equals("0")){
-                    choice = change_name(choice)
+                    choice = change_name(choice);
                 }
                 if (edit_choice.equals("1")){
                     change_description(choice);
