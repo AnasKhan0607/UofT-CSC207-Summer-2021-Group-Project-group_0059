@@ -10,6 +10,7 @@ import java.util.Scanner;
  */
 public class AdminUserNavigatorController implements UserData {
     private String username;
+    private Scanner scanner = new Scanner(System.in);
 
     /**
      * the constructor for this controller class
@@ -31,29 +32,50 @@ public class AdminUserNavigatorController implements UserData {
      * the main method that is run to accept user inputs and redirect to corresponding controllers
      */
     public void run(){
-        Scanner myObj = new Scanner(System.in);
-        AdminUserNavigatorPresenter.display(username);
-        Integer choice = Integer.valueOf(myObj.nextLine());
-        if (choice == 1) {
-            /* Game*/
-            AdminUserNavigatorPresenter.redirectingMessage();
-            TemplateEditorController te = new TemplateEditorController();
-            GameMainController gc = new GameMainController(te ,this::currentUser);
-            gc.gameMenu();
 
-        } else if (choice == 2) {
-            /* TemplateEditor*/
-            AdminUserNavigatorPresenter.redirectingMessage();
-            TemplateEditorController tec = new TemplateEditorController();
-            tec.run();
+        int choice = 0;
+        while (true){
+            System.out.println();
+            System.out.println();
+            System.out.println();
+            AdminUserNavigatorPresenter.display(username);
 
-        } else if (choice == 3) {
-            /*logout*/
-            AdminUserNavigatorPresenter.logoutMessage();
+            choice = Integer.valueOf(scanner.next());
 
-        } else if (choice == 4) {
-            SuspensionController sc1 = new SuspensionController();
-            sc1.suspend();
+
+
+            if (choice == 1) {
+                /* Game*/
+                AdminUserNavigatorPresenter.redirectingMessage();
+                TemplateEditorController te = new TemplateEditorController();
+                GameMainController gc = new GameMainController(te ,this::currentUser);
+                gc.gameMenu();
+
+            } else if (choice == 2) {
+                /* TemplateEditor*/
+                AdminUserNavigatorPresenter.redirectingMessage();
+                TemplateEditorController tec = new TemplateEditorController();
+                tec.run();
+
+            } else if (choice == 3){
+                MessageController c1 = new MessageController(username);
+                c1.readMessage();
+            } else if (choice == 4){
+                MessageController c1 = new MessageController(username);
+                c1.writeMessage();}
+            else if (choice == 6) {
+                /*logout*/
+                AdminUserNavigatorPresenter.logoutMessage();
+                scanner.close();
+                break;
+
+            } else if (choice == 5) {
+                SuspensionController sc1 = new SuspensionController();
+                sc1.suspend();
+            }
         }
+
+
+
     }
 }

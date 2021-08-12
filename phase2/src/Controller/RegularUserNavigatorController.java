@@ -30,19 +30,33 @@ public class RegularUserNavigatorController implements UserData {
      */
     public void run() {
         Scanner myObj = new Scanner(System.in);
-        RegularUserNavigatorPresenter.display(username);
-        Integer choice = Integer.valueOf(myObj.nextLine());
-        if (choice == 1) {
-            /* Game*/
-            RegularUserNavigatorPresenter.redirectingMessage();
-            TemplateEditorController te = new TemplateEditorController();
-            GameMainController gc = new GameMainController(te ,this::currentUser);
-            gc.gameMenu();
+        while (true) {
+            System.out.println();
+            System.out.println();
+            System.out.println();
 
-        } else if (choice == 2) {
-            /*logout*/
-            RegularUserNavigatorPresenter.logoutMessage();
+            RegularUserNavigatorPresenter.display(username);
+            Integer choice = Integer.valueOf(myObj.nextLine());
+            if (choice == 1) {
+                /* Game*/
+                RegularUserNavigatorPresenter.redirectingMessage();
+                TemplateEditorController te = new TemplateEditorController();
+                GameMainController gc = new GameMainController(te ,this::currentUser);
+                gc.gameMenu();
 
+            } else if (choice == 2){
+                MessageController c1 = new MessageController(username);
+                c1.readMessage();
+            } else if (choice == 3){
+                MessageController c1 = new MessageController(username);
+                c1.writeMessage();
+            } else {
+                /*logout*/
+                RegularUserNavigatorPresenter.logoutMessage();
+                myObj.close();
+                break;
+
+            }
         }
     }
 }
