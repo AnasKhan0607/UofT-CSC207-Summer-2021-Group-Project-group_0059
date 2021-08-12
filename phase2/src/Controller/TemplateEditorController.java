@@ -48,6 +48,7 @@ public class TemplateEditorController implements TemplateData {
         return -1;
     }
 
+
     /**
      * the main method that is run to accept user inputs and take them through the whole editing process.
      */
@@ -77,43 +78,55 @@ public class TemplateEditorController implements TemplateData {
                     break;
                 }
                 if (edit_choice.equals("0")){
-                    TemplateEditorPresenter.change_name();
-                    String name = String.valueOf(myObj.nextLine());
-                    if (name.equals("-1")){
-                        TemplateEditorPresenter.try_agin_name();
-                    }
-                    else {
-                        this.templates.setNewName(choice, name);
-                        choice = name;
-
-                    }
+                    choice = change_name(choice)
                 }
                 if (edit_choice.equals("1")){
-                    TemplateEditorPresenter.change_description();
-                    String description = String.valueOf(myObj.nextLine());
-                    this.templates.setNewDescription(choice, description);
+                    change_description(choice);
                 }
                 if (edit_choice.equals("2")){
-                    TemplateEditorPresenter.change_choices();
-                    boolean changable = false;
-                    String read = String.valueOf(myObj.nextLine());
-                    while (!changable){
-                        try{
-                            Integer testint = Integer.parseInt(read);
-                            break;
-                        }
-                        catch (NumberFormatException ne){
-                            TemplateEditorPresenter.try_agin_option();
-                        }
-                        read = String.valueOf(myObj.nextLine());
-                    }
-                    Integer choices = Integer.parseInt(read);
-                    this.templates.setNewChoicesNum(choice, choices);
+                    change_choices(choice);
                 }
             }
 
         }
         this.templates.Save_changes();
 
+    }
+
+    private String change_name(String choice){
+        TemplateEditorPresenter.change_name();
+        String name = String.valueOf(myObj.nextLine());
+        if (name.equals("-1")){
+            TemplateEditorPresenter.try_agin_name();
+            return choice;
+        }
+        else {
+            this.templates.setNewName(choice, name);
+            return name;
+        }
+    }
+
+    private void change_description(String choice){
+        TemplateEditorPresenter.change_description();
+        String description = String.valueOf(myObj.nextLine());
+        this.templates.setNewDescription(choice, description);
+    }
+
+    private void change_choices(String choice){
+        TemplateEditorPresenter.change_choices();
+        boolean changable = false;
+        String read = String.valueOf(myObj.nextLine());
+        while (!changable){
+            try{
+                Integer testint = Integer.parseInt(read);
+                break;
+            }
+            catch (NumberFormatException ne){
+                TemplateEditorPresenter.try_agin_option();
+            }
+            read = String.valueOf(myObj.nextLine());
+        }
+        Integer choices = Integer.parseInt(read);
+        this.templates.setNewChoicesNum(choice, choices);
     }
 }
