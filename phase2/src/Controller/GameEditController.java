@@ -81,6 +81,53 @@ public class GameEditController {
         }
     }
 
+    public void editGameAdminUser(){
+        ArrayList<String> newGames = new ArrayList<>();
+        ArrayList<String> publicGames = gameUseCase.getAllPublicGames();
+        for (String game: publicGames){
+            newGames.add(game);
+        }
+        newGames.addAll(gameUseCase.getAllPrivateGames());
+
+        gamePresenter.displayScene("Enter the name of the game you want to edit.", newGames);
+        String gameName = String.valueOf(scanner.next());
+        if(!verifyEditGameRight(gameName)){ return; }
+        ArrayList<Object> initialIdAndDialogue = gameUseCase.openGame(gameName);
+
+        int userChoice = 0;
+        while (true){
+            gamePresenter.displayScene(
+                    "Choose and enter the corresponding integer.",
+                    new ArrayList<>(Arrays.asList(new String[]{
+                            "1: change game state", "2: Edit Game Dialogues", "3: Exit and Save", "4:Delete Game"})));
+
+            try{
+                userChoice = Integer.valueOf(scanner.next());
+            }
+            catch(NumberFormatException e){
+                System.out.println(e);
+            }
+
+            if(userChoice == 1){
+                gameUseCase.changeGameState(gameName);
+                gameUseCase.saveGames();
+                break;
+            }
+            else if(userChoice == 2){
+                editGameDialogues(gameName, (String) initialIdAndDialogue.get(1), (int) initialIdAndDialogue.get(0));
+            }
+            else if(userChoice == 3){
+                gameUseCase.saveGames();
+                break;
+            }
+            else if(userChoice == 4){
+                gameUseCase.deleteGame(gameName);
+                gameUseCase.saveGames();
+                break;
+            }
+        }
+    }
+
     private boolean verifyEditGameRight(String gameName){
         boolean privateGameByUser = gameUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
         boolean publicGameByUser = gameUseCase.getPublicGamesByAuthor(userData.currentUser()).contains(gameName);

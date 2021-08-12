@@ -161,6 +161,38 @@ public class GameUseCase {
         return game_list;
     }
 
+    public ArrayList<String> getAllPrivateGames(){
+        ArrayList<String> game_list = new ArrayList<>();
+        for(Game game: privateGames){
+            game_list.add(game.getGameName());
+        }
+        return game_list;
+    }
+
+    public ArrayList<String> getAllPublicGames(){
+        ArrayList<String> game_list = new ArrayList<>();
+        for(Game game: publicGames){
+            game_list.add(game.getGameName());
+        }
+        return game_list;
+    }
+
+    public boolean deleteGame(String game_name){
+        for (Game game: this.privateGames){
+            if(game.getGameName().equals(game_name)){
+                privateGames.remove(game);
+                return true;
+            }
+        }
+        for (Game game: this.publicGames){
+            if(game.getGameName().equals(game_name)){
+                publicGames.remove(game);
+                return true;
+            }
+        }
+        return true;
+    }
+
     private HashMap<Integer, String> gameToHashMap(Game game){
         ArrayList<Integer> ids = game.getAllId();
         HashMap<Integer, String> gameData = new HashMap<>();
