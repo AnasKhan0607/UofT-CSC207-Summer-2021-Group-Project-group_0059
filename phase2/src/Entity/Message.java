@@ -1,5 +1,6 @@
 package Entity;
 
+import java.util.Comparator;
 import java.util.Date;
 
 public class Message {
@@ -40,4 +41,7 @@ public class Message {
     public void markAsRead(){
         this.status = true;
     }
+
+
 }
+

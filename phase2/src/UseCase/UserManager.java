@@ -64,18 +64,7 @@ public class UserManager {
                 RegularUser tempUser = new RegularUser(username, password);
                 this.bufferedUsers.add(tempUser);
             }
-            UserGate myGate = new UserGate();
-            HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
-
-
-            List<Object> sections = new ArrayList <Object>();
-            sections.add(password);
-            sections.add(false);
-            oldUsers.put(username, sections);
-            List<HashMap> userData = new ArrayList<HashMap>();
-            userData.add(oldUsers);
-
-            myGate.save(userData); // need this UserGate method that adds the new user to the file
+            save(username, password, false);// need this UserGate method that adds the new user to the file
 
         } else {
             String username = "Guest";
@@ -110,30 +99,54 @@ public class UserManager {
         return new GuestUser("Guest");
     }
 
-    public void suspendUser(String username){
+    public boolean suspendUser(String username){
         int i;
+        boolean result = false;
         User temp = bufferedUsers.get(0);
         for (i = 0; i < bufferedUsers.size(); i++) {
             temp = bufferedUsers.get(i);
             if (temp.getUsername().equals(username)) {
                temp.raiseFlag();
+               result = true;
                break;
             }
         }
+
+        save(username, temp.getPassword(), true);
+        return result;
+
+
+    }
+
+    public boolean unsuspendUser(String username){
+        int i;
+        boolean status = false;
+        User temp = bufferedUsers.get(0);
+        for (i = 0; i < bufferedUsers.size(); i++) {
+            temp = bufferedUsers.get(i);
+            if (temp.getUsername().equals(username)) {
+                temp.lowerFlag();
+                status = true;
+                break;
+            }
+        }
+        save(username, temp.getPassword(), false);
+        return status;
+    }
+
+    private void save(String username, String password, boolean status){
         UserGate myGate = new UserGate();
         HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
 
         List<Object> sections = new ArrayList <Object>();
-        sections.add(temp.getPassword());
-        sections.add(true);
+        sections.add(password);
+        sections.add(status);
         oldUsers.put(username, sections);
         List<HashMap> userData = new ArrayList<HashMap>();
         userData.add(oldUsers);
 
         myGate.save(userData);
-
-
     }
 
     /**

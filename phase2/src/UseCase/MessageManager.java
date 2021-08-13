@@ -39,19 +39,7 @@ public class MessageManager {
         String msg = (String)info.get(0);
         bufferedMessages.add(new Message(msg,from,to,time,false));
 
-        MessageGate MG = new MessageGate();
-        HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);
-
-        List<Object> sections = new ArrayList <Object>();
-        sections.add(from);
-        sections.add(to);
-        sections.add(time);
-        sections.add(false);
-        oldMessages.put(msg, sections);
-        List<HashMap> MessageData = new ArrayList<HashMap>();
-        MessageData.add(oldMessages);
-
-        MG.save(MessageData);
+        save(msg,from,to,time,false);
 
     }
 
@@ -62,21 +50,25 @@ public class MessageManager {
             if (msg.getTo().equals(username)) {
                 msgs.add(msg);
 
-                MessageGate MG = new MessageGate();
-                HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);
-
-                List<Object> sections = new ArrayList <Object>();
-                sections.add(msg.getFrom());
-                sections.add(msg.getTo());
-                sections.add(msg.getTime());
-                sections.add(true);
-                oldMessages.put(msg.getMsg(), sections);
-                List<HashMap> MessageData = new ArrayList<HashMap>();
-                MessageData.add(oldMessages);
-
-                MG.save(MessageData);
+                save(msg.getMsg(),msg.getFrom(),msg.getTo(),msg.getTime(),true);
             }
         }
         return msgs;
+    }
+
+    private void save(String msg, String from, String to, Date time, boolean status){
+        MessageGate MG = new MessageGate();
+        HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);
+
+        List<Object> sections = new ArrayList <Object>();
+        sections.add(from);
+        sections.add(to);
+        sections.add(time);
+        sections.add(status);
+        oldMessages.put(msg, sections);
+        List<HashMap> MessageData = new ArrayList<HashMap>();
+        MessageData.add(oldMessages);
+
+        MG.save(MessageData);
     }
 }
