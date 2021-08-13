@@ -36,7 +36,7 @@ public class MessagePresenter {
 
     public static void writeMessagePrompt2(){
         System.out.println("Please input the message, then press ENTER to continue:");
-        System.out.println("To have multiple lines and indentied as well, have right slash n and 25 spaces to do that");
+
 
     }
 
