@@ -17,11 +17,12 @@ public class SuspensionController {
         SuspensionPresenter.display1();
         String choice = myObj.nextLine();
         username = choice;
-        UserManager tempum = new UserManager();
-        boolean rst = tempum.suspendUser(username);
-        if (rst){
-            SuspensionPresenter.successMessage(username);
-        } else {SuspensionPresenter.errorMessage();}
+        if (!username.startsWith("Admin_")){UserManager tempum = new UserManager();
+            boolean rst = tempum.suspendUser(username);
+            if (rst){
+                SuspensionPresenter.successMessage(username);
+            } else {SuspensionPresenter.errorMessage();}} else {SuspensionPresenter.errorMessage2();}
+
     }
 
     public void unsuspend(){

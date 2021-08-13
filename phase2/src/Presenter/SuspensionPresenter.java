@@ -19,4 +19,5 @@ public class SuspensionPresenter {
     }
 
     public static void errorMessage(){System.out.println("Username not found!");}
+    public static void errorMessage2(){System.out.println("You cannot suspend another Admin !");}
 }
