@@ -35,16 +35,30 @@ public class MessageController {
         MessagePresenter.writeMessagePrompt1();
         Scanner myObj = new Scanner(System.in);
         String reciver = myObj.nextLine();
-        MessagePresenter.writeMessagePrompt2();
-        String msg = myObj.nextLine();
-        ArrayList<Object> temp = new ArrayList<>();
-        temp.add(msg);
-        temp.add(currentUserName);
-        temp.add(reciver);
-        temp.add(new Date());
-        boolean status;
-        status = mm.addMessage(temp);
-        if (status){MessagePresenter.writeMessageSuccess();} else {MessagePresenter.errorMessage();}
+        if (reciver.equals("EVERYONE")){
+            if (currentUserName.startsWith("Admin")) {MessagePresenter.writeMessagePrompt2();
+                String msg = myObj.nextLine();
+                ArrayList<Object> temp = new ArrayList<>();
+                temp.add(currentUserName);
+                temp.add(msg);
+                temp.add(new Date());
+                mm.addMessageEveryone(temp);
+                MessagePresenter.writeMessageSuccess(reciver);
+            } else {MessagePresenter.errorMessageNotAdmin();}
+
+        } else {
+            MessagePresenter.writeMessagePrompt2();
+            String msg = myObj.nextLine();
+            ArrayList<Object> temp = new ArrayList<>();
+            temp.add(msg);
+            temp.add(currentUserName);
+            temp.add(reciver);
+            temp.add(new Date());
+            boolean status;
+            status = mm.addMessage(temp);
+            if (status){MessagePresenter.writeMessageSuccess(reciver);} else {MessagePresenter.errorMessage();}
+        }
+
 
         //myObj.close();
 

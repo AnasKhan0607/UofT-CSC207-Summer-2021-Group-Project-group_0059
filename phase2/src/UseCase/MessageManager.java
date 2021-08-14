@@ -20,14 +20,15 @@ public class MessageManager {
         HashMap<String, List<Object>> tempMessages = (HashMap<String, List<Object>>) MG.load().get(0);
 
         for (Map.Entry mapElement :tempMessages.entrySet()){
-            String msg = (String)mapElement.getKey();
+            String id = (String)mapElement.getKey();
             List lst = (List)mapElement.getValue();
-            String from = (String)lst.get(0);
-            String to = (String)lst.get(1);
-            Date time = (Date)lst.get(2);
-            boolean status = (boolean) lst.get(3);
+            String msg = (String)lst.get(0);
+            String from = (String)lst.get(1);
+            String to = (String)lst.get(2);
+            Date time = (Date)lst.get(3);
+            boolean status = (boolean) lst.get(4);
 
-            Message tempMessage = new Message(msg, from, to ,time, status);
+            Message tempMessage = new Message(id, msg, from, to ,time, status);
             bufferedMessages.add(tempMessage);
 
 
@@ -38,16 +39,29 @@ public class MessageManager {
     public boolean addMessage(ArrayList<Object> info){
         String to = (String)info.get(2);
         if (um.SearchUser(to) != null){
+            String id = UUID.randomUUID().toString();
             String from = (String)info.get(1);
             Date time = (Date)info.get(3);
             String msg = (String)info.get(0);
-            bufferedMessages.add(new Message(msg,from,to,time,false));
+            bufferedMessages.add(new Message(id, msg,from,to,time,false));
 
-            save(msg,from,to,time,false);
+            save(id, msg,from,to,time,false);
             return true;
         } else {return false;}
 
 
+    }
+
+    public void addMessageEveryone(ArrayList<Object> info){
+        String from = (String)info.get(0);
+        Date time = (Date)info.get(2);
+        String msg = (String)info.get(1);
+        List<User> tos = um.getBufferedUsers();
+        for (User temp: tos){
+            String id = UUID.randomUUID().toString();
+            bufferedMessages.add(new Message(id,msg,from,temp.getUsername(),time,false));
+            save(id, msg,from,temp.getUsername(),time,false);
+        }
     }
 
 
@@ -57,22 +71,23 @@ public class MessageManager {
             if (msg.getTo().equals(username)) {
                 msgs.add(msg);
 
-                save(msg.getMsg(),msg.getFrom(),msg.getTo(),msg.getTime(),true);
+                save(msg.getid(), msg.getMsg(),msg.getFrom(),msg.getTo(),msg.getTime(),true);
             }
         }
         return msgs;
     }
 
-    private void save(String msg, String from, String to, Date time, boolean status){
+    private void save(String id,String msg, String from, String to, Date time, boolean status){
         MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);
 
         List<Object> sections = new ArrayList <Object>();
+        sections.add(msg);
         sections.add(from);
         sections.add(to);
         sections.add(time);
         sections.add(status);
-        oldMessages.put(msg, sections);
+        oldMessages.put(id, sections);
         List<HashMap> MessageData = new ArrayList<HashMap>();
         MessageData.add(oldMessages);
 
