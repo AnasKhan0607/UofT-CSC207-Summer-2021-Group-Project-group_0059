@@ -16,6 +16,23 @@ public class MessageController {
 
     }
 
+    public void run(){
+        readMessage();
+        while (true) {
+            MessagePresenter.welcomingPrompt();
+            Scanner myObj = new Scanner(System.in);
+            int choice = Integer.valueOf(myObj.next());
+            if (choice == 1){
+                writeMessage();
+            } else if (choice == 2){
+                removeMessage();
+            } else if (choice == 3){
+                break;
+            } else {MessagePresenter.errorChoice();}
+        }
+
+    }
+
     public void readMessage(){
 
         List<Message> buffered = mm.getMessage(currentUserName);

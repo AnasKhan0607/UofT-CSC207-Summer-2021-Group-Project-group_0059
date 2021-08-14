@@ -59,27 +59,20 @@ public class AdminUserNavigatorController implements UserData {
 
             } else if (choice == 3){
                 MessageController c1 = new MessageController(username);
-                c1.readMessage();
-            } else if (choice == 4){
-                MessageController c1 = new MessageController(username);
-                c1.writeMessage();}
-            else if (choice == 8) {
+                c1.run();
+            }
+            else if (choice == 5) {
                 /*logout*/
                 AdminUserNavigatorPresenter.logoutMessage();
 
                 break;
 
-            } else if (choice == 6) {
+            } else if (choice == 4) {
                 SuspensionController sc1 = new SuspensionController();
-                sc1.suspend();
-            } else if (choice == 7){
-                SuspensionController sc1 = new SuspensionController();
-                sc1.unsuspend();
+                sc1.run();
 
-            } else if(choice == 5){
-                MessageController c1 = new MessageController(username);
-                c1.removeMessage();
-            }else {AdminUserNavigatorPresenter.errorMessage();}
+            }
+            else {AdminUserNavigatorPresenter.errorMessage();}
         }
 
 

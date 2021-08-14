@@ -47,20 +47,15 @@ public class RegularUserNavigatorController implements UserData {
 
             } else if (choice == 2){
                 MessageController c1 = new MessageController(username);
-                c1.readMessage();
-            } else if (choice == 3){
-                MessageController c1 = new MessageController(username);
-                c1.writeMessage();
-            } else if(choice == 5) {
+                c1.run();
+            }
+             else if(choice == 5) {
                 /*logout*/
                 RegularUserNavigatorPresenter.logoutMessage();
 
                 break;
 
-            } else if (choice == 4){
-                MessageController c1 = new MessageController(username);
-                c1.removeMessage();
-            } else {
+            }  else {
                 RegularUserNavigatorPresenter.errorMessage();
             }
         }

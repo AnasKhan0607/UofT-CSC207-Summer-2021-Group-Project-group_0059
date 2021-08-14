@@ -31,6 +31,14 @@ public class MessagePresenter {
         System.out.println(currentMessage.getMsg());
     }
 
+    public static void welcomingPrompt(){
+        System.out.println("Would you like to:");
+        System.out.println("1. compose and send a message?");
+        System.out.println("2. delete a message?");
+        System.out.println("3. quit message box?");
+        System.out.println("Please input the number to indicate your choice");
+    }
+
     public static void writeMessagePrompt1(){
         System.out.println("Please input the name of the receiver, type EVERYONE to send the same message" +
                 "to every user recorded in the system(for use of ADMIN ONLY), then press ENTER to continue, or " +
@@ -51,21 +59,35 @@ public class MessagePresenter {
 
     public static void errorMessage(){
         System.out.println("Username does not exist!");
+        System.out.println();
+        System.out.println();
     }
+
+    public static void errorChoice(){System.out.println("Invalid choice. Please try again!");
+        System.out.println();
+        System.out.println();}
 
     public static void errorMessageID(String id){
         System.out.println("Message " +id+ " does not exist!");
+        System.out.println();
+        System.out.println();
     }
 
     public static void errorMessageNotAdmin(){System.out.println("Since you are not an admin," +
-            "you are not authorized to do that");}
+            "you are not authorized to do that");
+        System.out.println();
+        System.out.println();}
 
     public static void writeMessageSuccess(String rec){
         System.out.println("Message successfully composed and sent to " + rec + " .");
+        System.out.println();
+        System.out.println();
     }
 
     public static void deleteMessageSuccess(String id){
         System.out.println("Message  " + id + " has been successfully deleted.");
+        System.out.println();
+        System.out.println();
     }
 
 }

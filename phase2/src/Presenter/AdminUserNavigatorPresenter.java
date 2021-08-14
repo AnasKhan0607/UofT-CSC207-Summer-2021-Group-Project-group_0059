@@ -14,12 +14,9 @@ public class AdminUserNavigatorPresenter implements UserNavigatorPresenter {
         System.out.println("Hello, "+ username + ". what would you like to do?");
         System.out.println("1. Select a Game to create/edit/play");
         System.out.println("2. Select a Template to edit");
-        System.out.println("3. Check message box");
-        System.out.println("4. Compose and send a new message");
-        System.out.println("5. Delete a Message");
-        System.out.println("6. Suspend a User(RegularUser only)");
-        System.out.println("7. Unsuspend a User");
-        System.out.println("8. Logout");
+        System.out.println("3. Open message box");
+        System.out.println("4. Suspend/Unsuspend a User(RegularUser only)");
+        System.out.println("5. Logout");
 
         System.out.println("Type in the number to indicate your choice");
     }

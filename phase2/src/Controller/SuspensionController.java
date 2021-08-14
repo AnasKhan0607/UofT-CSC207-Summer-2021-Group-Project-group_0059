@@ -12,6 +12,23 @@ public class SuspensionController {
 
     }
 
+    public void run(){
+        while (true) {
+            SuspensionPresenter.welcome();
+            Scanner myObj = new Scanner(System.in);
+            int choice = Integer.valueOf(myObj.next());
+            if (choice == 1){
+                suspend();
+            } else if (choice == 2){
+                unsuspend();
+            } else if (choice == 3){
+                break;
+            } else {
+                SuspensionPresenter.errorChoice();
+            }
+        }
+    }
+
     public void suspend(){
         Scanner myObj = new Scanner(System.in);
         SuspensionPresenter.display1();
