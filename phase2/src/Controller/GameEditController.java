@@ -83,7 +83,7 @@ public class GameEditController {
 
     public void editGameAdminUser(){
         ArrayList<String> newGames = new ArrayList<>();
-        ArrayList<String> publicGames = gameUseCase.getAllPublicGames();
+        ArrayList<String> publicGames = gameUseCase.getPublicGames();
         for (String game: publicGames){
             newGames.add(game);
         }
@@ -251,5 +251,9 @@ public class GameEditController {
                 gameUseCase.getGameAsString(gameName, 69, currentId));
         String newDialogue = String.valueOf(scanner.next());
         gameUseCase.addChoiceToDialogue(newDialogue, id);
+    }
+
+    public void closeScanner(){
+        scanner.close();
     }
 }

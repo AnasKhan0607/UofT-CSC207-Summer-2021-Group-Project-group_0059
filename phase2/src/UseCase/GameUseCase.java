@@ -169,14 +169,6 @@ public class GameUseCase {
         return game_list;
     }
 
-    public ArrayList<String> getAllPublicGames(){
-        ArrayList<String> game_list = new ArrayList<>();
-        for(Game game: publicGames){
-            game_list.add(game.getGameName());
-        }
-        return game_list;
-    }
-
     public boolean deleteGame(String game_name){
         for (Game game: this.privateGames){
             if(game.getGameName().equals(game_name)){
