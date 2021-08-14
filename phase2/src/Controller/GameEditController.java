@@ -91,7 +91,7 @@ public class GameEditController {
 
         gamePresenter.displayScene("Enter the name of the game you want to edit.", newGames);
         String gameName = String.valueOf(scanner.next());
-        if(!verifyEditGameRight(gameName)){ return; }
+        if(!verifyEditGameRightAdmin(gameName)){ return; }
         ArrayList<Object> initialIdAndDialogue = gameUseCase.openGame(gameName);
 
         int userChoice = 0;
@@ -154,6 +154,38 @@ public class GameEditController {
         }
         else if(!privateGameByUser && !publicGameByUser){
             gamePresenter.displayScene("You did not create this game! Enter anything to exit.");
+            scanner.next();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean verifyEditGameRightAdmin(String gameName){
+        boolean privateGames = gameUseCase.getAllPrivateGames().contains(gameName);
+        boolean publicGames = gameUseCase.getPublicGames().contains(gameName);
+        if(!privateGames && publicGames){
+            int userChoice = 0;
+            while(true){
+                gamePresenter.displayScene("there is a game with this name, but it must be private to edit! " +
+                        "Make it private? Enter 1 to make it private, enter 2 to cancel this edit request.");
+                try{
+                    userChoice = Integer.valueOf(scanner.next());
+                }
+                catch(NumberFormatException e){
+                    System.out.println(e);
+                }
+
+                if(userChoice == 1){
+                    gameUseCase.changeGameState(gameName);
+                    return true;
+                }
+                else if(userChoice == 2){
+                    return false;
+                }
+            }
+        }
+        else if(!privateGames && !publicGames){
+            gamePresenter.displayScene("there is not any match game! Enter anything to exit.");
             scanner.next();
             return false;
         }
