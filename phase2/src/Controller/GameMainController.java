@@ -3,7 +3,7 @@ package Controller;
 import Gateway.GameGate;
 import Interface.TemplateData;
 import Interface.UserData;
-import Presenter.GamePresenter;
+import Presenter.GameTextPresenter;
 import UseCase.GameUseCase;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class GameMainController {
     private GameCreateController gameCreator;
     private GamePlayController gamePlayer;
     private GameEditController gameEditor;
-    private GamePresenter gamePresenter = new GamePresenter();
+    private GameTextPresenter gameTextPresenter = new GameTextPresenter();
     private Scanner scanner = new Scanner(System.in);
 
     public GameMainController(TemplateData templateData, UserData userData){
@@ -40,13 +40,13 @@ public class GameMainController {
     /**
      * The game's menu which takes user input and calls the respective controller for their choice.
      *
-     * Interacts with gamePresenter, gameCreator, gameEditor, and gamePlayer.
+     * Interacts with gameTextPresenter, gameCreator, gameEditor, and gamePlayer.
      */
 
     public void gameMenu(){
         int userChoice = 0;
         while (true){
-            gamePresenter.displayScene(
+            gameTextPresenter.displayScene(
                     "Choose and enter the corresponding integer. Notice: Games are auto saved " +
                             "unless you are a guest user.",
                     new ArrayList<>(Arrays.asList(new String[]{
@@ -82,7 +82,7 @@ public class GameMainController {
 
         int userChoice = 0;
         while (true) {
-            gamePresenter.displayScene("Choose and enter the corresponding integer.",
+            gameTextPresenter.displayScene("Choose and enter the corresponding integer.",
                     new ArrayList<>(Arrays.asList(new String[]{"1: View Private Games (Created by You)",
                             "2: View Public Games", "3: View All Public Games Created by You",
                             "4: View Specific Game Structure",
@@ -116,7 +116,7 @@ public class GameMainController {
     private void viewGames(ArrayList<String> games){
         int userChoice = 0;
         while (true) {
-            gamePresenter.displayScene("Enter 1 to exit.", games);
+            gameTextPresenter.displayScene("Enter 1 to exit.", games);
             try {
                 userChoice = Integer.valueOf(scanner.next());
             }
@@ -132,18 +132,18 @@ public class GameMainController {
     }
 
     private void viewGame(){
-        gamePresenter.displayScene("Enter the name of the game you want to view.");
+        gameTextPresenter.displayScene("Enter the name of the game you want to view.");
         String gameName = String.valueOf(scanner.next());
 
         boolean privateGame = gameUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
         boolean publicGame = gameUseCase.getPublicGames().contains(gameName);
         if (privateGame || publicGame){
             gameUseCase.openGame(gameName);
-            gamePresenter.displayScene("Enter anything to exit.", gameUseCase.getGameAsString(gameName));
+            gameTextPresenter.displayScene("Enter anything to exit.", gameUseCase.getGameAsString(gameName));
             scanner.next();
         }
         else{
-            gamePresenter.displayScene("No such game! Enter anything to exit.");
+            gameTextPresenter.displayScene("No such game! Enter anything to exit.");
             scanner.next();
         }
     }
