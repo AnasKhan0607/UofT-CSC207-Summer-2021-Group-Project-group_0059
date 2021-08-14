@@ -65,12 +65,15 @@ public class GamePresenter{
         });
 
         suspendThread(suspendedObject);
+        if (userChoice == null){
+            return -1;
+        }
         return (int) userChoice;
     }
 
     public int displayChoices(Object suspendedObject, List choices, String dialogue) {
         Platform.runLater(() -> {
-            HBox dialogueLayout = wrapDialogue(dialogue);
+            VBox dialogueLayout = wrapDialogue(dialogue);
 
             VBox pictureLayout = wrapChoices(this, choices);
 
@@ -83,14 +86,17 @@ public class GamePresenter{
         });
 
         suspendThread(suspendedObject);
+        if (userChoice == null){
+            return -1;
+        }
         return (int) userChoice;
     }
 
-    public int displayTextScene(Object suspendedObject, String dialogue) {
+    public void displayTextScene(Object suspendedObject, String dialogue) {
         Platform.runLater(() -> {
-            HBox dialogueLayout = wrapDialogue(dialogue);
-
+            VBox dialogueLayout = wrapDialogue(dialogue);
             VBox pictureLayout = wrapChoices(null, new ArrayList());
+            addExitButton(suspendedObject, dialogueLayout);
 
             BorderPane layout = new BorderPane();
             layout.setBottom(dialogueLayout);
@@ -101,13 +107,24 @@ public class GamePresenter{
         });
 
         suspendThread(suspendedObject);
-        return (int) userChoice;
     }
 
-    public int displayTextScene(Object suspendedObject, String dialogue, String textArt) {
+    private void addExitButton(Object suspendedObject, VBox dialogueLayout) {
+        Button button = new Button("Next");
+        button.setOnAction(event -> {
+            window.hide();
+            synchronized (suspendedObject) {
+                suspendedObject.notify();
+            }
+        });
+        dialogueLayout.getChildren().add(button);
+    }
+
+    public void displayTextScene(Object suspendedObject, String dialogue, String textArt) {
         Platform.runLater(() -> {
-            HBox pictureLayout = wrapDialogue(textArt);
-            HBox dialogueLayout = wrapDialogue(dialogue);
+            VBox pictureLayout = wrapDialogue(textArt);
+            VBox dialogueLayout = wrapDialogue(dialogue);
+            addExitButton(suspendedObject, dialogueLayout);
 
             BorderPane layout = new BorderPane();
             layout.setCenter(pictureLayout);
@@ -118,14 +135,14 @@ public class GamePresenter{
         });
 
         suspendThread(suspendedObject);
-        return (int) userChoice;
     }
 
-    public int displayPictureScene(Object suspendedObject, String dialogue, String pictureName) {
+    public void displayPictureScene(Object suspendedObject, String dialogue, String pictureName) {
         String picturePath = findPictureFile(pictureName, System.getProperty("user.dir"));
         Platform.runLater(() -> {
             ImageView imageView = wrapImage(picturePath);
-            HBox dialogueLayout = wrapDialogue(dialogue);
+            VBox dialogueLayout = wrapDialogue(dialogue);
+            addExitButton(suspendedObject, dialogueLayout);
 
             BorderPane layout = new BorderPane();
             layout.setCenter(imageView);
@@ -136,7 +153,6 @@ public class GamePresenter{
         });
 
         suspendThread(suspendedObject);
-        return (int) userChoice;
     }
 
     private ImageView wrapImage(String picturePath) {
@@ -157,8 +173,8 @@ public class GamePresenter{
         return imageView;
     }
 
-    private HBox wrapDialogue(String dialogue) {
-        HBox dialogueLayout = new HBox();
+    private VBox wrapDialogue(String dialogue) {
+        VBox dialogueLayout = new VBox();
         dialogueLayout.setMinHeight(150);
         dialogueLayout.setMaxHeight(650);
         dialogueLayout.setAlignment(Pos.CENTER);
