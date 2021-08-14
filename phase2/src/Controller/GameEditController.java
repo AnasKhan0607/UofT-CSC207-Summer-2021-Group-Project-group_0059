@@ -90,7 +90,7 @@ public class GameEditController {
         newGames.addAll(gameUseCase.getAllPrivateGames());
 
         gamePresenter.displayScene("Enter the name of the game you want to edit.", newGames);
-        String gameName = String.valueOf(scanner.next());
+        String gameName = String.valueOf(scanner.nextLine());
         if(!verifyEditGameRightAdmin(gameName)){ return; }
         ArrayList<Object> initialIdAndDialogue = gameUseCase.openGame(gameName);
 
