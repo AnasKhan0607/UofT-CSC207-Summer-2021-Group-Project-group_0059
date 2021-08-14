@@ -3,10 +3,12 @@ package UseCase;
 import Entity.AdminUser;
 import Entity.GuestUser;
 import Entity.RegularUser;
+import Entity.TempUser;
 import Entity.User;
 import Gateway.UserGate;
 
 import java.util.*;
+import java.time.LocalDate;
 
 /**
  * The use case class for the users.
@@ -24,9 +26,6 @@ public class UserManager {
         UserGate myGate = new UserGate();
         HashMap<String, List<Object>> tempUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
-
-
-
         for (Map.Entry mapElement :tempUsers.entrySet()){
             String username = (String)mapElement.getKey();
             List lst = (List)mapElement.getValue();
@@ -35,6 +34,11 @@ public class UserManager {
 
             if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
+                this.bufferedUsers.add(tempUser);
+            } else if (username.startsWith("Temp_")) {
+                LocalDate startDate = (LocalDate) lst.get(2); // Temp have their account creation/expiry dates stored
+                LocalDate endDate = (LocalDate) lst.get(3);
+                TempUser tempUser = new TempUser(username, password, startDate, endDate); // expired accounts will be unable to login
                 this.bufferedUsers.add(tempUser);
             } else {
                 RegularUser tempUser = new RegularUser(username, password);
@@ -59,6 +63,11 @@ public class UserManager {
             String password = info.get(1);
             if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
+                this.bufferedUsers.add(tempUser);
+            } else if (username.startsWith("Temp_")) {
+                LocalDate startDate = LocalDate.now();
+                LocalDate endDate = LocalDate.now().plusDays(30);
+                TempUser tempUser = new TempUser (username, password, startDate, endDate);
                 this.bufferedUsers.add(tempUser);
             } else {
                 RegularUser tempUser = new RegularUser(username, password);

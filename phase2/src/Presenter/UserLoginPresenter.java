@@ -40,6 +40,9 @@ public class UserLoginPresenter {
     public static void suspensionMessage(String username){System.out.println("Suspended");
     System.out.println("(" +username + ") is currently suspended. Please contact Ruilin or Ahmad for support." );}
 
+    public static void expiredAccountMessage() {
+        System.out.println("Sorry, your temporary account has expired.");
+    }
     /**
      * The message after successfully logging in.
      */
