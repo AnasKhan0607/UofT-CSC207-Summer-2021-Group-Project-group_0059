@@ -39,6 +39,8 @@ public abstract class User {
 
     public void raiseFlag(){this.suspensionFlag = true;}
 
+    public void lowerFlag(){this.suspensionFlag = false;}
+
     public boolean getflag(){return this.suspensionFlag;}
 }
 

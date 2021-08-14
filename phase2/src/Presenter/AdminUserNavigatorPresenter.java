@@ -17,7 +17,8 @@ public class AdminUserNavigatorPresenter implements UserNavigatorPresenter {
         System.out.println("3. Check message box");
         System.out.println("4. Compose and send a new message");
         System.out.println("5. Suspend a User(RegularUser only)");
-        System.out.println("6. Logout");
+        System.out.println("6. Unsuspend a User");
+        System.out.println("7. Logout");
 
         System.out.println("Type in the number to indicate your choice");
     }
@@ -27,6 +28,8 @@ public class AdminUserNavigatorPresenter implements UserNavigatorPresenter {
      */
     public static void redirectingMessage(){
         System.out.println("Redirecting");
+        System.out.println();
+        System.out.println();
     }
 
     /**
@@ -34,7 +37,12 @@ public class AdminUserNavigatorPresenter implements UserNavigatorPresenter {
      */
     public static void logoutMessage(){
         System.out.println("Successfully logged out.");
+        System.out.println();
+        System.out.println();
     }
+
+    public static void errorMessage(){System.out.println("Invalid choice, please try again");
+        System.out.println();}
 
 
 }

@@ -24,6 +24,7 @@ public class RegularUserNavigatorPresenter implements UserNavigatorPresenter {
      */
     public static void redirectingMessage(){
         System.out.println("Redirecting");
+        System.out.println();
     }
 
     /**
@@ -31,5 +32,7 @@ public class RegularUserNavigatorPresenter implements UserNavigatorPresenter {
      */
     public static void logoutMessage(){
         System.out.println("Successfully logged out.");
+        System.out.println();
+        System.out.println();
     }
 }

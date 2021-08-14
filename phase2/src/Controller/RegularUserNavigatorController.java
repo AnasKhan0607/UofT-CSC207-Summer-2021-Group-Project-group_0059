@@ -53,7 +53,7 @@ public class RegularUserNavigatorController implements UserData {
             } else {
                 /*logout*/
                 RegularUserNavigatorPresenter.logoutMessage();
-                myObj.close();
+
                 break;
 
             }

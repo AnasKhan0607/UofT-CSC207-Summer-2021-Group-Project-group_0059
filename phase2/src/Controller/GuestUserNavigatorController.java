@@ -27,19 +27,20 @@ public class GuestUserNavigatorController implements UserData {
      */
     public void run() {
         Scanner myObj = new Scanner(System.in);
-        GuestUserNavigatorPresenter.display(username);
-        Integer choice = Integer.valueOf(myObj.nextLine());
-        if (choice == 1) {
-            /* Game*/
-            GuestUserNavigatorPresenter.redirectingMessage();
-            TemplateEditorController te = new TemplateEditorController();
-            GameMainController gc = new GameMainController(te ,this::currentUser);
-            gc.gameMenu();
+        while (true) {GuestUserNavigatorPresenter.display(username);
+            Integer choice = Integer.valueOf(myObj.nextLine());
+            if (choice == 1) {
+                /* Game*/
+                GuestUserNavigatorPresenter.redirectingMessage();
+                TemplateEditorController te = new TemplateEditorController();
+                GameMainController gc = new GameMainController(te ,this::currentUser);
+                gc.gameMenu();
 
-        }  else if (choice == 2) {
-            /*logout*/
-            GuestUserNavigatorPresenter.logoutMessage();
+            }  else if (choice == 2) {
+                /*logout*/
+                GuestUserNavigatorPresenter.logoutMessage();
+                break;
 
-        }
+            }}
     }
 }
