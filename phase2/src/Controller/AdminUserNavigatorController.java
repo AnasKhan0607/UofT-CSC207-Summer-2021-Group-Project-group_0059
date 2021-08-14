@@ -66,7 +66,7 @@ public class AdminUserNavigatorController implements UserData {
             else if (choice == 7) {
                 /*logout*/
                 AdminUserNavigatorPresenter.logoutMessage();
-                scanner.close();
+
                 break;
 
             } else if (choice == 5) {
@@ -76,7 +76,7 @@ public class AdminUserNavigatorController implements UserData {
                 SuspensionController sc1 = new SuspensionController();
                 sc1.unsuspend();
 
-            }
+            } else {AdminUserNavigatorPresenter.errorMessage();}
         }
 
 

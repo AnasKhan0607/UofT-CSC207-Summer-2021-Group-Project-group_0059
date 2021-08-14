@@ -34,21 +34,24 @@ public class UserLoginController {
      */
     public void NormalUserinput(){
         Scanner myObj = new Scanner(System.in);
-        UserLoginPresenter.display();
-        this.userName = myObj.nextLine();
-        if (this.userName.equals("Signup")){
-            /* Jump to signup */
-            UserSignupController signup1 = new UserSignupController(this.testUM);
-            signup1.UserInput();
-            // Going through the login process again
-            UserLoginPresenter.display3(); // using display 3 to remove dialogue of giving the user the option to signup or login as guest
+        while (true){UserLoginPresenter.display();
             this.userName = myObj.nextLine();
-            RegularLogin();
-        } else if (this.userName.equals("Guest")){
-            GuestUserInput();
-        } else {
-            RegularLogin();
-        }
+            if (this.userName.equals("Signup")){
+                /* Jump to signup */
+                UserSignupController signup1 = new UserSignupController(this.testUM);
+                signup1.UserInput();
+                // Going through the login process again
+                UserLoginPresenter.display3(); // using display 3 to remove dialogue of giving the user the option to signup or login as guest
+                this.userName = myObj.nextLine();
+                RegularLogin();
+            } else if (this.userName.equals("Guest")){
+                GuestUserInput();
+            } else if(this.userName.equals("EXIT")){
+                UserLoginPresenter.exitMessage();
+                break;
+            }else {
+                RegularLogin();
+            }}
 
     }
 

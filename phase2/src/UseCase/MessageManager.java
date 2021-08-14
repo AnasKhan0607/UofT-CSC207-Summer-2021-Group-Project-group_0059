@@ -3,15 +3,18 @@ package UseCase;
 import Entity.AdminUser;
 import Entity.Message;
 import Entity.RegularUser;
+import Entity.User;
 import Gateway.MessageGate;
 
 import java.util.*;
 
 public class MessageManager {
     private List<Message> bufferedMessages;
+    private UserManager um = new UserManager();
 
     public MessageManager(){
         bufferedMessages = new ArrayList<>();
+
 
         MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> tempMessages = (HashMap<String, List<Object>>) MG.load().get(0);
@@ -32,14 +35,18 @@ public class MessageManager {
 
     }
 
-    public void addMessage(ArrayList<Object> info){
-        String from = (String)info.get(1);
+    public boolean addMessage(ArrayList<Object> info){
         String to = (String)info.get(2);
-        Date time = (Date)info.get(3);
-        String msg = (String)info.get(0);
-        bufferedMessages.add(new Message(msg,from,to,time,false));
+        if (um.SearchUser(to) != null){
+            String from = (String)info.get(1);
+            Date time = (Date)info.get(3);
+            String msg = (String)info.get(0);
+            bufferedMessages.add(new Message(msg,from,to,time,false));
 
-        save(msg,from,to,time,false);
+            save(msg,from,to,time,false);
+            return true;
+        } else {return false;}
+
 
     }
 

@@ -99,6 +99,10 @@ public class UserManager {
         return new GuestUser("Guest");
     }
 
+    public List<User> getBufferedUsers() {
+        return bufferedUsers;
+    }
+
     public boolean suspendUser(String username){
         int i;
         boolean result = false;

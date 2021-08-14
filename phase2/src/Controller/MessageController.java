@@ -29,11 +29,7 @@ public class MessageController {
         MessagePresenter.printBoxDown();
     }
 
-    private void sortMessage(List<Message> temp){
-        for (Message msg: temp){
 
-        }
-    }
 
     public void writeMessage(){
         MessagePresenter.writeMessagePrompt1();
@@ -46,8 +42,9 @@ public class MessageController {
         temp.add(currentUserName);
         temp.add(reciver);
         temp.add(new Date());
-        mm.addMessage(temp);
-        MessagePresenter.writeMessageSuccess();
+        boolean status;
+        status = mm.addMessage(temp);
+        if (status){MessagePresenter.writeMessageSuccess();} else {MessagePresenter.errorMessage();}
 
         //myObj.close();
 

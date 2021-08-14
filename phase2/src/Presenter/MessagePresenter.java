@@ -40,6 +40,10 @@ public class MessagePresenter {
 
     }
 
+    public static void errorMessage(){
+        System.out.println("Username does not exist!");
+    }
+
     public static void writeMessageSuccess(){
         System.out.println("Message successfully composed and sent.");
     }
