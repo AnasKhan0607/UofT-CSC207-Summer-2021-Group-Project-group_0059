@@ -104,7 +104,7 @@ public class GameMainController {
                 gamePlayer.playGame();
             }
             else if(userChoice == 4){
-                this.viewGamesMenu();
+                this.viewGamesMenuAdminUser();
             }
             else if(userChoice == 5){
                 break;
