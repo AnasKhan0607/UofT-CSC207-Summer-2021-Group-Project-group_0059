@@ -61,6 +61,13 @@ public class UserManager {
         if (info.size() == 2){
             String username = info.get(0);
             String password = info.get(1);
+
+            UserGate myGate = new UserGate();
+            HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
+            List<Object> sections = new ArrayList <Object>();
+            sections.add(password);
+            sections.add(false);
+
             if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
@@ -69,17 +76,13 @@ public class UserManager {
                 LocalDate endDate = LocalDate.now().plusDays(30);
                 TempUser tempUser = new TempUser (username, password, startDate, endDate);
                 this.bufferedUsers.add(tempUser);
+                sections.add(startDate); // storing account creation and expiry dates
+                sections.add(endDate);
             } else {
                 RegularUser tempUser = new RegularUser(username, password);
                 this.bufferedUsers.add(tempUser);
             }
-            UserGate myGate = new UserGate();
-            HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
-
-            List<Object> sections = new ArrayList <Object>();
-            sections.add(password);
-            sections.add(false);
             oldUsers.put(username, sections);
             List<HashMap> userData = new ArrayList<HashMap>();
             userData.add(oldUsers);
