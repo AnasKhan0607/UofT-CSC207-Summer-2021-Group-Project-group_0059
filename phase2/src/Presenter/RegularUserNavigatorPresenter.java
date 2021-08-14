@@ -15,7 +15,8 @@ public class RegularUserNavigatorPresenter implements UserNavigatorPresenter {
         System.out.println("1. Select a Game to create/edit/play");
         System.out.println("2. Check message box");
         System.out.println("3. Compose and send a new message");
-        System.out.println("4. Logout");
+        System.out.println("4. Delete a message");
+        System.out.println("5. Logout");
         System.out.println("Type in the number to indicate your choice");
     }
 
@@ -35,4 +36,7 @@ public class RegularUserNavigatorPresenter implements UserNavigatorPresenter {
         System.out.println();
         System.out.println();
     }
+
+    public static void errorMessage(){System.out.println("Invalid choice, please try again");
+        System.out.println();}
 }

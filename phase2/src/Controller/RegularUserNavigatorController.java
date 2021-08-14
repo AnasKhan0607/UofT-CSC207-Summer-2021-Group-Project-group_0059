@@ -1,6 +1,7 @@
 package Controller;
 
 import Interface.UserData;
+import Presenter.AdminUserNavigatorPresenter;
 import Presenter.RegularUserNavigatorPresenter;
 
 import java.util.Scanner;
@@ -50,12 +51,17 @@ public class RegularUserNavigatorController implements UserData {
             } else if (choice == 3){
                 MessageController c1 = new MessageController(username);
                 c1.writeMessage();
-            } else {
+            } else if(choice == 5) {
                 /*logout*/
                 RegularUserNavigatorPresenter.logoutMessage();
 
                 break;
 
+            } else if (choice == 4){
+                MessageController c1 = new MessageController(username);
+                c1.removeMessage();
+            } else {
+                RegularUserNavigatorPresenter.errorMessage();
             }
         }
     }

@@ -33,11 +33,18 @@ public class MessagePresenter {
 
     public static void writeMessagePrompt1(){
         System.out.println("Please input the name of the receiver, type EVERYONE to send the same message" +
-                "to every user recorded in the system(for use of ADMIN ONLY), then press ENTER to continue:");
+                "to every user recorded in the system(for use of ADMIN ONLY), then press ENTER to continue, or " +
+                "type QUIT to quit:");
     }
 
     public static void writeMessagePrompt2(){
         System.out.println("Please input the message, then press ENTER to continue:");
+
+
+    }
+    public static void writeMessagePrompt3(){
+        System.out.println("Please input the messageid(copy paste), then press ENTER to continue, or " +
+                "type QUIT to quit:");
 
 
     }
@@ -46,11 +53,19 @@ public class MessagePresenter {
         System.out.println("Username does not exist!");
     }
 
+    public static void errorMessageID(String id){
+        System.out.println("Message " +id+ " does not exist!");
+    }
+
     public static void errorMessageNotAdmin(){System.out.println("Since you are not an admin," +
             "you are not authorized to do that");}
 
     public static void writeMessageSuccess(String rec){
         System.out.println("Message successfully composed and sent to " + rec + " .");
+    }
+
+    public static void deleteMessageSuccess(String id){
+        System.out.println("Message  " + id + " has been successfully deleted.");
     }
 
 }

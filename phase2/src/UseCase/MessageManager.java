@@ -77,6 +77,17 @@ public class MessageManager {
         return msgs;
     }
 
+    public boolean deleteMessage(String id){
+        for (Message msg: bufferedMessages){
+            if (msg.getid().equals(id)) {
+                bufferedMessages.remove(msg);
+                save2(msg.getid(), msg.getMsg(),msg.getFrom(),msg.getTo(),msg.getTime(),true);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void save(String id,String msg, String from, String to, Date time, boolean status){
         MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);
@@ -88,6 +99,23 @@ public class MessageManager {
         sections.add(time);
         sections.add(status);
         oldMessages.put(id, sections);
+        List<HashMap> MessageData = new ArrayList<HashMap>();
+        MessageData.add(oldMessages);
+
+        MG.save(MessageData);
+    }
+
+    private void save2(String id,String msg, String from, String to, Date time, boolean status){
+        MessageGate MG = new MessageGate();
+        HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);
+
+        List<Object> sections = new ArrayList <Object>();
+        sections.add(msg);
+        sections.add(from);
+        sections.add(to);
+        sections.add(time);
+        sections.add(status);
+        oldMessages.remove(id, sections);
         List<HashMap> MessageData = new ArrayList<HashMap>();
         MessageData.add(oldMessages);
 

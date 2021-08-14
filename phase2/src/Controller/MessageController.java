@@ -32,36 +32,63 @@ public class MessageController {
 
 
     public void writeMessage(){
-        MessagePresenter.writeMessagePrompt1();
-        Scanner myObj = new Scanner(System.in);
-        String reciver = myObj.nextLine();
-        if (reciver.equals("EVERYONE")){
-            if (currentUserName.startsWith("Admin")) {MessagePresenter.writeMessagePrompt2();
+        while (true){
+            MessagePresenter.writeMessagePrompt1();
+            Scanner myObj = new Scanner(System.in);
+            String reciver = myObj.nextLine();
+            if (reciver.equals("EVERYONE")){
+                if (currentUserName.startsWith("Admin")) {MessagePresenter.writeMessagePrompt2();
+                    String msg = myObj.nextLine();
+                    ArrayList<Object> temp = new ArrayList<>();
+                    temp.add(currentUserName);
+                    temp.add(msg);
+                    temp.add(new Date());
+                    mm.addMessageEveryone(temp);
+                    MessagePresenter.writeMessageSuccess(reciver);
+                } else {MessagePresenter.errorMessageNotAdmin();}
+
+            } else if (reciver.equals("QUIT")) {
+                break;
+            } else {
+                MessagePresenter.writeMessagePrompt2();
                 String msg = myObj.nextLine();
                 ArrayList<Object> temp = new ArrayList<>();
-                temp.add(currentUserName);
                 temp.add(msg);
+                temp.add(currentUserName);
+                temp.add(reciver);
                 temp.add(new Date());
-                mm.addMessageEveryone(temp);
-                MessagePresenter.writeMessageSuccess(reciver);
-            } else {MessagePresenter.errorMessageNotAdmin();}
-
-        } else {
-            MessagePresenter.writeMessagePrompt2();
-            String msg = myObj.nextLine();
-            ArrayList<Object> temp = new ArrayList<>();
-            temp.add(msg);
-            temp.add(currentUserName);
-            temp.add(reciver);
-            temp.add(new Date());
-            boolean status;
-            status = mm.addMessage(temp);
-            if (status){MessagePresenter.writeMessageSuccess(reciver);} else {MessagePresenter.errorMessage();}
+                boolean status;
+                status = mm.addMessage(temp);
+                if (status) {
+                    MessagePresenter.writeMessageSuccess(reciver);
+                } else {
+                    MessagePresenter.errorMessage();
+                }
+            }
         }
+
+
 
 
         //myObj.close();
 
+    }
+    public void removeMessage(){
+
+        while (true){
+            MessagePresenter.writeMessagePrompt3();
+            Scanner myObj = new Scanner(System.in);
+            String id = myObj.nextLine();
+            MessageManager mm = new MessageManager();
+            if (mm.deleteMessage(id)){
+                MessagePresenter.deleteMessageSuccess(id);
+
+            } else if(id.equals("QUIT")){
+                break;
+            }else {
+                MessagePresenter.errorMessageID(id);
+            }
+        }
     }
 
 
