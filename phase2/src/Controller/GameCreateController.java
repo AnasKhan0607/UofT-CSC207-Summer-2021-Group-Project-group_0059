@@ -18,9 +18,6 @@ public class GameCreateController {
     public static void main(String[] args) {
         new GameCreateController(null,null,null).test();
         System.out.println("bruh");
-//        bruh.size();
-//        gamePresenter.displayScene(bruh);
-//        System.out.println(String.);
     }
 
     public void test() {
@@ -29,29 +26,6 @@ public class GameCreateController {
         bruh.add("bruh2");
         bruh.add("bruh3");
         GamePresenter gamePresenter = new GamePresenter();
-//        gamePresenter.displayChoices(this, bruh);
-//
-//        gamePresenter.displayChoices(this, bruh,"ababbababababbaba u ugly lol lmao" +
-//                "walahi u r ugly lol lmao bruh bruh bruh bruh bruh bro bruh walahi u r ugly lol " +
-//                "lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly " +
-//                "lol lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol " +
-//                "lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol lmao " +
-//                "bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol lmao " +
-//                "bruh bruh bruh bruh bruh bro bruh");
-
-//        gamePresenter.displayTextScene(this, "ababbababababbaba u ugly lol lmao" +
-//                "walahi u r ugly lol lmao bruh bruh bruh bruh bruh bro bruh walahi u r ugly lol " +
-//                "lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly " +
-//                "lol lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol " +
-//                "lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol lmao " +
-//                "bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol lmao " +
-//                "bruh bruh bruh bruh bruh bro bruh","ababbababababbaba u ugly lol lmao" +
-//                "walahi u r ugly lol lmao bruh bruh bruh bruh bruh bro bruh walahi u r ugly lol " +
-//                "lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly " +
-//                "lol lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol " +
-//                "lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol lmao " +
-//                "bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol lmao " +
-//                "bruh bruh bruh bruh bruh bro bruh");
         gamePresenter.displayPictureScene(this, "ababbababababbaba u ugly lol lmao" +
                 "walahi u r ugly lol lmao bruh bruh bruh bruh bruh bro bruh walahi u r ugly lol " +
                 "lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly " +

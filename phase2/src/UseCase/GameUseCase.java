@@ -142,30 +142,6 @@ public class GameUseCase {
         return game_list;
     }
 
-    public ArrayList<String> getAllPublicGames(){
-        ArrayList<String> game_list = new ArrayList<>();
-        for(Game game: publicGames){
-            game_list.add(game.getGameName());
-        }
-        return game_list;
-    }
-
-    public boolean deleteGame(String game_name){
-        for (Game game: this.privateGames){
-            if(game.getGameName().equals(game_name)){
-                privateGames.remove(game);
-                return true;
-            }
-        }
-        for (Game game: this.publicGames){
-            if(game.getGameName().equals(game_name)){
-                publicGames.remove(game);
-                return true;
-            }
-        }
-        return true;
-    }
-
     private Game hashMapToGame(HashMap<Integer, String> hashMap){
         if(!hashMap.containsKey(0) || !hashMap.containsKey(-1) || !hashMap.containsKey(-2) ||
                 !hashMap.containsKey(-3) || !hashMap.containsKey(-4)){

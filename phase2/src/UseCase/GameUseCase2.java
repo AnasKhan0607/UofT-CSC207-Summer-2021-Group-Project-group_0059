@@ -173,4 +173,27 @@ public class GameUseCase2 {
         }
         return childrenIds;
     }
+    public ArrayList<String> getAllPrivateGames(){
+        ArrayList<String> game_list = new ArrayList<>();
+        for(Game game: privateGames){
+            game_list.add(game.getGameName());
+        }
+        return game_list;
+    }
+
+    public boolean deleteGame(String game_name){
+        for (Game game: this.privateGames){
+            if(game.getGameName().equals(game_name)){
+                privateGames.remove(game);
+                return true;
+            }
+        }
+        for (Game game: this.publicGames){
+            if(game.getGameName().equals(game_name)){
+                publicGames.remove(game);
+                return true;
+            }
+        }
+        return true;
+    }
 }

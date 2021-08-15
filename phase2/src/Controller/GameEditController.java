@@ -84,11 +84,11 @@ public class GameEditController {
 
     public void editGameAdminUser(){
         ArrayList<String> newGames = new ArrayList<>();
-        ArrayList<String> publicGames = gameUseCase.getAllPublicGames();
+        ArrayList<String> publicGames = gameUseCase.getPublicGames();
         for (String game: publicGames){
             newGames.add(game);
         }
-        newGames.addAll(gameUseCase.getAllPrivateGames());
+        newGames.addAll(gameUseCase2.getAllPrivateGames());
 
         gameTextPresenter.displayScene("Enter the name of the game you want to edit.", newGames);
         String gameName = String.valueOf(scanner.next());
@@ -122,7 +122,7 @@ public class GameEditController {
                 break;
             }
             else if(userChoice == 4){
-                gameUseCase.deleteGame(gameName);
+                gameUseCase2.deleteGame(gameName);
                 gameUseCase2.saveGames();
                 break;
             }
