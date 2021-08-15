@@ -21,7 +21,7 @@ public class SuspensionController {
             choices.add("1. suspend a User?(cannot suspend an admin)");
             choices.add("2. unsuspend a User?");
             choices.add("3. quit");
-            int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ username + ". what would you like to do?");
+            int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, what would you like to do?");
             if (choice == 1){
                 suspend();
             } else if (choice == 2){
