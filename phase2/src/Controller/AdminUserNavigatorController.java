@@ -75,7 +75,8 @@ public class AdminUserNavigatorController implements UserData {
             }
             else if (choice == 4){
                 /*logout*/
-                AdminUserNavigatorPresenter.logoutMessage();
+
+                gamePresenter.displayTextScene(this, "CONTINUE", "Successfully logged out");
 
                 break;
 
@@ -84,7 +85,8 @@ public class AdminUserNavigatorController implements UserData {
                 sc1.run();
 
             }
-            else {AdminUserNavigatorPresenter.errorMessage();}
+            else {//AdminUserNavigatorPresenter.errorMessage();
+                gamePresenter.displayTextScene(this, "Invalid choice, please try again"); }
         }
 
 

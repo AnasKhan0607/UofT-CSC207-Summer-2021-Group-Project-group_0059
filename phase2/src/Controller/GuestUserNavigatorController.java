@@ -46,9 +46,9 @@ public class GuestUserNavigatorController implements UserData {
 
             }  else if (choice == 2) {
                 /*logout*/
-                GuestUserNavigatorPresenter.logoutMessage();
+                gamePresenter.displayTextScene(this, "CONTINUE", "Successfully logged out");
                 break;
 
-            }}
+            } else {gamePresenter.displayTextScene(this, "Invalid choice, please try again");}}
     }
 }

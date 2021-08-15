@@ -49,7 +49,9 @@ public class UserSignupController {
         if (userinputs.get(1).equals(userinputs.get(2))){
             this.username = userinputs.get(0);
             if (testUM.SearchUser(this.username) != null) {
-                UserSignUpPresenter.errorMessage();
+                gamePresenter.displayTextScene(this, "BACK", "Sorry, there is already an account with this username. " +
+                        "Please try again with another username and press enter.");
+                //UserSignUpPresenter.errorMessage();
             } else {
                 this.username = userinputs.get(0);
                 this.password = userinputs.get(1);
@@ -58,7 +60,8 @@ public class UserSignupController {
                 testUM.addUser(userInput);
                 UserSignUpPresenter.successMessage();
             }} else {
-            UserSignUpPresenter.errorMessageUnmatch();
+            //UserSignUpPresenter.errorMessageUnmatch();
+            gamePresenter.displayTextScene(this, "BACK", "Sorry, but that's not a match!");
 
         }
 

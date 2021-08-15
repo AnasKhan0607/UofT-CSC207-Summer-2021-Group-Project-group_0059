@@ -22,7 +22,7 @@ public class UserLoginController {
 
     private String userName;
     private String password;
-    private UserManager testUM = new UserManager();
+    private UserManager testUM;
 
     /**
      * Creates a new UserLoginController object that will set the userName and password attributes to what the
@@ -66,6 +66,7 @@ public class UserLoginController {
         choices.add("Login as Guest");
         choices.add("EXIT");
         while (true){
+            testUM = new UserManager();
             int choice = gamePresenter.displayChoices(this, choices, "Please login first:");
             //Scanner myObj = new Scanner(System.in);
             if (choice == 0){
@@ -95,7 +96,8 @@ public class UserLoginController {
             } else if (choice == 2){
                 GuestUserInput();
             } else {
-                UserLoginPresenter.exitMessage();
+                //UserLoginPresenter.exitMessage();
+                gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for using our program");
                 break;
             }
         }
@@ -136,31 +138,39 @@ public class UserLoginController {
     private void RegularLogin() {
         //Scanner myObj = new Scanner(System.in);
         //this.password = myObj.nextLine();
+        GamePresenter gamePresenter = new GamePresenter();
         if (testUM.SearchUser(this.userName) == null) {
-            UserLoginPresenter.errorMessage();
+            //UserLoginPresenter.errorMessage();
+            gamePresenter.displayTextScene(this, "BACK", "Sorry, but either the username or the password is incorrect");
         } else {
             User tempUser = testUM.SearchUser(this.userName);
             String temppassword = tempUser.getPassword();
             if (!temppassword.equals(this.password)) {
-                UserLoginPresenter.errorMessage();
+                //UserLoginPresenter.errorMessage();
+                gamePresenter.displayTextScene(this, "BACK", "Sorry, but either the username or the password is incorrect");
             } else if (tempUser.getflag()){
-                UserLoginPresenter.suspensionMessage(tempUser.getUsername());
+                //UserLoginPresenter.suspensionMessage(tempUser.getUsername());
+                gamePresenter.displayTextScene(this, "BACK", "(" + tempUser.getUsername() + ") is currently suspended. Please contact Ruilin or Ahmad for support.");
             } else {
                 if (this.userName.startsWith("Admin_")) {
-                    UserLoginPresenter.successMessage("Admin");
+                    //UserLoginPresenter.successMessage("Admin");
+                    gamePresenter.displayTextScene(this, "CONTINUE", "Logged in as Admin" );
                 } else if (this.userName.startsWith("Temp_")) {
                     LocalDate endDate = ((TempUser)tempUser).getEndDate();
                     LocalDate today = LocalDate.now();
                     if (today.isAfter(endDate)) {
-                        UserLoginPresenter.expiredAccountMessage();
+                        //UserLoginPresenter.expiredAccountMessage();
+                        gamePresenter.displayTextScene(this, "BACK", "Sorry, your temporary account has expired." );
                     }
                     else {
-                        UserLoginPresenter.successMessage("Temporary. After " + endDate +
-                                " your account will be unavailable.");
+                        //UserLoginPresenter.successMessage("Temporary. After " + endDate +
+                                //" your account will be unavailable.");
+                        gamePresenter.displayTextScene(this, "BACK", "Temporary. After " + endDate + " your account will be unavailable.");
                     }
                 }
                 else {
-                    UserLoginPresenter.successMessage("Regular");
+                    //UserLoginPresenter.successMessage("Regular");
+                    gamePresenter.displayTextScene(this, "CONTINUE", "Logged in as Regular" );
                 }
                 redirect(tempUser);
             }

@@ -61,12 +61,12 @@ public class RegularUserNavigatorController implements UserData {
             }
              else if(choice == 3) {
                 /*logout*/
-                RegularUserNavigatorPresenter.logoutMessage();
+                 gamePresenter.displayTextScene(this, "CONTINUE", "Successfully logged out");
 
                 break;
 
             }  else {
-                RegularUserNavigatorPresenter.errorMessage();
+                 gamePresenter.displayTextScene(this, "Invalid choice, please try again");
             }
         }
     }
