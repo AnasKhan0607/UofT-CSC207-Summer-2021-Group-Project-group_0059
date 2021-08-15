@@ -249,11 +249,12 @@ public class GamePresenter{
     }
 
     private ImageView wrapImage(String picturePath) {
-        InputStream stream = null;
+        InputStream stream;
         try {
             stream = new FileInputStream(picturePath);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File Not Found!");
+            return null;
         }
         Image image = new Image(stream);
         ImageView imageView = new ImageView();
