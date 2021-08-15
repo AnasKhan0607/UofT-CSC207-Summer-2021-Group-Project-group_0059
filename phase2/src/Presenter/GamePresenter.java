@@ -88,7 +88,7 @@ public class GamePresenter{
             BorderPane layout = new BorderPane();
             layout.setCenter(inputLayout);
 
-            displayScene(layout);;
+            displayScene(layout);
         });
 
         suspendThread(suspendedObject);
