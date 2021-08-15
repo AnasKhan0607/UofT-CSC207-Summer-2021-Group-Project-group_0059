@@ -49,7 +49,7 @@ public class RegularUserNavigatorController implements UserData {
                 MessageController c1 = new MessageController(username);
                 c1.run();
             }
-             else if(choice == 5) {
+             else if(choice == 3) {
                 /*logout*/
                 RegularUserNavigatorPresenter.logoutMessage();
 

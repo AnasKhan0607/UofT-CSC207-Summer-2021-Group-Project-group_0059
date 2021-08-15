@@ -3,12 +3,14 @@ package Controller;
 import Entity.AdminUser;
 import Entity.GuestUser;
 import Entity.RegularUser;
+import Entity.TempUser;
 import Entity.User;
 import Presenter.UserLoginPresenter;
 import UseCase.UserManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 /**
  * Controller for the user login process.
@@ -101,7 +103,18 @@ public class UserLoginController {
             } else {
                 if (this.userName.startsWith("Admin_")) {
                     UserLoginPresenter.successMessage("Admin");
-                } else {
+                } else if (this.userName.startsWith("Temp_")) {
+                    LocalDate endDate = ((TempUser)tempUser).getEndDate();
+                    LocalDate today = LocalDate.now();
+                    if (today.isAfter(endDate)) {
+                        UserLoginPresenter.expiredAccountMessage();
+                    }
+                    else {
+                        UserLoginPresenter.successMessage("Temporary. After " + endDate +
+                                " your account will be unavailable.");
+                    }
+                }
+                else {
                     UserLoginPresenter.successMessage("Regular");
                 }
                 redirect(tempUser);
