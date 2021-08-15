@@ -3,14 +3,12 @@ package Controller;
 import Entity.AdminUser;
 import Entity.GuestUser;
 import Entity.RegularUser;
-import Entity.TempUser;
 import Entity.User;
 import Presenter.UserLoginPresenter;
 import UseCase.UserManager;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.time.LocalDate;
 
 /**
  * Controller for the user login process.
@@ -36,21 +34,24 @@ public class UserLoginController {
      */
     public void NormalUserinput(){
         Scanner myObj = new Scanner(System.in);
-        UserLoginPresenter.display();
-        this.userName = myObj.nextLine();
-        if (this.userName.equals("Signup")){
-            /* Jump to signup */
-            UserSignupController signup1 = new UserSignupController(this.testUM);
-            signup1.UserInput();
-            // Going through the login process again
-            UserLoginPresenter.display3(); // using display 3 to remove dialogue of giving the user the option to signup or login as guest
+        while (true){UserLoginPresenter.display();
             this.userName = myObj.nextLine();
-            RegularLogin();
-        } else if (this.userName.equals("Guest")){
-            GuestUserInput();
-        } else {
-            RegularLogin();
-        }
+            if (this.userName.equals("Signup")){
+                /* Jump to signup */
+                UserSignupController signup1 = new UserSignupController(this.testUM);
+                signup1.UserInput();
+                // Going through the login process again
+                UserLoginPresenter.display3(); // using display 3 to remove dialogue of giving the user the option to signup or login as guest
+                this.userName = myObj.nextLine();
+                RegularLogin();
+            } else if (this.userName.equals("Guest")){
+                GuestUserInput();
+            } else if(this.userName.equals("EXIT")){
+                UserLoginPresenter.exitMessage();
+                break;
+            }else {
+                RegularLogin();
+            }}
 
     }
 
@@ -100,16 +101,6 @@ public class UserLoginController {
             } else {
                 if (this.userName.startsWith("Admin_")) {
                     UserLoginPresenter.successMessage("Admin");
-                } else if (this.userName.startsWith("Temp_")) {
-                    LocalDate endDate = ((TempUser)tempUser).getEndDate();
-                    LocalDate today = LocalDate.now();
-                    if (today.isAfter(endDate)) {
-                        UserLoginPresenter.expiredAccountMessage();
-                    }
-                    else {
-                        UserLoginPresenter.successMessage("Temporary. After " + endDate +
-                                " your account will be unavailable.");
-                    }
                 } else {
                     UserLoginPresenter.successMessage("Regular");
                 }
