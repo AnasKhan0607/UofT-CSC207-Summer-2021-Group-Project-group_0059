@@ -1,22 +1,15 @@
 package Presenter;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -27,12 +20,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.reflect.AccessibleObject.setAccessible;
-
 
 public class GamePresenter{
-
-//    class AlertBox
 
     Stage window;
     Object userChoice;
@@ -72,14 +61,14 @@ public class GamePresenter{
         return (int) userChoice;
     }
 
-    public int displayChoices(Object suspendedObject, List choices, String dialogue) {
+    public int displayChoices(Object suspendedObject, List choices, String text) {
         Platform.runLater(() -> {
-            VBox dialogueLayout = wrapDialogue(dialogue);
+            VBox textLayout = wrapDialogue(text);
             VBox choicesLayout = wrapChoices(suspendedObject, choices);
 
             BorderPane layout = new BorderPane();
             layout.setCenter(choicesLayout);
-            layout.setBottom(dialogueLayout);
+            layout.setBottom(textLayout);
 
             window.setScene(new Scene(layout, 1200, 800));
             window.show();
@@ -90,6 +79,38 @@ public class GamePresenter{
             return -1;
         }
         return (int) userChoice;
+    }
+
+    public List displayInputs(Object suspendedObject, List inputTags){
+        Platform.runLater(() -> {
+            VBox inputLayout = wrapInputs(suspendedObject, inputTags);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(inputLayout);
+
+            window.setScene(new Scene(layout, 1200, 800));
+            window.show();
+        });
+
+        suspendThread(suspendedObject);
+        return (List) userChoice;
+    }
+
+    public List displayInputs(Object suspendedObject, List inputTags, String text){
+        Platform.runLater(() -> {
+            VBox inputLayout = wrapInputs(suspendedObject, inputTags);
+            VBox textLayout = wrapDialogue(text);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(inputLayout);
+            layout.setBottom(textLayout);
+
+            window.setScene(new Scene(layout, 1200, 800));
+            window.show();
+        });
+
+        suspendThread(suspendedObject);
+        return (List) userChoice;
     }
 
     public void displayTextScene(Object suspendedObject, String dialogue) {
@@ -144,38 +165,12 @@ public class GamePresenter{
         suspendThread(suspendedObject);
     }
 
-    private ImageView wrapImage(String picturePath) {
-        InputStream stream = null;
-        try {
-            stream = new FileInputStream(picturePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Image image = new Image(stream);
-        ImageView imageView = new ImageView();
-        imageView.setImage(image);
-        imageView.setX(0);
-        imageView.setY(0);
-        imageView.setFitWidth(1200);
-        imageView.setFitHeight(650);
-        imageView.setPreserveRatio(true);
-        return imageView;
+    public void terminateGUI(){
+        Platform.setImplicitExit(true);
+        Platform.runLater(() -> {
+            window.close();
+        });
     }
-
-    private VBox wrapDialogue(String dialogue) {
-        VBox dialogueLayout = new VBox();
-        dialogueLayout.setMinHeight(150);
-        dialogueLayout.setMaxHeight(650);
-        dialogueLayout.setAlignment(Pos.CENTER);
-        dialogueLayout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-        dialogueLayout.setPadding(new Insets(20));
-        Label dialogueLable = new Label(dialogue);
-        dialogueLable.setWrapText(true);
-        dialogueLayout.getChildren().add(dialogueLable);
-        return dialogueLayout;
-    }
-
 
     private void suspendThread(Object suspendedObject) {
         synchronized (suspendedObject){
@@ -207,6 +202,68 @@ public class GamePresenter{
             layout.getChildren().add(button);
         }
         return layout;
+    }
+
+    private VBox wrapInputs(Object suspendedObject, List choices) {
+        ArrayList inputList = new ArrayList();
+        VBox layout = new VBox();
+        layout.setMinHeight(650);
+        layout.setMaxHeight(800);
+        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        layout.setAlignment(Pos.CENTER);
+        for(int i = 0; i < choices.size(); i++){
+            Label inputLabel = new Label(choices.get(i).toString());
+            TextField input = new TextField();
+            input.setMaxWidth(400);
+            inputList.add(input);
+            layout.getChildren().addAll(inputLabel, input);
+        }
+        Button button = new Button("Finish Entering");
+        button.setOnAction(event -> {
+            for(int i = 0; i < inputList.size(); i++){
+                inputList.set(i, ((TextField) inputList.get(i)).getText());
+            }
+            userChoice = inputList;
+            window.hide();
+            synchronized (suspendedObject) {
+                suspendedObject.notify();
+            }
+        });
+        layout.getChildren().add(button);
+        return layout;
+    }
+
+    private VBox wrapDialogue(String dialogue) {
+        VBox dialogueLayout = new VBox();
+        dialogueLayout.setMinHeight(150);
+        dialogueLayout.setMaxHeight(650);
+        dialogueLayout.setAlignment(Pos.CENTER);
+        dialogueLayout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        dialogueLayout.setPadding(new Insets(20));
+        Label dialogueLable = new Label(dialogue);
+        dialogueLable.setWrapText(true);
+        dialogueLayout.getChildren().add(dialogueLable);
+        return dialogueLayout;
+    }
+
+    private ImageView wrapImage(String picturePath) {
+        InputStream stream = null;
+        try {
+            stream = new FileInputStream(picturePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Image image = new Image(stream);
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setX(0);
+        imageView.setY(0);
+        imageView.setFitWidth(1200);
+        imageView.setFitHeight(650);
+        imageView.setPreserveRatio(true);
+        return imageView;
     }
 
     // System.getProperty("user.dir"))

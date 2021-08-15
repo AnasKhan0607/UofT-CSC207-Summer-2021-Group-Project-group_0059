@@ -26,17 +26,22 @@ public class GameCreateController {
         bruh.add("bruh2");
         bruh.add("bruh3");
         GamePresenter gamePresenter = new GamePresenter();
-        gamePresenter.displayChoices(this, bruh);
-        System.out.println("1");
-        gamePresenter.displayChoices(this, bruh, "hmmmmm");
-        System.out.println("2");
+        int one = gamePresenter.displayChoices(this, bruh);
+        System.out.println(one);
+        int two = gamePresenter.displayChoices(this, bruh, "hmmmmm");
+        System.out.println(two);
+        List three = gamePresenter.displayInputs(this, bruh);
+        System.out.println(three);
+        List four = gamePresenter.displayInputs(this, bruh, "BRUH!");
+        System.out.println(four);
         gamePresenter.displayPictureScene(this, "hmmmmmm", "BRUH");
-        System.out.println("3");
+        System.out.println("5");
         gamePresenter.displayTextScene(this, "hmmmmm");
-        System.out.println(4);
+        System.out.println(6);
         gamePresenter.displayTextScene(this, "hmmmm", "awie;fjweaiofjeawio;fjweaio;f" +
                 " jwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwef");
-        System.out.println("5");
+        System.out.println("7");
+        gamePresenter.terminateGUI();
 
     }
 
