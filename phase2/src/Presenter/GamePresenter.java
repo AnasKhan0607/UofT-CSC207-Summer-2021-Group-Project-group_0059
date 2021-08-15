@@ -50,6 +50,7 @@ public class GamePresenter{
                         "Nothing will be saved!");
                 e.consume();
             });
+            Platform.setImplicitExit(false);
         });
     }
 
@@ -74,12 +75,11 @@ public class GamePresenter{
     public int displayChoices(Object suspendedObject, List choices, String dialogue) {
         Platform.runLater(() -> {
             VBox dialogueLayout = wrapDialogue(dialogue);
-
-            VBox pictureLayout = wrapChoices(this, choices);
+            VBox choicesLayout = wrapChoices(suspendedObject, choices);
 
             BorderPane layout = new BorderPane();
+            layout.setCenter(choicesLayout);
             layout.setBottom(dialogueLayout);
-            layout.setCenter(pictureLayout);
 
             window.setScene(new Scene(layout, 1200, 800));
             window.show();
@@ -107,17 +107,6 @@ public class GamePresenter{
         });
 
         suspendThread(suspendedObject);
-    }
-
-    private void addExitButton(Object suspendedObject, VBox dialogueLayout) {
-        Button button = new Button("Next");
-        button.setOnAction(event -> {
-            window.hide();
-            synchronized (suspendedObject) {
-                suspendedObject.notify();
-            }
-        });
-        dialogueLayout.getChildren().add(button);
     }
 
     public void displayTextScene(Object suspendedObject, String dialogue, String textArt) {
@@ -240,5 +229,16 @@ public class GamePresenter{
             }
         }
         return foundPath;
+    }
+
+    private void addExitButton(Object suspendedObject, VBox dialogueLayout) {
+        Button button = new Button("Next");
+        button.setOnAction(event -> {
+            window.hide();
+            synchronized (suspendedObject) {
+                suspendedObject.notify();
+            }
+        });
+        dialogueLayout.getChildren().add(button);
     }
 }

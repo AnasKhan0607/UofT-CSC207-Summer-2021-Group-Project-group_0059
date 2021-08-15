@@ -26,14 +26,17 @@ public class GameCreateController {
         bruh.add("bruh2");
         bruh.add("bruh3");
         GamePresenter gamePresenter = new GamePresenter();
-        gamePresenter.displayPictureScene(this, "ababbababababbaba u ugly lol lmao" +
-                "walahi u r ugly lol lmao bruh bruh bruh bruh bruh bro bruh walahi u r ugly lol " +
-                "lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly " +
-                "lol lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol " +
-                "lmao bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol lmao " +
-                "bruh bruh bruh bruh bruh bro bruhwalahi u r ugly lol lmao " +
-                "bruh bruh bruh bruh bruh bro bruh","BRUH");
-
+        gamePresenter.displayChoices(this, bruh);
+        System.out.println("1");
+        gamePresenter.displayChoices(this, bruh, "hmmmmm");
+        System.out.println("2");
+        gamePresenter.displayPictureScene(this, "hmmmmmm", "BRUH");
+        System.out.println("3");
+        gamePresenter.displayTextScene(this, "hmmmmm");
+        System.out.println(4);
+        gamePresenter.displayTextScene(this, "hmmmm", "awie;fjweaiofjeawio;fjweaio;f" +
+                " jwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwef");
+        System.out.println("5");
 
     }
 
