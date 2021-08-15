@@ -85,8 +85,8 @@ public class AdminUserNavigatorController implements UserData {
                 sc1.run();
 
             }
-            else {//AdminUserNavigatorPresenter.errorMessage();
-                gamePresenter.displayTextScene(this, "Invalid choice, please try again"); }
+            else {
+                gamePresenter.displayTextScene(this, "BACK","Invalid choice, please try again"); }
         }
 
 

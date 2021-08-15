@@ -66,7 +66,7 @@ public class RegularUserNavigatorController implements UserData {
                 break;
 
             }  else {
-                 gamePresenter.displayTextScene(this, "Invalid choice, please try again");
+                 gamePresenter.displayTextScene(this, "BACK","Invalid choice, please try again");
             }
         }
     }

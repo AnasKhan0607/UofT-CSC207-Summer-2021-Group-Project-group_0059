@@ -49,6 +49,6 @@ public class GuestUserNavigatorController implements UserData {
                 gamePresenter.displayTextScene(this, "CONTINUE", "Successfully logged out");
                 break;
 
-            } else {gamePresenter.displayTextScene(this, "Invalid choice, please try again");}}
+            } else {gamePresenter.displayTextScene(this, "BACK","Invalid choice, please try again");}}
     }
 }

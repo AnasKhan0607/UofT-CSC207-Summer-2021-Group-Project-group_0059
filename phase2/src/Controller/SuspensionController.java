@@ -1,8 +1,10 @@
 package Controller;
 
+import Presenter.GamePresenter;
 import Presenter.SuspensionPresenter;
 import UseCase.UserManager;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SuspensionController {
@@ -14,9 +16,12 @@ public class SuspensionController {
 
     public void run(){
         while (true) {
-            SuspensionPresenter.welcome();
-            Scanner myObj = new Scanner(System.in);
-            int choice = Integer.valueOf(myObj.next());
+            GamePresenter gamePresenter = new GamePresenter();
+            ArrayList<String> choices = new ArrayList<>();
+            choices.add("1. suspend a User?(cannot suspend an admin)");
+            choices.add("2. unsuspend a User?");
+            choices.add("3. quit");
+            int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ username + ". what would you like to do?");
             if (choice == 1){
                 suspend();
             } else if (choice == 2){
@@ -24,32 +29,35 @@ public class SuspensionController {
             } else if (choice == 3){
                 break;
             } else {
-                SuspensionPresenter.errorChoice();
+                gamePresenter.displayTextScene(this, "BACK", username + "Invalid choice. Please try again!");
             }
         }
     }
 
     public void suspend(){
-        Scanner myObj = new Scanner(System.in);
-        SuspensionPresenter.display1();
-        String choice = myObj.nextLine();
+        GamePresenter gamePresenter = new GamePresenter();
+        ArrayList<String> inputs = new ArrayList<>();
+        inputs.add("Please input the username you need to suspend:");
+        String choice = (String)gamePresenter.displayInputs(this, inputs).get(0);
         username = choice;
         if (!username.startsWith("Admin_")){UserManager tempum = new UserManager();
             boolean rst = tempum.suspendUser(username);
             if (rst){
-                SuspensionPresenter.successMessage(username);
-            } else {SuspensionPresenter.errorMessage();}} else {SuspensionPresenter.errorMessage2();}
+                gamePresenter.displayTextScene(this, "CONTINUE", username + "has been successfully unsuspended");
+            } else {gamePresenter.displayTextScene(this, "BACK", "Username not found");}} else {gamePresenter.displayTextScene(this, "BACK", "You cannot suspend another Admin !");}
 
     }
 
     public void unsuspend(){
-        Scanner myObj = new Scanner(System.in);
-        SuspensionPresenter.display2();
-        String choice = myObj.nextLine();
+        GamePresenter gamePresenter = new GamePresenter();
+        ArrayList<String> inputs = new ArrayList<>();
+        inputs.add("Please input the username you need to unsuspend:");
+        String choice = (String)gamePresenter.displayInputs(this, inputs).get(0);
         username = choice;
         UserManager tempum = new UserManager();
         boolean rst = tempum.unsuspendUser(username);
-        if (rst){SuspensionPresenter.successMessage2(username);} else {SuspensionPresenter.errorMessage();}
+        if (rst){gamePresenter.displayTextScene(this, "CONTINUE", username + "has been successfully unsuspended");}
+        else {gamePresenter.displayTextScene(this, "BACK", "Username not found");}
     }
 
     public String getUsername() {
