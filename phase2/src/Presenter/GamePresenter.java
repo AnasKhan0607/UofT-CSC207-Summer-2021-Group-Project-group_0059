@@ -69,6 +69,7 @@ public class GamePresenter{
 
     public void displayMessages(Object suspendedObject, String username, List<Message> messages) {
         Platform.runLater(() -> {
+            window = new Stage();
             window.setTitle(username + "'s Message Box");
 
             //ID column
@@ -98,16 +99,20 @@ public class GamePresenter{
 
             Button deleteButton = new Button("Delete");
             deleteButton.setOnAction(e -> deleteButtonClicked(suspendedObject));
+            Button quitButton = new Button("QUIT");
+            quitButton.setOnAction(e -> quitButtonClicked(suspendedObject));
 
-            HBox hBox = new HBox();
-            hBox.getChildren().addAll(deleteButton);
+            //HBox hBox = new HBox();
+            //hBox.getChildren().addAll(deleteButton, quitButton);
 
             messageTableView = new TableView<>();
             messageTableView.setItems(getMessages(messages));
             messageTableView.getColumns().addAll(timeColumn, fromColumn,messageColumn,statusColumn);
 
             VBox vbox = new VBox();
-            vbox.getChildren().addAll(messageTableView, hBox);
+            vbox.getChildren().addAll(messageTableView, deleteButton, quitButton);
+
+            //addExitButton(suspendedObject, vbox);
 
             Scene scene = new Scene(vbox);
             window.setScene(scene);
@@ -125,6 +130,13 @@ public class GamePresenter{
         for (Message msg: messagesSelected){
             MessageController messageController = (MessageController)suspendedObject;
             messageController.removeMessage(msg.getid());
+        }
+    }
+
+    public void quitButtonClicked(Object suspendedObject){
+        window.hide();
+        synchronized (suspendedObject) {
+            suspendedObject.notify();
         }
     }
 
