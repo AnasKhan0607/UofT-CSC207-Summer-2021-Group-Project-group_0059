@@ -26,12 +26,15 @@ public class UserManager {
         UserGate myGate = new UserGate();
         HashMap<String, List<Object>> tempUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
+        for (Map.Entry <String, List<Object>> mapElement :tempUsers.entrySet()){
+            System.out.println(mapElement.getKey() + "    " + mapElement.getValue());
+        }
 
 
 
-        for (Map.Entry mapElement :tempUsers.entrySet()){
-            String username = (String)mapElement.getKey();
-            List lst = (List)mapElement.getValue();
+            for (Map.Entry <String, List<Object>> mapElement :tempUsers.entrySet()){
+            String username = mapElement.getKey();
+            List lst = mapElement.getValue();
             String password = (String)lst.get(0);
             boolean suspension = (boolean) lst.get(1);
 

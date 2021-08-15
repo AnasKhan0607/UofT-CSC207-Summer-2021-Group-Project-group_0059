@@ -16,7 +16,7 @@ public class MessageGate {
 
     public MessageGate(){
         //this.myPath = findSaveUserFile(System.getProperty("message.dir"));
-        this.myPath = new File("").getAbsolutePath() + "\\data\\SerialMessage.txt";
+        this.myPath = new File("").getAbsolutePath() + "\\data\\MessageData.txt";
     }
 
     private String findSaveUserFile(String filePath){
@@ -26,7 +26,7 @@ public class MessageGate {
 
         if (directoryListing != null) {
             for (File child : directoryListing) {
-                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("SerialMessage.txt")){
+                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("MessageData.txt")){
                     return child.getAbsolutePath();
                 }
                 else{

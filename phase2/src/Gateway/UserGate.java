@@ -30,7 +30,7 @@ public class UserGate {
 
         if (directoryListing != null) {
             for (File child : directoryListing) {
-                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("SerialUser.txt")){
+                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("UserData.txt")){
                     return child.getAbsolutePath();
                 }
                 else{
