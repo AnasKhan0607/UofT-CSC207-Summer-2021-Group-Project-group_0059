@@ -74,6 +74,7 @@ public class UserManager {
             if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
+                save(username, password, false);
             } else if (username.startsWith("Temp_")) {
                 LocalDate startDate = LocalDate.now();
                 LocalDate endDate = LocalDate.now().plusDays(30);
@@ -89,8 +90,9 @@ public class UserManager {
             }else {
                 RegularUser tempUser = new RegularUser(username, password);
                 this.bufferedUsers.add(tempUser);
+                save(username, password, false);
             }
-            save(username, password, false);// need this UserGate method that adds the new user to the file
+            // need this UserGate method that adds the new user to the file
 
         } else {
             String username = "Guest";
