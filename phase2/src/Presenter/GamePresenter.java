@@ -25,6 +25,8 @@ public class GamePresenter{
 
     Stage window;
     Object userChoice;
+    String styleSheet = getClass().getResource("GamePresenter.css").toExternalForm();
+    // = findFile("GamePresenter.css", System.getProperty("user.dir"));
 
     public GamePresenter(){
         // To do Platform.runlater, the toolkits must be initialized, see
@@ -50,8 +52,7 @@ public class GamePresenter{
             BorderPane layout = new BorderPane();
             layout.setCenter(choicesLayout);
 
-            window.setScene(new Scene(layout, 1200, 800));
-            window.show();
+            displayScene(layout);
         });
 
         suspendThread(suspendedObject);
@@ -70,8 +71,7 @@ public class GamePresenter{
             layout.setCenter(choicesLayout);
             layout.setBottom(textLayout);
 
-            window.setScene(new Scene(layout, 1200, 800));
-            window.show();
+            displayScene(layout);
         });
 
         suspendThread(suspendedObject);
@@ -88,8 +88,7 @@ public class GamePresenter{
             BorderPane layout = new BorderPane();
             layout.setCenter(inputLayout);
 
-            window.setScene(new Scene(layout, 1200, 800));
-            window.show();
+            displayScene(layout);;
         });
 
         suspendThread(suspendedObject);
@@ -105,8 +104,7 @@ public class GamePresenter{
             layout.setCenter(inputLayout);
             layout.setBottom(textLayout);
 
-            window.setScene(new Scene(layout, 1200, 800));
-            window.show();
+            displayScene(layout);
         });
 
         suspendThread(suspendedObject);
@@ -123,8 +121,7 @@ public class GamePresenter{
             layout.setBottom(dialogueLayout);
             layout.setCenter(pictureLayout);
 
-            window.setScene(new Scene(layout, 1200, 800));
-            window.show();
+            displayScene(layout);
         });
 
         suspendThread(suspendedObject);
@@ -140,15 +137,14 @@ public class GamePresenter{
             layout.setCenter(pictureLayout);
             layout.setBottom(dialogueLayout);
 
-            window.setScene(new Scene(layout, 1200, 800));
-            window.show();
+            displayScene(layout);
         });
 
         suspendThread(suspendedObject);
     }
 
-    public void displayPictureScene(Object suspendedObject, String dialogue, String pictureName) {
-        String picturePath = findPictureFile(pictureName, System.getProperty("user.dir"));
+    public void displayPictureScene(Object suspendedObject, String dialogue, String name) {
+        String picturePath = findFile(name, System.getProperty("user.dir"));
         Platform.runLater(() -> {
             ImageView imageView = wrapImage(picturePath);
             VBox dialogueLayout = wrapDialogue(dialogue);
@@ -158,8 +154,7 @@ public class GamePresenter{
             layout.setCenter(imageView);
             layout.setBottom(dialogueLayout);
 
-            window.setScene(new Scene(layout, 1200, 800));
-            window.show();
+            displayScene(layout);
         });
 
         suspendThread(suspendedObject);
@@ -249,11 +244,12 @@ public class GamePresenter{
     }
 
     private ImageView wrapImage(String picturePath) {
-        InputStream stream = null;
+        InputStream stream;
         try {
             stream = new FileInputStream(picturePath);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("File Not Found!");
+            return null;
         }
         Image image = new Image(stream);
         ImageView imageView = new ImageView();
@@ -267,18 +263,18 @@ public class GamePresenter{
     }
 
     // System.getProperty("user.dir"))
-    private String findPictureFile(String pictureName, String filePath){
+    private String findFile(String name, String filePath){
         File dir = new File(filePath);
         File[] directoryListing = dir.listFiles();
         String foundPath = "";
 
         if (directoryListing != null) {
             for (File child : directoryListing) {
-                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains(pictureName)){
+                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains(name)){
                     return child.getAbsolutePath();
                 }
                 else{
-                    String path = findPictureFile(pictureName, child.getAbsolutePath());
+                    String path = findFile(name, child.getAbsolutePath());
                     if (!path.equals("")){
                         return path;
                     }
@@ -297,5 +293,12 @@ public class GamePresenter{
             }
         });
         dialogueLayout.getChildren().add(button);
+    }
+
+    private void displayScene(BorderPane layout) {
+        Scene scene = new Scene(layout, 1200, 800);
+        scene.getStylesheets().add(styleSheet);
+        window.setScene(scene);
+        window.show();
     }
 }
