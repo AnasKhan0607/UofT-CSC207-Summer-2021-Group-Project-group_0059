@@ -45,7 +45,7 @@ public class TemplateGate implements LoadSave {
 
         if (directoryListing != null) {
             for (File child : directoryListing) {
-                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("SerialTemplates.txt")){
+                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("TemplateData.txt")){
                     return child.getAbsolutePath();
                 }
                 else{
