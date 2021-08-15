@@ -77,6 +77,7 @@ public class MessageManager {
         return msgs;
     }
 
+
     public boolean deleteMessage(String id){
         for (Message msg: bufferedMessages){
             if (msg.getid().equals(id)) {

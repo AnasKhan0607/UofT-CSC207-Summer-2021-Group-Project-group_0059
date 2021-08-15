@@ -2,7 +2,9 @@ package Controller;
 
 import Entity.Message;
 import Entity.MessageSortByTime;
+import Presenter.GamePresenter;
 import Presenter.MessagePresenter;
+import Presenter.MessagePresenterV2;
 import UseCase.MessageManager;
 
 import java.util.*;
@@ -18,7 +20,29 @@ public class MessageController {
 
     public void run(){
         readMessage();
+        GamePresenter messagePresenterV2 = new GamePresenter();
+
         while (true) {
+
+            GamePresenter gamePresenter = new GamePresenter();
+            ArrayList<String> choices = new ArrayList<>();
+            choices.add("1. Read the messages");
+            choices.add("2. Compose a message");
+            choices.add("3. Play the creation(just provide the gameName you find in messages)");
+            choices.add("4. QUIT");
+            int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ currentUserName + ". what would you like to do?");
+            while (true){
+                if (choice == 1){
+                    messagePresenterV2.displayMessages(this, currentUserName, mm.getMessage(currentUserName));
+                } else if (choice == 2){
+                    writeMessage();
+                } else if (choice == 3){
+                    gamePresenter.displayTextScene(this, "CONTINUE", "UNDER CONSTRUCTION");
+                } else {
+                    gamePresenter.displayTextScene(this, "CONTINUE", "Invalid choice. Please try again");
+                }
+            }
+            /**
             MessagePresenter.welcomingPrompt();
             Scanner myObj = new Scanner(System.in);
             int choice = Integer.valueOf(myObj.next());
@@ -29,6 +53,7 @@ public class MessageController {
             } else if (choice == 3){
                 break;
             } else {MessagePresenter.errorChoice();}
+             **/
         }
 
     }
@@ -90,8 +115,10 @@ public class MessageController {
         //myObj.close();
 
     }
-    public void removeMessage(){
-
+    public void removeMessage(String id){
+        MessageManager mm = new MessageManager();
+        mm.deleteMessage(id);
+        /**
         while (true){
             MessagePresenter.writeMessagePrompt3();
             Scanner myObj = new Scanner(System.in);
@@ -106,6 +133,7 @@ public class MessageController {
                 MessagePresenter.errorMessageID(id);
             }
         }
+         **/
     }
 
 
