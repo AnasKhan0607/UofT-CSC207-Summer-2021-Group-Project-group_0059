@@ -6,7 +6,7 @@ import Interface.UserData;
 import Presenter.GameTextPresenter;
 import Presenter.GamePresenter;
 import UseCase.GameUseCase;
-
+import UseCase.GameUseCase2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -66,6 +66,7 @@ public class GameCreateController {
     private TemplateData templateData;
     private UserData userData;
     private GameUseCase gameUseCase;
+    private GameUseCase2 gameUseCase2;
     private GameTextPresenter gameTextPresenter = new GameTextPresenter();
     private Scanner scanner = new Scanner(System.in);
 
@@ -100,6 +101,6 @@ public class GameCreateController {
         gameUseCase.createGame(choiceNumLimit, gameName, userData.currentUser(), initialDialogue);
         gameTextPresenter.displayScene("Game creation complete. Enter anything to continue.");
         scanner.nextLine();
-        gameUseCase.saveGames();
+        gameUseCase2.saveGames();
     }
 }

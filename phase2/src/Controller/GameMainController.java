@@ -5,7 +5,7 @@ import Interface.TemplateData;
 import Interface.UserData;
 import Presenter.GameTextPresenter;
 import UseCase.GameUseCase;
-
+import UseCase.GameUseCase2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -23,6 +23,7 @@ public class GameMainController {
 
     private UserData userData;
     private GameUseCase gameUseCase;
+    private GameUseCase2 gameUseCase2;
     private GameCreateController gameCreator;
     private GamePlayController gamePlayer;
     private GameEditController gameEditor;
@@ -138,7 +139,7 @@ public class GameMainController {
         boolean privateGame = gameUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
         boolean publicGame = gameUseCase.getPublicGames().contains(gameName);
         if (privateGame || publicGame){
-            gameUseCase.openGame(gameName);
+            gameUseCase2.openGame(gameName);
             gameTextPresenter.displayScene("Enter anything to exit.", gameUseCase.getGameAsString(gameName));
             scanner.next();
         }

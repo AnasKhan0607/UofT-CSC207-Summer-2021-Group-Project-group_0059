@@ -3,7 +3,7 @@ package Controller;
 import Interface.UserData;
 import Presenter.GameTextPresenter;
 import UseCase.GameUseCase;
-
+import UseCase.GameUseCase2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,6 +16,7 @@ import java.util.Scanner;
 public class GamePlayController {
 
     private GameUseCase gameUseCase;
+    private GameUseCase2 gameUseCase2;
     private GameTextPresenter gameTextPresenter = new GameTextPresenter();
     private Scanner scanner = new Scanner(System.in);
     private UserData userData;
@@ -57,12 +58,12 @@ public class GamePlayController {
             return;
         }
 
-        ArrayList<Object> dialogueArrayList = gameUseCase.openGame(gameName);
+        ArrayList<Object> dialogueArrayList = gameUseCase2.openGame(gameName);
         Integer dialogueId = (Integer) dialogueArrayList.get(0);
         String dialogue = (String) dialogueArrayList.get(1);
 
-        ArrayList<String> childrenChoices = gameUseCase.getDialogueChoices(dialogueId);
-        ArrayList<Integer> childrenChoiceIds = gameUseCase.getDialogueChoiceIds(dialogueId);
+        ArrayList<String> childrenChoices = gameUseCase2.getDialogueChoices(dialogueId);
+        ArrayList<Integer> childrenChoiceIds = gameUseCase2.getDialogueChoiceIds(dialogueId);
         ArrayList<String> choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
 
         int userChoice = 0;
@@ -89,10 +90,10 @@ public class GamePlayController {
                 continue;
             }
 
-            childrenChoices = gameUseCase.getDialogueChoices(userChoice);
-            childrenChoiceIds = gameUseCase.getDialogueChoiceIds(userChoice);
+            childrenChoices = gameUseCase2.getDialogueChoices(userChoice);
+            childrenChoiceIds = gameUseCase2.getDialogueChoiceIds(userChoice);
             choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
-            dialogue = gameUseCase.getDialogueById(userChoice);
+            dialogue = gameUseCase2.getDialogueById(userChoice);
         }
     }
 
