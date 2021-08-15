@@ -49,7 +49,7 @@ public class AdminUserNavigatorController implements UserData {
                 AdminUserNavigatorPresenter.redirectingMessage();
                 TemplateEditorController te = new TemplateEditorController();
                 GameMainController gc = new GameMainController(te ,this::currentUser);
-                gc.gameMenuAdminUser();
+                gc.gameMenu();
 
             } else if (choice == 2) {
                 /* TemplateEditor*/
@@ -59,20 +59,20 @@ public class AdminUserNavigatorController implements UserData {
 
             } else if (choice == 3){
                 MessageController c1 = new MessageController(username);
-                c1.run();
-            }
-            else if (choice == 5) {
+                c1.readMessage();
+            } else if (choice == 4){
+                MessageController c1 = new MessageController(username);
+                c1.writeMessage();}
+            else if (choice == 6) {
                 /*logout*/
                 AdminUserNavigatorPresenter.logoutMessage();
-
+                scanner.close();
                 break;
 
-            } else if (choice == 4) {
+            } else if (choice == 5) {
                 SuspensionController sc1 = new SuspensionController();
-                sc1.run();
-
+                sc1.suspend();
             }
-            else {AdminUserNavigatorPresenter.errorMessage();}
         }
 
 

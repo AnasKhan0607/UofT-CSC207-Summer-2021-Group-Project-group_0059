@@ -1,113 +1,301 @@
 package Presenter;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
-
-/**
- * The presenter class for games.
- * Displays the games and their dialogues in a user-friendly format.
- */
-
-public class GamePresenter {
-
-    /**
-     * Display a scenic view of Northern Lights
-     * @param args arguments
-     */
-
-    public static void main(String[] args) {
-        GamePresenter present = new GamePresenter();
-        ArrayList<String> bruh = new ArrayList<>();
-        bruh.add("bruh");
-        bruh.add("bruh");
-        bruh.add("bruh");
-        bruh.add("bruh");
-        bruh.add("bruh");
+import java.util.List;
 
 
-//        present.displayScene("bruh", bruh);
-        present.displayScene("Northern Lights",
-                "  ` : | | | |:  ||  :     `  :  |  |+|: | : : :|   .        `              .\n" +
-                "      ` : | :|  ||  |:  :    `  |  | :| : | : |:   |  .                    :\n" +
-                "         .' ':  ||  |:  |  '       ` || | : | |: : |   .  `           .   :.\n" +
-                "                `'  ||  |  ' |   *    ` : | | :| |*|  :   :               :|\n" +
-                "        *    *       `  |  : :  |  .      ` ' :| | :| . : :         *   :.||\n" +
-                "             .`            | |  |  : .:|       ` | || | : |: |          | ||\n" +
-                "      '          .         + `  |  :  .: .         '| | : :| :    .   |:| ||\n" +
-                "         .                 .    ` *|  || :       `    | | :| | :      |:| |\n" +
-                " .                .          .        || |.: *          | || : :     :|||\n" +
-                "        .            .   . *    .   .  ` |||.  +        + '| |||  .  ||`\n" +
-                "     .             *              .     +:`|!             . ||||  :.||`\n" +
-                " +                      .                ..!|*          . | :`||+ |||`\n" +
-                "     .                         +      : |||`        .| :| | | |.| ||`     .\n" +
-                "       *     +   '               +  :|| |`     :.+. || || | |:`|| `\n" +
-                "                            .      .||` .    ..|| | |: '` `| | |`  +\n" +
-                "  .       +++                      ||        !|!: `       :| |\n" +
-                "              +         .      .    | .      `|||.:      .||    .      .    `\n" +
-                "          '                           `|.   .  `:|||   + ||'     `\n" +
-                "  __    +      *                         `'       `'|.    `:\n" +
-                "\"'  `---\"\"\"----....____,..^---`^``----.,.___          `.    `.  .    ____,.,-\n" +
-                "    ___,--'\"\"`---\"'   ^  ^ ^        ^       \"\"\"'---,..___ __,..---\"\"'\n" +
-                "--\"'                           ^                         ``--..,__ D. Rice");
-//        present.displayScene(";wefj;");
+public class GamePresenter{
 
-//        present.displayScene("bitttttttteawjfioaei" +
-//                "ewfiojawe;ifojwefoi;jwafiowejfiowef" +
-//                "foeiw;fjewiofjwe;iofjefoji;weajfi;" +
-//                "aweoi;fjiowe;fjiowe;fjweifjwefio" +
-//                "tttch you r ugly aiowefjaioj;efjwae;oifjweiofjwe;afiojaweiofjwaioe;fjawe;oifje" +
-//                ";weofijwefiowaefjwoei;fjwe;fowefo;wefj;");
+    Stage window;
+    Object userChoice;
+
+    public GamePresenter(){
+        // To do Platform.runlater, the toolkits must be initialized, see
+        // https://staticfinal.blog/2015/04/04/javafx-toolkit-not-initialized-solved/
+        new JFXPanel();
+
+        Platform.runLater(() -> {
+            this.window = new Stage();
+            window.setTitle("VN Creator");
+            window.setOnCloseRequest(e -> {
+                System.out.println("Are you sure you want to exit? " +
+                        "Nothing will be saved!");
+                e.consume();
+            });
+            Platform.setImplicitExit(false);
+        });
     }
 
-    private BoxWrapper dialogueBox = new BoxWrapper("dialogue");
-    private BoxWrapper pictureBox = new BoxWrapper("picture");
-    private BoxWrapper choiceBox = new BoxWrapper("choice");
+    public Integer displayChoices(Object suspendedObject, List choices){
+        Platform.runLater(() -> {
+            VBox choicesLayout = wrapChoices(suspendedObject, choices);
 
-    /**
-     * Displays the dialogue and corresponding scene to be displayed
-     * @param dialogue The message to be displayed
-     * @param picture The string which makes up a picture to be displayed.
-     */
+            BorderPane layout = new BorderPane();
+            layout.setCenter(choicesLayout);
 
-    public void displayScene(String dialogue, String picture){
-        System.out.println(pictureBox.insertPicture(picture));
-        System.out.println(dialogueBox.insertText(dialogue));
-    }
+            window.setScene(new Scene(layout, 1200, 800));
+            window.show();
+        });
 
-    /**
-     * Displays the dialogue and corresponding choices to be displayed
-     * @param dialogue The string of the main message to be displayed
-     * @param choices The list of strings which are the choices
-     */
-
-    public void displayScene(String dialogue, ArrayList<String> choices){
-        String text = "";
-        for (int i = 0; i < choices.size(); i++){
-            text += choiceBox.insertText(choices.get(i)).replaceAll("\n", "");
+        suspendThread(suspendedObject);
+        if (userChoice == null){
+            return -1;
         }
-        System.out.println(pictureBox.insertText(text));
-        System.out.println(dialogueBox.insertText(dialogue));
+        return (int) userChoice;
     }
 
-    /**
-     * Displays the dialogue given
-     * @param dialogue The string of the main message to be displayed
-     */
+    public int displayChoices(Object suspendedObject, List choices, String text) {
+        Platform.runLater(() -> {
+            VBox textLayout = wrapDialogue(text);
+            VBox choicesLayout = wrapChoices(suspendedObject, choices);
 
-    public void displayScene(String dialogue){
-        System.out.print(pictureBox);
-        System.out.println(dialogueBox.insertText(dialogue));
-    }
+            BorderPane layout = new BorderPane();
+            layout.setCenter(choicesLayout);
+            layout.setBottom(textLayout);
 
-    /**
-     * Wraps a box around choices that are displayed.
-     * @param choices an arraylist of strings which are the choices to be displayed.
-     */
+            window.setScene(new Scene(layout, 1200, 800));
+            window.show();
+        });
 
-    public void displayScene(ArrayList<String> choices){
-        String text = "";
-        for (int i = 0; i < choices.size(); i++){
-            text += choiceBox.insertText(choices.get(i)).replaceAll("\n", "");
+        suspendThread(suspendedObject);
+        if (userChoice == null){
+            return -1;
         }
-        System.out.println(pictureBox.insertText(text));
+        return (int) userChoice;
+    }
+
+    public List displayInputs(Object suspendedObject, List inputTags){
+        Platform.runLater(() -> {
+            VBox inputLayout = wrapInputs(suspendedObject, inputTags);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(inputLayout);
+
+            window.setScene(new Scene(layout, 1200, 800));
+            window.show();
+        });
+
+        suspendThread(suspendedObject);
+        return (List) userChoice;
+    }
+
+    public List displayInputs(Object suspendedObject, List inputTags, String text){
+        Platform.runLater(() -> {
+            VBox inputLayout = wrapInputs(suspendedObject, inputTags);
+            VBox textLayout = wrapDialogue(text);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(inputLayout);
+            layout.setBottom(textLayout);
+
+            window.setScene(new Scene(layout, 1200, 800));
+            window.show();
+        });
+
+        suspendThread(suspendedObject);
+        return (List) userChoice;
+    }
+
+    public void displayTextScene(Object suspendedObject, String dialogue) {
+        Platform.runLater(() -> {
+            VBox dialogueLayout = wrapDialogue(dialogue);
+            VBox pictureLayout = wrapChoices(null, new ArrayList());
+            addExitButton(suspendedObject, dialogueLayout);
+
+            BorderPane layout = new BorderPane();
+            layout.setBottom(dialogueLayout);
+            layout.setCenter(pictureLayout);
+
+            window.setScene(new Scene(layout, 1200, 800));
+            window.show();
+        });
+
+        suspendThread(suspendedObject);
+    }
+
+    public void displayTextScene(Object suspendedObject, String dialogue, String textArt) {
+        Platform.runLater(() -> {
+            VBox pictureLayout = wrapDialogue(textArt);
+            VBox dialogueLayout = wrapDialogue(dialogue);
+            addExitButton(suspendedObject, dialogueLayout);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(pictureLayout);
+            layout.setBottom(dialogueLayout);
+
+            window.setScene(new Scene(layout, 1200, 800));
+            window.show();
+        });
+
+        suspendThread(suspendedObject);
+    }
+
+    public void displayPictureScene(Object suspendedObject, String dialogue, String pictureName) {
+        String picturePath = findPictureFile(pictureName, System.getProperty("user.dir"));
+        Platform.runLater(() -> {
+            ImageView imageView = wrapImage(picturePath);
+            VBox dialogueLayout = wrapDialogue(dialogue);
+            addExitButton(suspendedObject, dialogueLayout);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(imageView);
+            layout.setBottom(dialogueLayout);
+
+            window.setScene(new Scene(layout, 1200, 800));
+            window.show();
+        });
+
+        suspendThread(suspendedObject);
+    }
+
+    public void terminateGUI(){
+        Platform.setImplicitExit(true);
+        Platform.runLater(() -> {
+            window.close();
+        });
+    }
+
+    private void suspendThread(Object suspendedObject) {
+        synchronized (suspendedObject){
+            try{
+                suspendedObject.wait();
+            } catch (InterruptedException e) {
+                System.out.println("Interrupted Exception; object.wait failed.");
+            }
+        }
+    }
+
+    private VBox wrapChoices(Object suspendedObject, List choices) {
+        VBox layout = new VBox();
+        layout.setMinHeight(650);
+        layout.setMaxHeight(800);
+        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        layout.setAlignment(Pos.CENTER);
+        for(int i = 0; i < choices.size(); i++){
+            final int counter = i;
+            Button button = new Button(choices.get(i).toString());
+            button.setOnAction(event -> {
+                userChoice = counter;
+                window.hide();
+                synchronized (suspendedObject) {
+                    suspendedObject.notify();
+                }
+            });
+            layout.getChildren().add(button);
+        }
+        return layout;
+    }
+
+    private VBox wrapInputs(Object suspendedObject, List choices) {
+        ArrayList inputList = new ArrayList();
+        VBox layout = new VBox();
+        layout.setMinHeight(650);
+        layout.setMaxHeight(800);
+        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        layout.setAlignment(Pos.CENTER);
+        for(int i = 0; i < choices.size(); i++){
+            Label inputLabel = new Label(choices.get(i).toString());
+            TextField input = new TextField();
+            input.setMaxWidth(400);
+            inputList.add(input);
+            layout.getChildren().addAll(inputLabel, input);
+        }
+        Button button = new Button("Finish Entering");
+        button.setOnAction(event -> {
+            for(int i = 0; i < inputList.size(); i++){
+                inputList.set(i, ((TextField) inputList.get(i)).getText());
+            }
+            userChoice = inputList;
+            window.hide();
+            synchronized (suspendedObject) {
+                suspendedObject.notify();
+            }
+        });
+        layout.getChildren().add(button);
+        return layout;
+    }
+
+    private VBox wrapDialogue(String dialogue) {
+        VBox dialogueLayout = new VBox();
+        dialogueLayout.setMinHeight(150);
+        dialogueLayout.setMaxHeight(650);
+        dialogueLayout.setAlignment(Pos.CENTER);
+        dialogueLayout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        dialogueLayout.setPadding(new Insets(20));
+        Label dialogueLable = new Label(dialogue);
+        dialogueLable.setWrapText(true);
+        dialogueLayout.getChildren().add(dialogueLable);
+        return dialogueLayout;
+    }
+
+    private ImageView wrapImage(String picturePath) {
+        InputStream stream = null;
+        try {
+            stream = new FileInputStream(picturePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Image image = new Image(stream);
+        ImageView imageView = new ImageView();
+        imageView.setImage(image);
+        imageView.setX(0);
+        imageView.setY(0);
+        imageView.setFitWidth(1200);
+        imageView.setFitHeight(650);
+        imageView.setPreserveRatio(true);
+        return imageView;
+    }
+
+    // System.getProperty("user.dir"))
+    private String findPictureFile(String pictureName, String filePath){
+        File dir = new File(filePath);
+        File[] directoryListing = dir.listFiles();
+        String foundPath = "";
+
+        if (directoryListing != null) {
+            for (File child : directoryListing) {
+                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains(pictureName)){
+                    return child.getAbsolutePath();
+                }
+                else{
+                    String path = findPictureFile(pictureName, child.getAbsolutePath());
+                    if (!path.equals("")){
+                        return path;
+                    }
+                }
+            }
+        }
+        return foundPath;
+    }
+
+    private void addExitButton(Object suspendedObject, VBox dialogueLayout) {
+        Button button = new Button("Next");
+        button.setOnAction(event -> {
+            window.hide();
+            synchronized (suspendedObject) {
+                suspendedObject.notify();
+            }
+        });
+        dialogueLayout.getChildren().add(button);
     }
 }

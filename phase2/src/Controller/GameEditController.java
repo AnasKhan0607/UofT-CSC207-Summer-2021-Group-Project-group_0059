@@ -1,8 +1,8 @@
 package Controller;
 import Interface.UserData;
-import Presenter.GamePresenter;
+import Presenter.GameTextPresenter;
 import UseCase.GameUseCase;
-
+import UseCase.GameUseCase2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -15,7 +15,8 @@ public class GameEditController {
 
     private UserData userData;
     private GameUseCase gameUseCase;
-    private GamePresenter gamePresenter = new GamePresenter();
+    private GameUseCase2 gameUseCase2;
+    private GameTextPresenter gameTextPresenter = new GameTextPresenter();
     private Scanner scanner = new Scanner(System.in);
     private final String editGameDialogueChoices = "Enter r to return to the parent dialogue, " +
             "v + id to view the dialogue with that id (e.g. v1), " +
@@ -47,14 +48,14 @@ public class GameEditController {
         }
         newGames.addAll(gameUseCase.getPrivateGames(userData.currentUser()));
 
-        gamePresenter.displayScene("Enter the name of the game you want to edit.", newGames);
+        gameTextPresenter.displayScene("Enter the name of the game you want to edit.", newGames);
         String gameName = String.valueOf(scanner.next());
         if(!verifyEditGameRight(gameName)){ return; }
-        ArrayList<Object> initialIdAndDialogue = gameUseCase.openGame(gameName);
+        ArrayList<Object> initialIdAndDialogue = gameUseCase2.openGame(gameName);
 
         int userChoice = 0;
         while (true){
-            gamePresenter.displayScene(
+            gameTextPresenter.displayScene(
                     "Choose and enter the corresponding integer.",
                     new ArrayList<>(Arrays.asList(new String[]{
                             "1: Make Game Public", "2: Edit Game Dialogues", "3: Exit and Save"})));
@@ -67,15 +68,15 @@ public class GameEditController {
             }
 
             if(userChoice == 1){
-                gameUseCase.changeGameState(gameName);
-                gameUseCase.saveGames();
+                gameUseCase2.changeGameState(gameName);
+                gameUseCase2.saveGames();
                 break;
             }
             else if(userChoice == 2){
                 editGameDialogues(gameName, (String) initialIdAndDialogue.get(1), (int) initialIdAndDialogue.get(0));
             }
             else if(userChoice == 3){
-                gameUseCase.saveGames();
+                gameUseCase2.saveGames();
                 break;
             }
         }
@@ -87,16 +88,16 @@ public class GameEditController {
         for (String game: publicGames){
             newGames.add(game);
         }
-        newGames.addAll(gameUseCase.getAllPrivateGames());
+        newGames.addAll(gameUseCase2.getAllPrivateGames());
 
-        gamePresenter.displayScene("Enter the name of the game you want to edit.", newGames);
-        String gameName = String.valueOf(scanner.nextLine());
-        if(!verifyEditGameRightAdmin(gameName)){ return; }
-        ArrayList<Object> initialIdAndDialogue = gameUseCase.openGame(gameName);
+        gameTextPresenter.displayScene("Enter the name of the game you want to edit.", newGames);
+        String gameName = String.valueOf(scanner.next());
+        if(!verifyEditGameRight(gameName)){ return; }
+        ArrayList<Object> initialIdAndDialogue = gameUseCase2.openGame(gameName);
 
         int userChoice = 0;
         while (true){
-            gamePresenter.displayScene(
+            gameTextPresenter.displayScene(
                     "Choose and enter the corresponding integer.",
                     new ArrayList<>(Arrays.asList(new String[]{
                             "1: change game state", "2: Edit Game Dialogues", "3: Exit and Save", "4:Delete Game"})));
@@ -109,20 +110,20 @@ public class GameEditController {
             }
 
             if(userChoice == 1){
-                gameUseCase.changeGameState(gameName);
-                gameUseCase.saveGames();
+                gameUseCase2.changeGameState(gameName);
+                gameUseCase2.saveGames();
                 break;
             }
             else if(userChoice == 2){
                 editGameDialogues(gameName, (String) initialIdAndDialogue.get(1), (int) initialIdAndDialogue.get(0));
             }
             else if(userChoice == 3){
-                gameUseCase.saveGames();
+                gameUseCase2.saveGames();
                 break;
             }
             else if(userChoice == 4){
-                gameUseCase.deleteGame(gameName);
-                gameUseCase.saveGames();
+                gameUseCase2.deleteGame(gameName);
+                gameUseCase2.saveGames();
                 break;
             }
         }
@@ -134,7 +135,7 @@ public class GameEditController {
         if(!privateGameByUser && publicGameByUser){
             int userChoice = 0;
             while(true){
-                gamePresenter.displayScene("You created this game, but it must be private to edit! " +
+                gameTextPresenter.displayScene("You created this game, but it must be private to edit! " +
                         "Make it private? Enter 1 to make it private, enter 2 to cancel this edit request.");
                 try{
                     userChoice = Integer.valueOf(scanner.next());
@@ -144,7 +145,7 @@ public class GameEditController {
                 }
 
                 if(userChoice == 1){
-                    gameUseCase.changeGameState(gameName);
+                    gameUseCase2.changeGameState(gameName);
                     return true;
                 }
                 else if(userChoice == 2){
@@ -153,39 +154,7 @@ public class GameEditController {
             }
         }
         else if(!privateGameByUser && !publicGameByUser){
-            gamePresenter.displayScene("You did not create this game! Enter anything to exit.");
-            scanner.next();
-            return false;
-        }
-        return true;
-    }
-
-    private boolean verifyEditGameRightAdmin(String gameName){
-        boolean privateGames = gameUseCase.getAllPrivateGames().contains(gameName);
-        boolean publicGames = gameUseCase.getPublicGames().contains(gameName);
-        if(!privateGames && publicGames){
-            int userChoice = 0;
-            while(true){
-                gamePresenter.displayScene("there is a game with this name, but it must be private to edit! " +
-                        "Make it private? Enter 1 to make it private, enter 2 to cancel this edit request.");
-                try{
-                    userChoice = Integer.valueOf(scanner.next());
-                }
-                catch(NumberFormatException e){
-                    System.out.println(e);
-                }
-
-                if(userChoice == 1){
-                    gameUseCase.changeGameState(gameName);
-                    return true;
-                }
-                else if(userChoice == 2){
-                    return false;
-                }
-            }
-        }
-        else if(!privateGames && !publicGames){
-            gamePresenter.displayScene("there is not any match game! Enter anything to exit.");
+            gameTextPresenter.displayScene("You did not create this game! Enter anything to exit.");
             scanner.next();
             return false;
         }
@@ -194,11 +163,11 @@ public class GameEditController {
 
     private void editGameDialogues(String gameName, String currentDialogue, int currentId){
         while (true) {
-            gamePresenter.displayScene("Dialogue ID " + currentId + ": " + currentDialogue +
+            gameTextPresenter.displayScene("Dialogue ID " + currentId + ": " + currentDialogue +
                             " (Enter anything to continue)",
                     gameUseCase.getGameAsString(gameName, 69, currentId));
             scanner.next();
-            gamePresenter.displayScene(this.editGameDialogueChoices,
+            gameTextPresenter.displayScene(this.editGameDialogueChoices,
                     gameUseCase.getGameAsString(gameName, 69, currentId));
             String userChoice = String.valueOf(scanner.next());
 
@@ -215,14 +184,14 @@ public class GameEditController {
 
             switch (action){
                 case 'r':
-                    int parentId = gameUseCase.getParentDialogueId(currentId);
+                    int parentId = gameUseCase2.getParentDialogueId(currentId);
                     if (parentId != -1){
-                        this.editGameDialogues(gameName, gameUseCase.getDialogueById(parentId), parentId);
+                        this.editGameDialogues(gameName, gameUseCase2.getDialogueById(parentId), parentId);
                         return;
                     }
                     break;
                 case 'v':
-                    this.editGameDialogues(gameName, gameUseCase.getDialogueById(id), id);
+                    this.editGameDialogues(gameName, gameUseCase2.getDialogueById(id), id);
                     return;
                 case 'c':
                     this.changeDialogue(gameName, id, currentId);
@@ -231,7 +200,7 @@ public class GameEditController {
                     this.addDialogue(gameName, id, currentId);
                     break;
                 case 'd':
-                    if (!gameUseCase.deleteDialogueById(id)){
+                    if (!gameUseCase2.deleteDialogueById(id)){
                         System.out.println("You cannot delete the first dialogue of the game!");
                     }
                     break;
@@ -260,7 +229,7 @@ public class GameEditController {
         }
 
         boolean rightAction = action == 'v' ||  action == 'c' || action == 'a' ||  action == 'd';
-        boolean rightId = gameUseCase.isIdInGame(id);
+        boolean rightId = gameUseCase2.isIdInGame(id);
 
         if ((!rightAction || !rightId)){
             return actionAndId;
@@ -272,20 +241,16 @@ public class GameEditController {
     }
 
     private void changeDialogue(String gameName, int id, int currentId){
-        gamePresenter.displayScene("Enter the new dialogue",
+        gameTextPresenter.displayScene("Enter the new dialogue",
                 gameUseCase.getGameAsString(gameName, 69, currentId));
         String newDialogue = String.valueOf(scanner.next());
-        gameUseCase.setDialogueById(id, newDialogue);
+        gameUseCase2.setDialogueById(id, newDialogue);
     }
 
     private void addDialogue(String gameName, int id, int currentId){
-        gamePresenter.displayScene("Enter the new choice you want to add to the dialogue with id " + id,
+        gameTextPresenter.displayScene("Enter the new choice you want to add to the dialogue with id " + id,
                 gameUseCase.getGameAsString(gameName, 69, currentId));
         String newDialogue = String.valueOf(scanner.next());
-        gameUseCase.addChoiceToDialogue(newDialogue, id);
-    }
-
-    public void closeScanner(){
-        scanner.close();
+        gameUseCase2.addChoiceToDialogue(newDialogue, id);
     }
 }

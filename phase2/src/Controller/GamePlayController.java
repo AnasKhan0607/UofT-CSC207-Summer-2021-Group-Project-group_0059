@@ -1,22 +1,23 @@
 package Controller;
 
 import Interface.UserData;
-import Presenter.GamePresenter;
+import Presenter.GameTextPresenter;
 import UseCase.GameUseCase;
-
+import UseCase.GameUseCase2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Controller class which allows the user to play an existing game.
  *
- * Interacts with GameUseCase, GamePresenter, and userData
+ * Interacts with GameUseCase, GameTextPresenter, and userData
  */
 
 public class GamePlayController {
 
     private GameUseCase gameUseCase;
-    private GamePresenter gamePresenter = new GamePresenter();
+    private GameUseCase2 gameUseCase2;
+    private GameTextPresenter gameTextPresenter = new GameTextPresenter();
     private Scanner scanner = new Scanner(System.in);
     private UserData userData;
 
@@ -36,7 +37,7 @@ public class GamePlayController {
      * The method which allows users to play games and select different choices.
      * Handles what should happen when different choices are made.
      *
-     * Interacts with gamePresenter, gameUseCase, and userData to play the game
+     * Interacts with gameTextPresenter, gameUseCase, and userData to play the game
      */
 
     public void playGame(){
@@ -47,30 +48,30 @@ public class GamePlayController {
         }
         newGames.addAll(gameUseCase.getPrivateGames(userData.currentUser()));
 
-        gamePresenter.displayScene("Enter the name of the game you want to play.", newGames);
+        gameTextPresenter.displayScene("Enter the name of the game you want to play.", newGames);
         String gameName = String.valueOf(scanner.next());
         boolean privateGame = gameUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
         boolean publicGame = gameUseCase.getPublicGames().contains(gameName);
         if (!privateGame && !publicGame){
-            gamePresenter.displayScene("No such game! Enter anything to exit.");
+            gameTextPresenter.displayScene("No such game! Enter anything to exit.");
             scanner.next();
             return;
         }
 
-        ArrayList<Object> dialogueArrayList = gameUseCase.openGame(gameName);
+        ArrayList<Object> dialogueArrayList = gameUseCase2.openGame(gameName);
         Integer dialogueId = (Integer) dialogueArrayList.get(0);
         String dialogue = (String) dialogueArrayList.get(1);
 
-        ArrayList<String> childrenChoices = gameUseCase.getDialogueChoices(dialogueId);
-        ArrayList<Integer> childrenChoiceIds = gameUseCase.getDialogueChoiceIds(dialogueId);
+        ArrayList<String> childrenChoices = gameUseCase2.getDialogueChoices(dialogueId);
+        ArrayList<Integer> childrenChoiceIds = gameUseCase2.getDialogueChoiceIds(dialogueId);
         ArrayList<String> choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
 
         int userChoice = 0;
         while (!childrenChoiceIds.contains(userChoice)){
-            gamePresenter.displayScene(dialogue);
+            gameTextPresenter.displayScene(dialogue);
             System.out.println("Enter anything to continue: ");
             scanner.next();
-            gamePresenter.displayScene(dialogue, choices);
+            gameTextPresenter.displayScene(dialogue, choices);
             System.out.println("Enter the integer corresponding to a choice or -1 to exit: ");
             try{
                 userChoice = Integer.valueOf(scanner.next());
@@ -89,10 +90,10 @@ public class GamePlayController {
                 continue;
             }
 
-            childrenChoices = gameUseCase.getDialogueChoices(userChoice);
-            childrenChoiceIds = gameUseCase.getDialogueChoiceIds(userChoice);
+            childrenChoices = gameUseCase2.getDialogueChoices(userChoice);
+            childrenChoiceIds = gameUseCase2.getDialogueChoiceIds(userChoice);
             choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
-            dialogue = gameUseCase.getDialogueById(userChoice);
+            dialogue = gameUseCase2.getDialogueById(userChoice);
         }
     }
 

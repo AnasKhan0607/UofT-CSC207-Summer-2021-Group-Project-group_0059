@@ -213,6 +213,7 @@ public class GameEditController {
         String newDialogue = String.valueOf(scanner.next());
         gameUseCase.addChoiceToDialogue(newDialogue, id);
     }
+
     public void closeScanner(){
         scanner.close();
     }

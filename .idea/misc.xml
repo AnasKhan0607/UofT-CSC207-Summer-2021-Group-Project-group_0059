@@ -4,7 +4,7 @@
     <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Documents/Year 5/CSC207" />
     <option name="OPTION_SCOPE" value="public" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

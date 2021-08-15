@@ -3,10 +3,12 @@ package UseCase;
 import Entity.AdminUser;
 import Entity.GuestUser;
 import Entity.RegularUser;
+import Entity.TempUser;
 import Entity.User;
 import Gateway.UserGate;
 
 import java.util.*;
+import java.time.LocalDate;
 
 /**
  * The use case class for the users.
@@ -24,9 +26,6 @@ public class UserManager {
         UserGate myGate = new UserGate();
         HashMap<String, List<Object>> tempUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
-
-
-
         for (Map.Entry mapElement :tempUsers.entrySet()){
             String username = (String)mapElement.getKey();
             List lst = (List)mapElement.getValue();
@@ -35,6 +34,11 @@ public class UserManager {
 
             if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
+                this.bufferedUsers.add(tempUser);
+            } else if (username.startsWith("Temp_")) {
+                LocalDate startDate = (LocalDate) lst.get(2); // Temp have their account creation/expiry dates stored
+                LocalDate endDate = (LocalDate) lst.get(3);
+                TempUser tempUser = new TempUser(username, password, startDate, endDate); // expired accounts will be unable to login
                 this.bufferedUsers.add(tempUser);
             } else {
                 RegularUser tempUser = new RegularUser(username, password);
@@ -57,14 +61,33 @@ public class UserManager {
         if (info.size() == 2){
             String username = info.get(0);
             String password = info.get(1);
+
+            UserGate myGate = new UserGate();
+            HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
+            List<Object> sections = new ArrayList <Object>();
+            sections.add(password);
+            sections.add(false);
+
             if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
+            } else if (username.startsWith("Temp_")) {
+                LocalDate startDate = LocalDate.now();
+                LocalDate endDate = LocalDate.now().plusDays(30);
+                TempUser tempUser = new TempUser (username, password, startDate, endDate);
+                this.bufferedUsers.add(tempUser);
+                sections.add(startDate); // storing account creation and expiry dates
+                sections.add(endDate);
             } else {
                 RegularUser tempUser = new RegularUser(username, password);
                 this.bufferedUsers.add(tempUser);
             }
-            save(username, password, false);// need this UserGate method that adds the new user to the file
+
+            oldUsers.put(username, sections);
+            List<HashMap> userData = new ArrayList<HashMap>();
+            userData.add(oldUsers);
+
+            myGate.save(userData); // need this UserGate method that adds the new user to the file
 
         } else {
             String username = "Guest";
@@ -99,58 +122,30 @@ public class UserManager {
         return new GuestUser("Guest");
     }
 
-    public List<User> getBufferedUsers() {
-        return bufferedUsers;
-    }
-
-    public boolean suspendUser(String username){
+    public void suspendUser(String username){
         int i;
-        boolean result = false;
         User temp = bufferedUsers.get(0);
         for (i = 0; i < bufferedUsers.size(); i++) {
             temp = bufferedUsers.get(i);
             if (temp.getUsername().equals(username)) {
                temp.raiseFlag();
-               result = true;
                break;
             }
         }
-
-        save(username, temp.getPassword(), true);
-        return result;
-
-
-    }
-
-    public boolean unsuspendUser(String username){
-        int i;
-        boolean status = false;
-        User temp = bufferedUsers.get(0);
-        for (i = 0; i < bufferedUsers.size(); i++) {
-            temp = bufferedUsers.get(i);
-            if (temp.getUsername().equals(username)) {
-                temp.lowerFlag();
-                status = true;
-                break;
-            }
-        }
-        save(username, temp.getPassword(), false);
-        return status;
-    }
-
-    private void save(String username, String password, boolean status){
         UserGate myGate = new UserGate();
         HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
 
         List<Object> sections = new ArrayList <Object>();
-        sections.add(password);
-        sections.add(status);
+        sections.add(temp.getPassword());
+        sections.add(true);
         oldUsers.put(username, sections);
         List<HashMap> userData = new ArrayList<HashMap>();
         userData.add(oldUsers);
 
         myGate.save(userData);
+
+
     }
 
     /**
