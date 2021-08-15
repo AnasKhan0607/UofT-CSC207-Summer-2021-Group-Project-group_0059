@@ -16,12 +16,11 @@ public class TempUser extends User {
      * @param username The user's username.
      * @param password The user's password.
      */
-    public TempUser (String username, String password, LocalDate startDate, LocalDate endDate) {
+    public TempUser (String username, String password) {
         super(username);
         this.password = password;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        //this.endDate = LocalDate.now().plusDays(30);
+        this.startDate = LocalDate.now();
+        this.endDate = LocalDate.now().plusDays(30);
     }
 
     /**
