@@ -2,8 +2,10 @@ package Controller;
 
 import Interface.UserData;
 import Presenter.AdminUserNavigatorPresenter;
+import Presenter.GamePresenter;
 import Presenter.RegularUserNavigatorPresenter;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 /**
  * the controller class that interacts with Userinputs from RegularUser
@@ -36,9 +38,17 @@ public class RegularUserNavigatorController implements UserData {
             System.out.println();
             System.out.println();
 
+            /**
             RegularUserNavigatorPresenter.display(username);
             Integer choice = Integer.valueOf(myObj.nextLine());
-            if (choice == 1) {
+            **/
+            GamePresenter gamePresenter = new GamePresenter();
+            ArrayList<String> choices = new ArrayList<>();
+            choices.add("1. Select a Game to create/edit/play");
+            choices.add("2. Open message box");
+            choices.add("3. Logout");
+            int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ username + ". what would you like to do?");
+             if (choice == 1) {
                 /* Game*/
                 RegularUserNavigatorPresenter.redirectingMessage();
                 TemplateEditorController te = new TemplateEditorController();
@@ -49,7 +59,7 @@ public class RegularUserNavigatorController implements UserData {
                 MessageController c1 = new MessageController(username);
                 c1.run();
             }
-             else if(choice == 5) {
+             else if(choice == 3) {
                 /*logout*/
                 RegularUserNavigatorPresenter.logoutMessage();
 

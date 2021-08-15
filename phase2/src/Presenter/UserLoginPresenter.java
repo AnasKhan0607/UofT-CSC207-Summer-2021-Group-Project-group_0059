@@ -57,6 +57,10 @@ public class UserLoginPresenter {
         System.out.println();
     }
 
+    public static void expiredAccountMessage() {
+        System.out.println("Sorry, your temporary account has expired.");
+    }
+
     public static void exitMessage(){
         System.out.println("Thank you for using our program");
     }

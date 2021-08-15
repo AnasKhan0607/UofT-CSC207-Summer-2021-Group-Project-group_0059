@@ -9,8 +9,8 @@ public class UserSignUpPresenter {
      * Initial instructions for creating an account.
      */
     public static void display(){
-        System.out.println("When creating your username, put 'Admin_' at the beginning for an Admin account, " +
-                "otherwise input the username normally.");
+        System.out.println("When creating your username, put 'Admin_' at the beginning for an Admin account or 'Temp_' " +
+                "at the beginning for a Temporary account (lasting 30 days), otherwise input the username normally.");
         System.out.println("Please input your username first, press enter and then" +
                 "your password, and press enter again to continue.");
 
@@ -24,6 +24,9 @@ public class UserSignUpPresenter {
             "Please try again with another username and press enter.");
     }
 
+    public static void errorMessageUnmatch(){
+        System.out.println("Sorry, but the inputs(double entry) are not matching");
+    }
     /**
      * Message if an account is successfully created.
      */

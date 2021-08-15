@@ -3,12 +3,16 @@ package Controller;
 import Entity.AdminUser;
 import Entity.GuestUser;
 import Entity.RegularUser;
+import Entity.TempUser;
 import Entity.User;
+import Presenter.GamePresenter;
 import Presenter.UserLoginPresenter;
 import UseCase.UserManager;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 /**
  * Controller for the user login process.
@@ -33,11 +37,12 @@ public class UserLoginController {
      * Uses user input as well as the UserLoginPresenter to allow the user to login to their account, or login as guest.
      */
     public void NormalUserinput(){
+        /**
         Scanner myObj = new Scanner(System.in);
         while (true){UserLoginPresenter.display();
             this.userName = myObj.nextLine();
             if (this.userName.equals("Signup")){
-                /* Jump to signup */
+
                 UserSignupController signup1 = new UserSignupController(this.testUM);
                 signup1.UserInput();
                 // Going through the login process again
@@ -52,6 +57,48 @@ public class UserLoginController {
             }else {
                 RegularLogin();
             }}
+**/
+
+        GamePresenter gamePresenter = new GamePresenter();
+        ArrayList<String> choices = new ArrayList<>();
+        choices.add("Login");
+        choices.add("Signup");
+        choices.add("Login as Guest");
+        choices.add("EXIT");
+        while (true){
+            int choice = gamePresenter.displayChoices(this, choices, "Please login first:");
+            //Scanner myObj = new Scanner(System.in);
+            if (choice == 0){
+                /**
+                UserLoginPresenter.display();
+                this.userName = myObj.nextLine();
+                RegularLogin();
+                **/
+
+                ArrayList<String> inputs = new ArrayList<>();
+                inputs.add("Username:");
+                inputs.add("Password:");
+                List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Login");
+                this.userName = userinputs.get(0);
+                this.password = userinputs.get(1);
+                RegularLogin();
+            } else if (choice == 1){
+                UserSignupController signup1 = new UserSignupController(this.testUM);
+                signup1.UserInput();
+                // Going through the login process again
+                /**
+                UserLoginPresenter.display3(); // using display 3 to remove dialogue of giving the user the option to signup or login as guest
+                this.userName = myObj.nextLine();
+                RegularLogin();
+                 **/
+
+            } else if (choice == 2){
+                GuestUserInput();
+            } else {
+                UserLoginPresenter.exitMessage();
+                break;
+            }
+        }
 
     }
 
@@ -87,8 +134,8 @@ public class UserLoginController {
     // helper method
 
     private void RegularLogin() {
-        Scanner myObj = new Scanner(System.in);
-        this.password = myObj.nextLine();
+        //Scanner myObj = new Scanner(System.in);
+        //this.password = myObj.nextLine();
         if (testUM.SearchUser(this.userName) == null) {
             UserLoginPresenter.errorMessage();
         } else {
@@ -101,7 +148,18 @@ public class UserLoginController {
             } else {
                 if (this.userName.startsWith("Admin_")) {
                     UserLoginPresenter.successMessage("Admin");
-                } else {
+                } else if (this.userName.startsWith("Temp_")) {
+                    LocalDate endDate = ((TempUser)tempUser).getEndDate();
+                    LocalDate today = LocalDate.now();
+                    if (today.isAfter(endDate)) {
+                        UserLoginPresenter.expiredAccountMessage();
+                    }
+                    else {
+                        UserLoginPresenter.successMessage("Temporary. After " + endDate +
+                                " your account will be unavailable.");
+                    }
+                }
+                else {
                     UserLoginPresenter.successMessage("Regular");
                 }
                 redirect(tempUser);
