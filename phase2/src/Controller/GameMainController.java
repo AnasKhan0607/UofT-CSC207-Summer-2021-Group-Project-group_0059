@@ -25,7 +25,7 @@ public class GameMainController {
     private GameUseCase gameUseCase;
     private GameUseCase2 gameUseCase2;
     private GameCreateController gameCreator;
-    private GamePlayController gamePlayer;
+    public GamePlayController gamePlayer;
     private GameEditController gameEditor;
     private GameTextPresenter gameTextPresenter = new GameTextPresenter();
     private Scanner scanner = new Scanner(System.in);

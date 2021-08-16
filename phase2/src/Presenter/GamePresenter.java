@@ -1,5 +1,8 @@
 package Presenter;
+import Controller.GameMainController;
+import Controller.GamePlayController;
 import Controller.MessageController;
+import Controller.TemplateEditorController;
 import Entity.Message;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -92,6 +95,10 @@ public class GamePresenter{
             TableColumn<Message, String> messageColumn = new TableColumn<>("Message");
             messageColumn.setMinWidth(700);
             messageColumn.setCellValueFactory(new PropertyValueFactory<>("msg"));
+            //attachment column
+            TableColumn<Message, String> attachmentColumn = new TableColumn<>("Attachment");
+            attachmentColumn.setMinWidth(200);
+            attachmentColumn.setCellValueFactory(new PropertyValueFactory<>("attachment"));
             //status column
             TableColumn<Message, Boolean> statusColumn = new TableColumn<>("READ");
             statusColumn.setMinWidth(100);
@@ -101,16 +108,18 @@ public class GamePresenter{
             deleteButton.setOnAction(e -> deleteButtonClicked(suspendedObject));
             Button quitButton = new Button("QUIT");
             quitButton.setOnAction(e -> quitButtonClicked(suspendedObject));
+            Button viewButton = new Button("View Attachment");
+            viewButton.setOnAction(e -> viewButtonClicked(username, suspendedObject));
 
             //HBox hBox = new HBox();
             //hBox.getChildren().addAll(deleteButton, quitButton);
 
             messageTableView = new TableView<>();
             messageTableView.setItems(getMessages(messages));
-            messageTableView.getColumns().addAll(timeColumn, fromColumn,messageColumn,statusColumn);
+            messageTableView.getColumns().addAll(timeColumn, fromColumn,messageColumn,attachmentColumn,statusColumn);
 
             VBox vbox = new VBox();
-            vbox.getChildren().addAll(messageTableView, deleteButton, quitButton);
+            vbox.getChildren().addAll(messageTableView, deleteButton, quitButton, viewButton);
 
             //addExitButton(suspendedObject, vbox);
 
@@ -130,6 +139,20 @@ public class GamePresenter{
         for (Message msg: messagesSelected){
             MessageController messageController = (MessageController)suspendedObject;
             messageController.removeMessage(msg.getid());
+        }
+    }
+
+    public void viewButtonClicked(String username,Object suspendedObject){
+        ObservableList<Message> messagesSelected;
+        messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
+        for (Message msg: messagesSelected){
+            //MessageController messageController = (MessageController)suspendedObject;
+            //String gameName = msg.getAttachment();
+            //TemplateEditorController te = new TemplateEditorController();
+            //GameMainController gc = new GameMainController(te ,username);
+            //GamePlayController gamePlayer = new GamePlayController();
+            System.out.println("Under construction. Will be redirected to the GamePlay of" + msg.getAttachment() + "" +
+                    "upon completion");
         }
     }
 

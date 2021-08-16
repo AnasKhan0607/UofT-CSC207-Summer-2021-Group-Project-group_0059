@@ -25,10 +25,11 @@ public class MessageManager {
             String msg = (String)lst.get(0);
             String from = (String)lst.get(1);
             String to = (String)lst.get(2);
-            Date time = (Date)lst.get(3);
-            boolean status = (boolean) lst.get(4);
+            String attachment = (String)lst.get(3);
+            Date time = (Date)lst.get(4);
+            boolean status = (boolean) lst.get(5);
 
-            Message tempMessage = new Message(id, msg, from, to ,time, status);
+            Message tempMessage = new Message(id, msg, from, to ,attachment,time, status);
             bufferedMessages.add(tempMessage);
 
 
@@ -41,11 +42,12 @@ public class MessageManager {
         if (um.SearchUser(to) != null){
             String id = UUID.randomUUID().toString();
             String from = (String)info.get(1);
-            Date time = (Date)info.get(3);
+            String attachment = (String)info.get(3);
+            Date time = (Date)info.get(4);
             String msg = (String)info.get(0);
-            bufferedMessages.add(new Message(id, msg,from,to,time,false));
+            bufferedMessages.add(new Message(id, msg,from,to, attachment, time,false));
 
-            save(id, msg,from,to,time,false);
+            save(id, msg,from,to,attachment, time,false);
             return true;
         } else {return false;}
 
@@ -54,13 +56,14 @@ public class MessageManager {
 
     public void addMessageEveryone(ArrayList<Object> info){
         String from = (String)info.get(0);
-        Date time = (Date)info.get(2);
+        Date time = (Date)info.get(3);
         String msg = (String)info.get(1);
+        String attachment = (String)info.get(2);
         List<User> tos = um.getBufferedUsers();
         for (User temp: tos){
             String id = UUID.randomUUID().toString();
-            bufferedMessages.add(new Message(id,msg,from,temp.getUsername(),time,false));
-            save(id, msg,from,temp.getUsername(),time,false);
+            bufferedMessages.add(new Message(id,msg,from,temp.getUsername(),attachment,time,false));
+            save(id, msg,from,temp.getUsername(),attachment,time,false);
         }
     }
 
@@ -71,7 +74,7 @@ public class MessageManager {
             if (msg.getTo().equals(username)) {
                 msgs.add(msg);
 
-                save(msg.getid(), msg.getMsg(),msg.getFrom(),msg.getTo(),msg.getTime(),true);
+                save(msg.getid(), msg.getMsg(),msg.getFrom(),msg.getTo(),msg.getAttachment(),msg.getTime(),true);
             }
         }
         return msgs;
@@ -82,14 +85,14 @@ public class MessageManager {
         for (Message msg: bufferedMessages){
             if (msg.getid().equals(id)) {
                 bufferedMessages.remove(msg);
-                save2(msg.getid(), msg.getMsg(),msg.getFrom(),msg.getTo(),msg.getTime(),true);
+                save2(msg.getid(), msg.getMsg(),msg.getFrom(),msg.getTo(),msg.getAttachment(),msg.getTime(),true);
                 return true;
             }
         }
         return false;
     }
 
-    private void save(String id,String msg, String from, String to, Date time, boolean status){
+    private void save(String id,String msg, String from, String to,String attachment, Date time, boolean status){
         MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);
 
@@ -97,6 +100,7 @@ public class MessageManager {
         sections.add(msg);
         sections.add(from);
         sections.add(to);
+        sections.add(attachment);
         sections.add(time);
         sections.add(status);
         oldMessages.put(id, sections);
@@ -106,7 +110,7 @@ public class MessageManager {
         MG.save(MessageData);
     }
 
-    private void save2(String id,String msg, String from, String to, Date time, boolean status){
+    private void save2(String id,String msg, String from, String to,String attachment, Date time, boolean status){
         MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);
 
@@ -114,6 +118,7 @@ public class MessageManager {
         sections.add(msg);
         sections.add(from);
         sections.add(to);
+        sections.add(attachment);
         sections.add(time);
         sections.add(status);
         oldMessages.remove(id, sections);

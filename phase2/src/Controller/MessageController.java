@@ -19,7 +19,7 @@ public class MessageController {
     }
 
     public void run(){
-        readMessage();
+
         GamePresenter messagePresenterV2 = new GamePresenter();
 
         while (true) {
@@ -34,6 +34,7 @@ public class MessageController {
 
                 if (choice == 1){
                     messagePresenterV2.displayMessages(this, currentUserName, mm.getMessage(currentUserName));
+                    readMessage();
                 } else if (choice == 2){
                     writeMessage();
                 } else if (choice == 3){
@@ -83,14 +84,17 @@ public class MessageController {
         inputs.add("Please input the name of the receiver, type EVERYONE to send the same message " +
                 "to every user recorded in the system(for use of ADMIN ONLY)");
         inputs.add("Your message:");
+        inputs.add("Your attachment(the gameName you want to share. Type N/A if doesn't apply):");
         List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Login");
         String receiver = userinputs.get(0);
         String msg = userinputs.get(1);
+        String attachment = userinputs.get(2);
         if (receiver.equals("EVERYONE")){
             if (currentUserName.startsWith("Admin")) {
                 ArrayList<Object> temp = new ArrayList<>();
                 temp.add(currentUserName);
                 temp.add(msg);
+                temp.add(attachment);
                 temp.add(new Date());
                 mm.addMessageEveryone(temp);
                 gamePresenter.displayTextScene(this, "CONTINUE", "Message successfully composed and sent to " + receiver + " .");
@@ -102,6 +106,7 @@ public class MessageController {
             temp.add(msg);
             temp.add(currentUserName);
             temp.add(receiver);
+            temp.add(attachment);
             temp.add(new Date());
             boolean status;
             status = mm.addMessage(temp);
