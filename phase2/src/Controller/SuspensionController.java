@@ -5,6 +5,7 @@ import Presenter.SuspensionPresenter;
 import UseCase.UserManager;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class SuspensionController {
@@ -38,10 +39,14 @@ public class SuspensionController {
         GamePresenter gamePresenter = new GamePresenter();
         ArrayList<String> inputs = new ArrayList<>();
         inputs.add("Please input the username you need to suspend:");
-        String choice = (String)gamePresenter.displayInputs(this, inputs).get(0);
+        inputs.add("For how many days:");
+        List<Object> lst = gamePresenter.displayInputs(this, inputs);
+        String choice = (String)lst.get(0);
+        int x = Integer.parseInt((String) lst.get(1));
         username = choice;
-        if (!username.startsWith("Admin_")){UserManager tempum = new UserManager();
-            boolean rst = tempum.suspendUser(username);
+        if (!username.startsWith("Admin_")){
+            UserManager tempum = new UserManager();
+            boolean rst = tempum.suspendUser(username, x);
             if (rst){
                 gamePresenter.displayTextScene(this, "CONTINUE", username + "has been successfully unsuspended");
             } else {gamePresenter.displayTextScene(this, "BACK", "Username not found");}} else {gamePresenter.displayTextScene(this, "BACK", "You cannot suspend another Admin !");}

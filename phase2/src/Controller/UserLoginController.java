@@ -150,7 +150,7 @@ public class UserLoginController {
                 gamePresenter.displayTextScene(this, "BACK", "Sorry, but either the username or the password is incorrect");
             } else if (tempUser.getflag()){
                 //UserLoginPresenter.suspensionMessage(tempUser.getUsername());
-                gamePresenter.displayTextScene(this, "BACK", "(" + tempUser.getUsername() + ") is currently suspended. Please contact Ruilin or Ahmad for support.");
+                gamePresenter.displayTextScene(this, "BACK", "(" + tempUser.getUsername() + ") is currently suspended until "+ tempUser.getsuspensionEndTime()+" . Please contact Ruilin or Ahmad for support.");
             } else {
                 if (this.userName.startsWith("Admin_")) {
                     //UserLoginPresenter.successMessage("Admin");

@@ -38,6 +38,8 @@ public class UserManager {
             String password = (String)lst.get(0);
             boolean suspension = (boolean) lst.get(1);
 
+
+
             if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
@@ -56,10 +58,25 @@ public class UserManager {
                 }
                 this.bufferedUsers.add(tempUser);
             }
+
+                if (suspension){
+                    LocalDate suspensionEndTime = (LocalDate) lst.get(2);
+                    if (suspensionEndTime.equals(LocalDate.now())){
+                        unsuspendUser(username);
+                    } else if (suspensionEndTime == null){
+                        unsuspendUser(username);
+                    }
+                }
         }
 
 
         /*buffered array gets updated with what's in tempUsers*/
+    }
+
+    public void checkSuspension(Date suspensionEndTime, User tempUser){
+        if (suspensionEndTime.equals(LocalDate.now())){
+            unsuspendUser(tempUser.getUsername());
+        }
     }
 
     /**
@@ -73,17 +90,17 @@ public class UserManager {
             if (username.startsWith("Admin_")){
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
-                save(tempUser, false);
+                save(tempUser, false, null);
             } else if (username.startsWith("Temp_")) {
                 LocalDate startDate = LocalDate.now();
                 LocalDate endDate = LocalDate.now().plusDays(30);
                 TempUser tempUser = new TempUser (username, password, startDate, endDate);
                 this.bufferedUsers.add(tempUser);
-                save(tempUser, false);
+                save(tempUser, false, null);
             }else {
                 RegularUser tempUser = new RegularUser(username, password);
                 this.bufferedUsers.add(tempUser);
-                save(tempUser, false);
+                save(tempUser, false, null);
             }
         } else {
             String username = "Guest";
@@ -122,20 +139,24 @@ public class UserManager {
         return bufferedUsers;
     }
 
-    public boolean suspendUser(String username){
+    public boolean suspendUser(String username, int x){
         int i;
         boolean result = false;
         User temp = bufferedUsers.get(0);
+        LocalDate suspensionEndTime;
         for (i = 0; i < bufferedUsers.size(); i++) {
             temp = bufferedUsers.get(i);
             if (temp.getUsername().equals(username)) {
                temp.raiseFlag();
+               suspensionEndTime = LocalDate.now().plusDays(x);
+               temp.setsuspensionEndTime(suspensionEndTime);
                result = true;
+               save(temp, true, suspensionEndTime);
                break;
             }
         }
 
-        save(temp, true);
+
         return result;
 
 
@@ -153,11 +174,11 @@ public class UserManager {
                 break;
             }
         }
-        save(temp, false);
+        save(temp, false, null);
         return status;
     }
 
-    private void save(User user, boolean status){
+    private void save(User user, boolean status, LocalDate suspensionEndTime){
         UserGate myGate = new UserGate();
         HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
@@ -165,6 +186,7 @@ public class UserManager {
         List<Object> sections = new ArrayList <Object>();
         sections.add(user.getPassword());
         sections.add(status);
+        sections.add(suspensionEndTime);
         String username = user.getUsername();
         if (username.startsWith("Temp_")) {
             LocalDate startDate = ((TempUser) user).getStartDate();
