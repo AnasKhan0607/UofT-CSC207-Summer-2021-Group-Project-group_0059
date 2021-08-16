@@ -98,6 +98,7 @@ public class UserLoginController {
             } else {
                 //UserLoginPresenter.exitMessage();
                 gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for using our program");
+                gamePresenter.terminateGUI();
                 break;
             }
         }
