@@ -7,9 +7,11 @@ import Entity.TempUser;
 import Entity.User;
 import Presenter.GamePresenter;
 import Presenter.UserLoginPresenter;
+import UseCase.MessageManager;
 import UseCase.UserManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -64,6 +66,7 @@ public class UserLoginController {
         choices.add("Login");
         choices.add("Signup");
         choices.add("Login as Guest");
+        choices.add("Forget Password");
         choices.add("EXIT");
         while (true){
             testUM = new UserManager();
@@ -95,7 +98,23 @@ public class UserLoginController {
 
             } else if (choice == 2){
                 GuestUserInput();
-            } else {
+            } else if(choice == 3){
+                ArrayList<String> inputs = new ArrayList<>();
+                inputs.add("Your Username:");
+                List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Forget password");
+                String userName = userinputs.get(0);
+                gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for letting us know," +
+                        "a message has been sent to admin. If you registered with an email, we'll send you an email containing temporary info" +
+                        " for logging in");
+                MessageManager mm = new MessageManager();
+                ArrayList<Object> temp = new ArrayList<>();
+                temp.add(userName + "password forgot. Please process");
+                temp.add(userName);
+                temp.add("Admin_Ruilin");
+                temp.add("N/A");
+                temp.add(new Date());
+                mm.addMessage(temp);
+            } else{
                 //UserLoginPresenter.exitMessage();
                 gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for using our program");
                 gamePresenter.terminateGUI();
@@ -104,6 +123,8 @@ public class UserLoginController {
         }
 
     }
+
+
 
     /**
      * Unique prompts, inputs, and actions taken if the user selects logging in as a guest.

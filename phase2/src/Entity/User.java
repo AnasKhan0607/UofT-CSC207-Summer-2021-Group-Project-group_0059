@@ -41,6 +41,9 @@ public abstract class User {
         this.username = username;
     }
 
+
+
+
     public void raiseFlag(){this.suspensionFlag = true;}
 
     public void lowerFlag(){this.suspensionFlag = false;}

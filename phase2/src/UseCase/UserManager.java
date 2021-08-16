@@ -74,10 +74,22 @@ public class UserManager {
         /*buffered array gets updated with what's in tempUsers*/
     }
 
-    public void checkSuspension(Date suspensionEndTime, User tempUser){
-        if (suspensionEndTime.equals(LocalDate.now())){
-            unsuspendUser(tempUser.getUsername());
+    public boolean resetPassword(String userName, String newPassword){
+        User temp = SearchUser(userName);
+        if (temp != null){
+            if (temp.getUsername().startsWith("Admin_")){
+                ((AdminUser) temp).setPassword(newPassword);
+            } else if (temp.getUsername().startsWith("Temp_")){
+                ((TempUser) temp).setPassword(newPassword);
+
+            } else {
+                ((RegularUser) temp).setPassword(newPassword);
+            }
+            save(temp, false, null);
+            return true;
         }
+        return false;
+
     }
 
     /**
