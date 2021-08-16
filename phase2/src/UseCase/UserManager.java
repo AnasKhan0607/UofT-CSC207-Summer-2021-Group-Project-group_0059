@@ -55,6 +55,7 @@ public class UserManager {
                 RegularUser tempUser = new RegularUser(username, password);
                 if (suspension) {
                     tempUser.raiseFlag();
+                    tempUser.setsuspensionEndTime((LocalDate) lst.get(2));
                 }
                 this.bufferedUsers.add(tempUser);
             }
@@ -150,10 +151,8 @@ public class UserManager {
             temp = bufferedUsers.get(i);
             if (temp.getUsername().equals(username)) {
                temp.raiseFlag();
-                bufferedUsers.get(i).raiseFlag();
 
                suspensionEndTime = LocalDate.now().plusDays(x);
-                bufferedUsers.get(i).setsuspensionEndTime(suspensionEndTime);
                temp.setsuspensionEndTime(suspensionEndTime);
                result = true;
                save(temp, true, suspensionEndTime);
@@ -175,8 +174,6 @@ public class UserManager {
             temp = bufferedUsers.get(i);
             if (temp.getUsername().equals(username)) {
                 temp.lowerFlag();
-                bufferedUsers.get(i).lowerFlag();
-                bufferedUsers.get(i).setsuspensionEndTime(null);
                 status = true;
                 break;
             }
