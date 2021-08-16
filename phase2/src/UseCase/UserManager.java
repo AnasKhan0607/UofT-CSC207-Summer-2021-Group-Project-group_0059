@@ -139,6 +139,8 @@ public class UserManager {
         return bufferedUsers;
     }
 
+
+
     public boolean suspendUser(String username, int x){
         int i;
         boolean result = false;
@@ -148,7 +150,10 @@ public class UserManager {
             temp = bufferedUsers.get(i);
             if (temp.getUsername().equals(username)) {
                temp.raiseFlag();
+                bufferedUsers.get(i).raiseFlag();
+
                suspensionEndTime = LocalDate.now().plusDays(x);
+                bufferedUsers.get(i).setsuspensionEndTime(suspensionEndTime);
                temp.setsuspensionEndTime(suspensionEndTime);
                result = true;
                save(temp, true, suspensionEndTime);
@@ -170,6 +175,8 @@ public class UserManager {
             temp = bufferedUsers.get(i);
             if (temp.getUsername().equals(username)) {
                 temp.lowerFlag();
+                bufferedUsers.get(i).lowerFlag();
+                bufferedUsers.get(i).setsuspensionEndTime(null);
                 status = true;
                 break;
             }
