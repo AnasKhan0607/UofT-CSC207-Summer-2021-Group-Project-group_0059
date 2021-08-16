@@ -2,7 +2,9 @@ package Controller;
 
 import Interface.UserData;
 import Presenter.AdminUserNavigatorPresenter;
+import Presenter.GamePresenter;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -38,41 +40,53 @@ public class AdminUserNavigatorController implements UserData {
             System.out.println();
             System.out.println();
             System.out.println();
+            /**
             AdminUserNavigatorPresenter.display(username);
 
             choice = Integer.valueOf(scanner.next());
+             **/
+            GamePresenter gamePresenter = new GamePresenter();
+            ArrayList<String> choices = new ArrayList<>();
+            choices.add("1. Select a Game to create/edit/play");
+            choices.add("2.Select a Template to edit");
+            choices.add("3.Open message box");
+            choices.add("4.Suspend/Unsuspend a User(RegularUser only)");
+            choices.add("5.Logout");
+            choice = gamePresenter.displayChoices(this, choices, "Hello, "+ username + ". what would you like to do?");
 
 
 
-            if (choice == 1) {
+            if (choice == 0) {
                 /* Game*/
                 AdminUserNavigatorPresenter.redirectingMessage();
                 TemplateEditorController te = new TemplateEditorController();
                 GameMainController gc = new GameMainController(te ,this::currentUser);
-                //gc.gameMenuAdminUser();
+                gc.gameMenuAdminUser();
 
-            } else if (choice == 2) {
+            } else if (choice == 1) {
                 /* TemplateEditor*/
                 AdminUserNavigatorPresenter.redirectingMessage();
                 TemplateEditorController tec = new TemplateEditorController();
                 tec.run();
 
-            } else if (choice == 3){
+            } else if (choice == 2){
                 MessageController c1 = new MessageController(username);
                 c1.run();
             }
-            else if (choice == 5) {
+            else if (choice == 4){
                 /*logout*/
-                AdminUserNavigatorPresenter.logoutMessage();
+
+                gamePresenter.displayTextScene(this, "CONTINUE", "Successfully logged out");
 
                 break;
 
-            } else if (choice == 4) {
+            } else if (choice == 3){
                 SuspensionController sc1 = new SuspensionController();
                 sc1.run();
 
             }
-            else {AdminUserNavigatorPresenter.errorMessage();}
+            else {
+                gamePresenter.displayTextScene(this, "BACK","Invalid choice, please try again"); }
         }
 
 

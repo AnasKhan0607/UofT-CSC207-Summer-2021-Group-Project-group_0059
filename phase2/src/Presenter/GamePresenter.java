@@ -1,12 +1,15 @@
 package Presenter;
+import Controller.MessageController;
+import Entity.Message;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -18,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -26,6 +30,7 @@ public class GamePresenter{
     Stage window;
     Object userChoice;
     String styleSheet = getClass().getResource("GamePresenter.css").toExternalForm();
+    TableView<Message> messageTableView;
     // = findFile("GamePresenter.css", System.getProperty("user.dir"));
 
     public GamePresenter(){
@@ -62,6 +67,87 @@ public class GamePresenter{
         return (int) userChoice;
     }
 
+    public void displayMessages(Object suspendedObject, String username, List<Message> messages) {
+        Platform.runLater(() -> {
+            window = new Stage();
+            window.setTitle(username + "'s Message Box");
+
+            //ID column
+            TableColumn<Message, String> idColumn = new TableColumn<>("ID");
+            idColumn.setMinWidth(200);
+            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+            //Time column
+            TableColumn<Message, Date> timeColumn = new TableColumn<>("Time");
+            timeColumn.setMinWidth(200);
+            timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+            //from column
+            TableColumn<Message, String> fromColumn = new TableColumn<>("From");
+            fromColumn.setMinWidth(100);
+            fromColumn.setCellValueFactory(new PropertyValueFactory<>("from"));
+            //to column
+            //TableColumn<Message, String> toColumn = new TableColumn<>("To");
+            //toColumn.setMinWidth(100);
+            //toColumn.setCellValueFactory(new PropertyValueFactory<>("to"));
+            //msg column
+            TableColumn<Message, String> messageColumn = new TableColumn<>("Message");
+            messageColumn.setMinWidth(700);
+            messageColumn.setCellValueFactory(new PropertyValueFactory<>("msg"));
+            //status column
+            TableColumn<Message, Boolean> statusColumn = new TableColumn<>("READ");
+            statusColumn.setMinWidth(100);
+            statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+            Button deleteButton = new Button("Delete");
+            deleteButton.setOnAction(e -> deleteButtonClicked(suspendedObject));
+            Button quitButton = new Button("QUIT");
+            quitButton.setOnAction(e -> quitButtonClicked(suspendedObject));
+
+            //HBox hBox = new HBox();
+            //hBox.getChildren().addAll(deleteButton, quitButton);
+
+            messageTableView = new TableView<>();
+            messageTableView.setItems(getMessages(messages));
+            messageTableView.getColumns().addAll(timeColumn, fromColumn,messageColumn,statusColumn);
+
+            VBox vbox = new VBox();
+            vbox.getChildren().addAll(messageTableView, deleteButton, quitButton);
+
+            //addExitButton(suspendedObject, vbox);
+
+            Scene scene = new Scene(vbox);
+            window.setScene(scene);
+            window.show();
+        });
+
+        suspendThread(suspendedObject);
+
+
+    }
+
+    public void deleteButtonClicked(Object suspendedObject){
+        ObservableList<Message> messagesSelected;
+        messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
+        for (Message msg: messagesSelected){
+            MessageController messageController = (MessageController)suspendedObject;
+            messageController.removeMessage(msg.getid());
+        }
+    }
+
+    public void quitButtonClicked(Object suspendedObject){
+        window.hide();
+        synchronized (suspendedObject) {
+            suspendedObject.notify();
+        }
+    }
+
+    public ObservableList<Message> getMessages(List<Message> messages){
+        ObservableList<Message> messages1 = FXCollections.observableArrayList();
+        for (Message m: messages) {
+            messages1.add(m);
+        }
+        return messages1;
+    }
+
     public int displayChoices(Object suspendedObject, List choices, String text) {
         Platform.runLater(() -> {
             VBox textLayout = wrapDialogue(text);
@@ -88,7 +174,7 @@ public class GamePresenter{
             BorderPane layout = new BorderPane();
             layout.setCenter(inputLayout);
 
-            displayScene(layout);;
+            displayScene(layout);
         });
 
         suspendThread(suspendedObject);

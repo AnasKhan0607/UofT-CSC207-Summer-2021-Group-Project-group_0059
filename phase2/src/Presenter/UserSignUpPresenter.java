@@ -24,6 +24,9 @@ public class UserSignUpPresenter {
             "Please try again with another username and press enter.");
     }
 
+    public static void errorMessageUnmatch(){
+        System.out.println("Sorry, but the inputs(double entry) are not matching");
+    }
     /**
      * Message if an account is successfully created.
      */
