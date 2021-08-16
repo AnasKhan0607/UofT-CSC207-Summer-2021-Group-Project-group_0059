@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class GameGateFirebase {
     public static void main(String[] args) {
-        String  url = "jdbc:mysql://localhost:3306/schema1";
-        String username = "root";
-        String password = "PlzWork";
+        String  url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/";
+        String username = "admin";
+        String password = "BossAcc!";
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
