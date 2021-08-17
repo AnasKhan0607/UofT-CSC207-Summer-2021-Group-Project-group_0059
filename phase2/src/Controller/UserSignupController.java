@@ -3,6 +3,8 @@ package Controller;
 import Presenter.GamePresenter;
 import Presenter.UserSignUpPresenter;
 import UseCase.UserManager;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +54,9 @@ public class UserSignupController {
                 gamePresenter.displayTextScene(this, "BACK", "Sorry, there is already an account with this username. " +
                         "Please try again with another username and press enter.");
                 //UserSignUpPresenter.errorMessage();
+            } else if (userinputs.get(1).length() < 8) {
+                gamePresenter.displayTextScene(this, "BACK", "Sorry, but this password is " +
+                        "too weak. Please try again using a password with a minimum of 8 characters.");
             } else {
                 this.username = userinputs.get(0);
                 this.password = userinputs.get(1);
@@ -66,5 +71,22 @@ public class UserSignupController {
         }
 
 
+    }
+
+    // helper method
+
+    private boolean PasswordStrength(String password) {
+        // Source for the Regex for what is considered a good password: https://mkyong.com/regular-expressions/how-to-validate-password-with-regular-expression/
+        /* Criteria for a good password:
+        Password must contain at least one digit [0-9].
+        Password must contain at least one lowercase Latin character [a-z].
+        Password must contain at least one uppercase Latin character [A-Z].
+        Password must contain at least one special character like ! @ # & ( ).
+        Password must contain a length of at least 8 characters and a maximum of 20 characters (in our case we are allowing more than 20 characters)
+         */
+        String goodPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,}$";
+        Pattern pattern = Pattern.compile(goodPassword);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 }
