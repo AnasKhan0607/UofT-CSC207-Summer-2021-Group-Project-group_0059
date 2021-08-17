@@ -1,7 +1,7 @@
 package Entity;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 
 /**
  * The abstract class, extended by AdminUser, RegularUser, and GuestUser
@@ -42,17 +42,33 @@ public abstract class User {
     }
 
 
-
-
+    /**
+     * allow the program to set the User's suspension status to positive(become suspended)
+     */
     public void raiseFlag(){this.suspensionFlag = true;}
-
+    /**
+     * allow the program to set the User's suspension status to negative(become not suspended)
+     */
     public void lowerFlag(){this.suspensionFlag = false;}
 
+    /**
+     *
+     * @return the user's suspension status, true for being suspended and false for not suspended
+     */
     public boolean getflag(){return this.suspensionFlag;}
 
+    /**
+     * allow the system to set the date when the User's suspension comes to an end, null if User's not suspended
+     * @param suspensionEndTime the date when the User's suspension comes to an end
+     */
     public void setsuspensionEndTime(LocalDate suspensionEndTime){
         this.suspensionEndTime = suspensionEndTime;
     }
+
+    /**
+     *
+     * @return the date when the User's suspension comes to an end
+     */
     public LocalDate getsuspensionEndTime(){
         return suspensionEndTime;
     }

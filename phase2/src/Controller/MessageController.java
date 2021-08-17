@@ -4,7 +4,6 @@ import Entity.Message;
 import Entity.MessageSortByTime;
 import Presenter.GamePresenter;
 import Presenter.MessagePresenter;
-import Presenter.MessagePresenterV2;
 import UseCase.MessageManager;
 
 import java.util.*;

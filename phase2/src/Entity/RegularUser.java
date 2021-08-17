@@ -25,7 +25,10 @@ public class RegularUser extends User {
     public String getPassword() {
         return this.password;
     }
-
+    /**
+     * Returns the user's password.
+     * @return A string containing the user's password
+     */
     public void setPassword(String password){
         this.password = password;
     }
