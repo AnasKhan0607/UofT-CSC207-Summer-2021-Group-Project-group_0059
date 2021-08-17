@@ -18,7 +18,7 @@ public class UserSignupController {
     private ArrayList<String> userInput;
     private String username;
     private String password;
-    private UserManager testUM = new UserManager();
+    private UserManager testUM;
 
     /**
      * Creates a new UserSignupController object with a UserManager object containing the temporary list of users
@@ -47,7 +47,7 @@ public class UserSignupController {
         inputs.add("Username:");
         inputs.add("Password:");
         inputs.add("Enter your password again:");
-        List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Signup");
+        List<String> userinputs = gamePresenter.displayInputs(this, inputs, "When creating your username, put 'Temp_' at the beginning for a Temporary account (lasting 30 days), otherwise input the username normally.");
         if (userinputs.get(1).equals(userinputs.get(2))){
             this.username = userinputs.get(0);
             if (testUM.SearchUser(this.username) != null) {
@@ -63,7 +63,13 @@ public class UserSignupController {
                 userInput.add(this.username);
                 userInput.add(this.password);
                 testUM.addUser(userInput);
-                UserSignUpPresenter.successMessage();
+                if (PasswordStrength(password)){
+                    gamePresenter.displayTextScene(this, "CONTINUE", "Successfully signed up. Password " +
+                            "Strength: HIGH");
+                } else {
+                    gamePresenter.displayTextScene(this, "CONTINUE", "Successfully signed up. Password " +
+                            "Strength: MEDIUM");
+                }
             }} else {
             //UserSignUpPresenter.errorMessageUnmatch();
             gamePresenter.displayTextScene(this, "BACK", "Sorry, but that's not a match!");
