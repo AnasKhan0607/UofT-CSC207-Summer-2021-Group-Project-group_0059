@@ -49,7 +49,7 @@ public class UserLoginController {
         while (true){
             testUM = new UserManager();
             int choice = gamePresenter.displayChoices(this, choices, "Please login first:");
-            //Scanner myObj = new Scanner(System.in);
+
             if (choice == 0){
 
 
@@ -85,7 +85,7 @@ public class UserLoginController {
                 temp.add(new Date());
                 mm.addMessage(temp);
             } else{
-                //UserLoginPresenter.exitMessage();
+
                 gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for using our program");
                 gamePresenter.terminateGUI();
                 break;

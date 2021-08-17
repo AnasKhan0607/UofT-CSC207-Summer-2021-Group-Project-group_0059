@@ -1,14 +1,14 @@
 package Controller;
 
 import Interface.UserData;
-import Presenter.AdminUserNavigatorPresenter;
+
 import Presenter.GamePresenter;
 import Presenter.RegularUserNavigatorPresenter;
 import UseCase.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 /**
  * the controller class that interacts with Userinputs from RegularUser
  */
@@ -34,16 +34,13 @@ public class RegularUserNavigatorController implements UserData {
      * the main method that is run to accept user inputs and redirect to corresponding controllers
      */
     public void run() {
-        Scanner myObj = new Scanner(System.in);
+
         while (true) {
             System.out.println();
             System.out.println();
             System.out.println();
 
-            /**
-            RegularUserNavigatorPresenter.display(username);
-            Integer choice = Integer.valueOf(myObj.nextLine());
-            **/
+
             GamePresenter gamePresenter = new GamePresenter();
             ArrayList<String> choices = new ArrayList<>();
             choices.add("1. Select a Game to create/edit/play");

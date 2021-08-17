@@ -5,16 +5,14 @@ import Presenter.GamePresenter;
 import Presenter.GuestUserNavigatorPresenter;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+
 /**
  * the controller class that interacts with Userinputs from GuestUser
  */
 public class GuestUserNavigatorController implements UserData {
     private String username = "Guest";
 
-//    public GuestUserNavigatorController(){
-//        username = un;
-//    }
+
     /**
      * return the current User's username
      * @return: the username of current (Guest)User
@@ -29,9 +27,9 @@ public class GuestUserNavigatorController implements UserData {
      */
     public void run() {
 
-        //Scanner myObj = new Scanner(System.in);
-        while (true) {GuestUserNavigatorPresenter.display(username);
-            //Integer choice = Integer.valueOf(myObj.nextLine());
+
+        while (true) {
+
             GamePresenter gamePresenter = new GamePresenter();
             ArrayList<String> choices = new ArrayList<>();
             choices.add("1. Select a Game to create(but you cannot save as a guest user)/play");

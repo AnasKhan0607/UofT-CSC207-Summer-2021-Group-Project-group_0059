@@ -7,14 +7,14 @@ import UseCase.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 /**
  * the controller class that interacts with Userinputs from AdminUser
  */
 public class AdminUserNavigatorController implements UserData {
     private String username;
-    private Scanner scanner = new Scanner(System.in);
+
 
     /**
      * the constructor for this controller class
@@ -37,16 +37,12 @@ public class AdminUserNavigatorController implements UserData {
      */
     public void run(){
 
-        int choice = 0;
+        int choice;
         while (true){
             System.out.println();
             System.out.println();
             System.out.println();
-            /**
-            AdminUserNavigatorPresenter.display(username);
 
-            choice = Integer.valueOf(scanner.next());
-             **/
             GamePresenter gamePresenter = new GamePresenter();
             ArrayList<String> choices = new ArrayList<>();
             choices.add("1. Select a Game to create/edit/play");

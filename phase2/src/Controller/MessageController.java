@@ -37,8 +37,7 @@ public class MessageController {
             ArrayList<String> choices = new ArrayList<>();
             choices.add("1. Read the messages");
             choices.add("2. Compose a message");
-            choices.add("3. Play the creation(just provide the gameName you find in messages)");
-            choices.add("4. QUIT");
+            choices.add("3. QUIT");
             int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ currentUserName + ". what would you like to do?");
 
                 if (choice == 1){
@@ -46,9 +45,7 @@ public class MessageController {
                     readMessage();
                 } else if (choice == 2){
                     writeMessage();
-                } else if (choice == 3){
-                    gamePresenter.displayTextScene(this, "CONTINUE", "UNDER CONSTRUCTION");
-                } else if(choice == 4){
+                } else if(choice == 3){
                     break;
                 } else{
                     gamePresenter.displayTextScene(this, "CONTINUE", "Invalid choice. Please try again");
