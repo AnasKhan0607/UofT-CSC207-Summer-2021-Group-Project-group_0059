@@ -40,16 +40,16 @@ public class MessageController {
             choices.add("3. QUIT");
             int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ currentUserName + ". what would you like to do?");
 
-                if (choice == 1){
-                    messagePresenterV2.displayMessages(this, currentUserName, mm.getMessage(currentUserName));
-                    readMessage();
-                } else if (choice == 2){
-                    writeMessage();
-                } else if(choice == 3){
-                    break;
-                } else{
-                    gamePresenter.displayTextScene(this, "CONTINUE", "Invalid choice. Please try again");
-                }
+            if (choice == 1){
+                messagePresenterV2.displayMessages(this, currentUserName, mm.getMessage(currentUserName));
+                readMessage();
+            } else if (choice == 2){
+                writeMessage();
+            } else if(choice == 3){
+                break;
+            } else{
+                gamePresenter.displayTextScene(this, "CONTINUE", "Invalid choice. Please try again");
+            }
 
 
         }

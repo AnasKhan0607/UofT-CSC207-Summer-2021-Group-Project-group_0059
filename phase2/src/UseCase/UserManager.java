@@ -44,12 +44,13 @@ public class UserManager {
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
             } else if (username.startsWith("Temp_")) {
-                LocalDate startDate = (LocalDate) lst.get(2); // Temp have their account creation/expiry dates stored
-                LocalDate endDate = (LocalDate) lst.get(3);
+                LocalDate startDate = (LocalDate) lst.get(3); // Temp have their account creation/expiry dates stored
+                LocalDate endDate = (LocalDate) lst.get(4);
                 TempUser tempUser = new TempUser(username, password, startDate, endDate); // expired accounts will be unable to login
                 this.bufferedUsers.add(tempUser);
                 if (suspension) {
                     tempUser.raiseFlag();
+                    tempUser.setsuspensionEndTime((LocalDate) lst.get(2));
                 }
             } else {
                 RegularUser tempUser = new RegularUser(username, password);

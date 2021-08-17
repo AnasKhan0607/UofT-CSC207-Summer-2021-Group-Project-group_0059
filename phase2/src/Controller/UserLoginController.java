@@ -1,6 +1,7 @@
 package Controller;
 
 
+import Entity.RegularUser;
 import Entity.TempUser;
 import Entity.User;
 import Presenter.GamePresenter;
@@ -140,6 +141,11 @@ public class UserLoginController {
 
                 gamePresenter.displayTextScene(this, "BACK", "Sorry, but either the username or the password is incorrect");
             } else if (tempUser.getflag()){
+                if (tempUser.getUsername().startsWith("Regular_")){
+                    RegularUser tempUser2 = (RegularUser)tempUser;
+                } else {
+
+                }
 
                 gamePresenter.displayTextScene(this, "BACK", "(" + tempUser.getUsername() + ") is currently suspended until "+ tempUser.getsuspensionEndTime()+" . Please contact Ruilin or Ahmad for support.");
             } else {

@@ -48,7 +48,7 @@ public class RegularUserNavigatorController implements UserData {
             choices.add("3. Reset password");
             choices.add("3. Logout");
             int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ username + ". what would you like to do?");
-             if (choice == 1) {
+            if (choice == 1) {
                 /* Game*/
                 RegularUserNavigatorPresenter.redirectingMessage();
                 TemplateEditorController te = new TemplateEditorController();
@@ -59,26 +59,26 @@ public class RegularUserNavigatorController implements UserData {
                 MessageController c1 = new MessageController(username);
                 c1.run();
             }
-             else if(choice == 4) {
+            else if(choice == 4) {
                 /*logout*/
-                 gamePresenter.displayTextScene(this, "CONTINUE", "Successfully logged out");
+                gamePresenter.displayTextScene(this, "CONTINUE", "Successfully logged out");
 
                 break;
 
             } else if (choice ==3){
-                 ArrayList<String> inputs = new ArrayList<>();
-                 inputs.add("New password:");
-                 List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Reset password");
-                 String password = userinputs.get(0);
-                 UserManager userManager = new UserManager();
-                 boolean status = userManager.resetPassword(this.username, password);
-                 if (status){
-                     gamePresenter.displayTextScene(this, "CONTINUE", "Reset successful");
-                 } else {
-                     gamePresenter.displayTextScene(this, "BACK", "Something went wrong");
-                 }
-             } else {
-                 gamePresenter.displayTextScene(this, "BACK","Invalid choice, please try again");
+                ArrayList<String> inputs = new ArrayList<>();
+                inputs.add("New password:");
+                List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Reset password");
+                String password = userinputs.get(0);
+                UserManager userManager = new UserManager();
+                boolean status = userManager.resetPassword(this.username, password);
+                if (status){
+                    gamePresenter.displayTextScene(this, "CONTINUE", "Reset successful");
+                } else {
+                    gamePresenter.displayTextScene(this, "BACK", "Something went wrong");
+                }
+            } else {
+                gamePresenter.displayTextScene(this, "BACK","Invalid choice, please try again");
             }
         }
     }
