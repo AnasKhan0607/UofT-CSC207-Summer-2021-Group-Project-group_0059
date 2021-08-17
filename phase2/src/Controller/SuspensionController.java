@@ -1,20 +1,22 @@
 package Controller;
 
 import Presenter.GamePresenter;
-import Presenter.SuspensionPresenter;
+
 import UseCase.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
+/**
+ * Controller for the suspension process.
+ * @author Ahmad I., Ruilin P.
+ */
 public class SuspensionController {
     private String username;
 
-    public SuspensionController(){
 
-    }
-
+    /**
+     * the process of doing choices(suspend? unsuspend? or just quit)
+     */
     public void run(){
         while (true) {
             GamePresenter gamePresenter = new GamePresenter();
@@ -35,7 +37,10 @@ public class SuspensionController {
         }
     }
 
-    public void suspend(){
+    /**
+     * the process doing suspend
+     */
+    private void suspend(){
         GamePresenter gamePresenter = new GamePresenter();
         ArrayList<String> inputs = new ArrayList<>();
         inputs.add("Please input the username you need to suspend:");
@@ -52,8 +57,10 @@ public class SuspensionController {
             } else {gamePresenter.displayTextScene(this, "BACK", "Username not found");}} else {gamePresenter.displayTextScene(this, "BACK", "You cannot suspend another Admin !");}
 
     }
-
-    public void unsuspend(){
+    /**
+     * the process doing unsuspend
+     */
+    private void unsuspend(){
         GamePresenter gamePresenter = new GamePresenter();
         ArrayList<String> inputs = new ArrayList<>();
         inputs.add("Please input the username you need to unsuspend:");
@@ -65,6 +72,10 @@ public class SuspensionController {
         else {gamePresenter.displayTextScene(this, "BACK", "Username not found");}
     }
 
+    /**
+     * get the username doing this action
+     * @return a String of the username operating
+     */
     public String getUsername() {
         return username;
     }

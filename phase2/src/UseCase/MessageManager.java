@@ -1,8 +1,8 @@
 package UseCase;
 
-import Entity.AdminUser;
+
 import Entity.Message;
-import Entity.RegularUser;
+
 import Entity.User;
 import Gateway.MessageGate;
 

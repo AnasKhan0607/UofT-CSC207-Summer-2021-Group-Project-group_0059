@@ -36,12 +36,7 @@ public class UserSignupController {
      * Gives the user instructions from the presenter, reads user input, and adds the new user to the list of users.
      */
     public void UserInput() {
-        /**
-        Scanner myObj = new Scanner(System.in);
-        UserSignUpPresenter.display();
-        this.username = myObj.nextLine();
-        this.password = myObj.nextLine();
-         **/
+
         GamePresenter gamePresenter = new GamePresenter();
         ArrayList<String> inputs = new ArrayList<>();
         inputs.add("Username:");
@@ -53,7 +48,7 @@ public class UserSignupController {
             if (testUM.SearchUser(this.username) != null) {
                 gamePresenter.displayTextScene(this, "BACK", "Sorry, there is already an account with this username. " +
                         "Please try again with another username and press enter.");
-                //UserSignUpPresenter.errorMessage();
+
             } else if (userinputs.get(1).length() < 8) {
                 gamePresenter.displayTextScene(this, "BACK", "Sorry, but this password is " +
                         "too weak. Please try again using a password with a minimum of 8 characters.");
@@ -71,7 +66,7 @@ public class UserSignupController {
                             "Strength: MEDIUM");
                 }
             }} else {
-            //UserSignUpPresenter.errorMessageUnmatch();
+
             gamePresenter.displayTextScene(this, "BACK", "Sorry, but that's not a match!");
 
         }
