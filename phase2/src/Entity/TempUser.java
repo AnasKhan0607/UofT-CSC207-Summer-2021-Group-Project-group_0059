@@ -40,6 +40,10 @@ public class TempUser extends User {
         return this.startDate;
     }
 
+    public void setPassword(String password){
+        this.password = password;
+    }
+
     /**
      * Returns date of this user's account expiration.
      * @return A LocalDate object containing when the user's account will expire.

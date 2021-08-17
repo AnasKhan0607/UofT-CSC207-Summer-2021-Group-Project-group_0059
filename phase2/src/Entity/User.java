@@ -1,5 +1,8 @@
 package Entity;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 /**
  * The abstract class, extended by AdminUser, RegularUser, and GuestUser
  */
@@ -8,6 +11,7 @@ public abstract class User {
 
     private String username;
     private boolean suspensionFlag;
+    private LocalDate suspensionEndTime;
 
     /**
      * create a user with the given username
@@ -37,10 +41,20 @@ public abstract class User {
         this.username = username;
     }
 
+
+
+
     public void raiseFlag(){this.suspensionFlag = true;}
 
     public void lowerFlag(){this.suspensionFlag = false;}
 
     public boolean getflag(){return this.suspensionFlag;}
+
+    public void setsuspensionEndTime(LocalDate suspensionEndTime){
+        this.suspensionEndTime = suspensionEndTime;
+    }
+    public LocalDate getsuspensionEndTime(){
+        return suspensionEndTime;
+    }
 }
 

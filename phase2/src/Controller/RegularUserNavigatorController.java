@@ -4,8 +4,10 @@ import Interface.UserData;
 import Presenter.AdminUserNavigatorPresenter;
 import Presenter.GamePresenter;
 import Presenter.RegularUserNavigatorPresenter;
+import UseCase.UserManager;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 /**
  * the controller class that interacts with Userinputs from RegularUser
@@ -46,6 +48,7 @@ public class RegularUserNavigatorController implements UserData {
             ArrayList<String> choices = new ArrayList<>();
             choices.add("1. Select a Game to create/edit/play");
             choices.add("2. Open message box");
+            choices.add("3. Reset password");
             choices.add("3. Logout");
             int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ username + ". what would you like to do?");
              if (choice == 1) {
@@ -59,14 +62,26 @@ public class RegularUserNavigatorController implements UserData {
                 MessageController c1 = new MessageController(username);
                 c1.run();
             }
-             else if(choice == 3) {
+             else if(choice == 4) {
                 /*logout*/
-                RegularUserNavigatorPresenter.logoutMessage();
+                 gamePresenter.displayTextScene(this, "CONTINUE", "Successfully logged out");
 
                 break;
 
-            }  else {
-                RegularUserNavigatorPresenter.errorMessage();
+            } else if (choice ==3){
+                 ArrayList<String> inputs = new ArrayList<>();
+                 inputs.add("New password:");
+                 List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Reset password");
+                 String password = userinputs.get(0);
+                 UserManager userManager = new UserManager();
+                 boolean status = userManager.resetPassword(this.username, password);
+                 if (status){
+                     gamePresenter.displayTextScene(this, "CONTINUE", "Reset successful");
+                 } else {
+                     gamePresenter.displayTextScene(this, "BACK", "Something went wrong");
+                 }
+             } else {
+                 gamePresenter.displayTextScene(this, "BACK","Invalid choice, please try again");
             }
         }
     }
