@@ -52,13 +52,13 @@ public abstract class User {
     public void lowerFlag(){this.suspensionFlag = false;}
 
     /**
-     *
-     * @return the user's suspension status, true for being suspended and false for not suspended
+     *return this User's suspension status
+     * @return the boolean of user's suspension status, true for being suspended and false for not suspended
      */
     public boolean getflag(){return this.suspensionFlag;}
 
     /**
-     * allow the system to set the date when the User's suspension comes to an end, null if User's not suspended
+     * allow the system to set the date when the User's suspension comes to an end
      * @param suspensionEndTime the date when the User's suspension comes to an end
      */
     public void setsuspensionEndTime(LocalDate suspensionEndTime){
@@ -66,8 +66,8 @@ public abstract class User {
     }
 
     /**
-     *
-     * @return the date when the User's suspension comes to an end
+     *return the date when when the User's suspension comes to an end, null if User's not suspended
+     * @return the Date when the User's suspension comes to an end
      */
     public LocalDate getsuspensionEndTime(){
         return suspensionEndTime;
