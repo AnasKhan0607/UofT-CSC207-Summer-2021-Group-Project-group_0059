@@ -18,7 +18,7 @@ public class UserManager {
     private List<User> bufferedUsers;
 
     /**
-     * Creates a list of users using the UserGate class.
+     * Creates a list of users using the UserGate class. and for every suspended user, checks his/her suspension end date that if it's today and decide whether to unsuspend automatically
      */
     public UserManager(){
         this.bufferedUsers = new ArrayList<>();
@@ -45,12 +45,13 @@ public class UserManager {
                 AdminUser tempUser = new AdminUser(username, password);
                 this.bufferedUsers.add(tempUser);
             } else if (username.startsWith("Temp_")) {
-                LocalDate startDate = (LocalDate) lst.get(2); // Temp have their account creation/expiry dates stored
-                LocalDate endDate = (LocalDate) lst.get(3);
+                LocalDate startDate = (LocalDate) lst.get(3); // Temp have their account creation/expiry dates stored
+                LocalDate endDate = (LocalDate) lst.get(4);
                 TempUser tempUser = new TempUser(username, password, startDate, endDate); // expired accounts will be unable to login
                 this.bufferedUsers.add(tempUser);
                 if (suspension) {
                     tempUser.raiseFlag();
+                    tempUser.setsuspensionEndTime((LocalDate) lst.get(2));
                 }
             } else {
                 RegularUser tempUser = new RegularUser(username, password);
@@ -75,6 +76,12 @@ public class UserManager {
         /*buffered array gets updated with what's in tempUsers*/
     }
 
+    /**
+     * reset the password of given user(Name)
+     * @param userName the username requested to be reset of password
+     * @param newPassword the desired new password
+     * @return boolean whether the action is successful
+     */
     public boolean resetPassword(String userName, String newPassword){
         User temp = SearchUser(userName);
         if (temp != null){
@@ -126,7 +133,7 @@ public class UserManager {
     /**
      * Checks if a user exists with the given username.
      * @param username The user's username.
-     * @return The user object that the username corresponds to, or null.
+     * @return The user object that the username corresponds to, or null if user not found.
      */
     public User SearchUser(String username){
         int i;
@@ -149,16 +156,25 @@ public class UserManager {
         return new GuestUser("Guest");
     }
 
+    /**
+     * return all the users in record right now
+     * @return a List of all existing Users
+     */
     public List<User> getBufferedUsers() {
         return bufferedUsers;
     }
 
 
-
+    /**
+     * suspend a User
+     * @param username the user to be suspended
+     * @param x the number of days to be suspended
+     * @return a boolean meaning if the action is successful
+     */
     public boolean suspendUser(String username, int x){
         int i;
         boolean result = false;
-        User temp = bufferedUsers.get(0);
+        User temp;
         LocalDate suspensionEndTime;
         for (i = 0; i < bufferedUsers.size(); i++) {
             temp = bufferedUsers.get(i);
@@ -179,6 +195,11 @@ public class UserManager {
 
     }
 
+    /**
+     * unsuspend given user
+     * @param username the user to be unsuspended
+     * @return boolean of if action is successful
+     */
     public boolean unsuspendUser(String username){
         int i;
         boolean status = false;
@@ -195,6 +216,12 @@ public class UserManager {
         return status;
     }
 
+    /**
+     * save the user to file
+     * @param user the User object to be saved
+     * @param status if the User's suspended
+     * @param suspensionEndTime the time when user's suspension is over(null if not suspended)
+     */
     private void save(User user, boolean status, LocalDate suspensionEndTime){
         UserGate myGate = new UserGate();
         HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);

@@ -1,17 +1,23 @@
 package UseCase;
 
-import Entity.AdminUser;
+
 import Entity.Message;
-import Entity.RegularUser;
+
 import Entity.User;
 import Gateway.MessageGate;
 
 import java.util.*;
-
+/**
+ * The use case class for the Messages.
+ * @author Ahmad I., Ruilin P.
+ */
 public class MessageManager {
     private List<Message> bufferedMessages;
     private UserManager um = new UserManager();
 
+    /**
+     * create a list of all messages obtained from file
+     */
     public MessageManager(){
         bufferedMessages = new ArrayList<>();
 
@@ -37,6 +43,11 @@ public class MessageManager {
 
     }
 
+    /**
+     * add a Message to the List of Messages and the file
+     * @param info the List of User input
+     * @return the boolean if the recipient exist(action successful or not)
+     */
     public boolean addMessage(ArrayList<Object> info){
         String to = (String)info.get(2);
         if (um.SearchUser(to) != null){
@@ -54,6 +65,10 @@ public class MessageManager {
 
     }
 
+    /**
+     * add a same Message to every user
+     * @param info the List of User inputs
+     */
     public void addMessageEveryone(ArrayList<Object> info){
         String from = (String)info.get(0);
         Date time = (Date)info.get(3);
@@ -67,7 +82,11 @@ public class MessageManager {
         }
     }
 
-
+    /**
+     * retrieve the message of given recipient
+     * @param username the name of recipient
+     * @return a List of all Message sent to this User
+     */
     public List<Message> getMessage(String username){
         ArrayList<Message> msgs = new ArrayList<>();
         for (Message msg: bufferedMessages){
@@ -80,7 +99,11 @@ public class MessageManager {
         return msgs;
     }
 
-
+    /**
+     * delete a Message of given id
+     * @param id the id of the message
+     * @return boolean of if action is successful
+     */
     public boolean deleteMessage(String id){
         for (Message msg: bufferedMessages){
             if (msg.getid().equals(id)) {
@@ -92,6 +115,16 @@ public class MessageManager {
         return false;
     }
 
+    /**
+     * save a message to file for adding purpose
+     * @param id the id of the message
+     * @param msg the content of the message
+     * @param from the author of the message
+     * @param to the recipient of the message
+     * @param attachment the attachment attached in the Message
+     * @param time the time this message is composed
+     * @param status the status or READ or UNREAD
+     */
     private void save(String id,String msg, String from, String to,String attachment, Date time, boolean status){
         MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);
@@ -109,7 +142,16 @@ public class MessageManager {
 
         MG.save(MessageData);
     }
-
+    /**
+     * save a message to file for delete purpose
+     * @param id the id of the message
+     * @param msg the content of the message
+     * @param from the author of the message
+     * @param to the recipient of the message
+     * @param attachment the attachment attached in the Message
+     * @param time the time this message is composed
+     * @param status the status or READ or UNREAD
+     */
     private void save2(String id,String msg, String from, String to,String attachment, Date time, boolean status){
         MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> oldMessages = (HashMap<String, List<Object>>) MG.load().get(0);

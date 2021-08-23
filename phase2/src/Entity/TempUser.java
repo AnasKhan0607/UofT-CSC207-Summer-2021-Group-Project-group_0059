@@ -21,7 +21,6 @@ public class TempUser extends User {
         this.password = password;
         this.startDate = startDate;
         this.endDate = endDate;
-        //this.endDate = LocalDate.now().plusDays(30);
     }
 
     /**
@@ -39,7 +38,10 @@ public class TempUser extends User {
     public LocalDate getStartDate() {
         return this.startDate;
     }
-
+    /**
+     * Returns the user's password.
+     * @return A string containing the user's password
+     */
     public void setPassword(String password){
         this.password = password;
     }
