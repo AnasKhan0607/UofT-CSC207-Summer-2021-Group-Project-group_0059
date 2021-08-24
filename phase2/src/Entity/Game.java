@@ -162,7 +162,7 @@ public class Game {
         return gameStorage.getAllId();
     };
     /**
-     * method for add anew choice the a dialogue.
+     * method for adding a new choice the a dialogue.
      * @return true if the given string as dialogue added to the given id as its parent,
      * if anything goes wrong it returns false.
      */

@@ -131,5 +131,4 @@ public class GameGate implements LoadSave {
 //            e.printStackTrace();
         }
     }
-
 }
