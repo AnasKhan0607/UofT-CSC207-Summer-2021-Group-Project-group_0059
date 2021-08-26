@@ -6,6 +6,8 @@ import java.util.ArrayList;
 /**
  * The Entity class for games. it has setters and getters for game variables, makes games storage to string,
  * give or set OR delete dialogues by the given id, give the dialogue children.
+ *
+ * @author Daniel Liu
  */
 public class Game {
     // game name must be unique

@@ -29,7 +29,7 @@ public class GameEditController {
     /**
      * Contructor for the class.
      *
-     * @param gameUseCase A <GameUseCase> containing current game data.
+     * @param gameUseCase A <GamesUseCase> containing current game data.
      * @param userData A UserData interface containing info on current existing users.
      */
 
@@ -39,7 +39,7 @@ public class GameEditController {
     }
 
     /**
-     * Method to edit existing games. Interacts with GameUseCase and allows users to make changes to existing games.
+     * Method to edit existing games. Interacts with GamesUseCase and allows users to make changes to existing games.
      */
 
     public void editGame(){

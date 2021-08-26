@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,6 +28,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Daniel Liu
+ */
 
 public class GamePresenter{
 
@@ -72,37 +76,16 @@ public class GamePresenter{
 
     public void displayMessages(Object suspendedObject, String username, List<Message> messages) {
         Platform.runLater(() -> {
-            window = new Stage();
-            window.setTitle(username + "'s Message Box");
-
-            //ID column
-            TableColumn<Message, String> idColumn = new TableColumn<>("ID");
-            idColumn.setMinWidth(200);
-            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
             //Time column
-            TableColumn<Message, Date> timeColumn = new TableColumn<>("Time");
-            timeColumn.setMinWidth(200);
-            timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+            TableColumn<Message, Date> timeColumn = getColumn("Time", "time", 200);
             //from column
-            TableColumn<Message, String> fromColumn = new TableColumn<>("From");
-            fromColumn.setMinWidth(100);
-            fromColumn.setCellValueFactory(new PropertyValueFactory<>("from"));
-            //to column
-            //TableColumn<Message, String> toColumn = new TableColumn<>("To");
-            //toColumn.setMinWidth(100);
-            //toColumn.setCellValueFactory(new PropertyValueFactory<>("to"));
+            TableColumn<Message, String> fromColumn = getColumn("From", "from", 100);
             //msg column
-            TableColumn<Message, String> messageColumn = new TableColumn<>("Message");
-            messageColumn.setMinWidth(700);
-            messageColumn.setCellValueFactory(new PropertyValueFactory<>("msg"));
+            TableColumn<Message, String> messageColumn = getColumn("Message", "msg", 700);
             //attachment column
-            TableColumn<Message, String> attachmentColumn = new TableColumn<>("Attachment");
-            attachmentColumn.setMinWidth(200);
-            attachmentColumn.setCellValueFactory(new PropertyValueFactory<>("attachment"));
+            TableColumn<Message, String> attachmentColumn = getColumn("Attachment", "attachment", 200);
             //status column
-            TableColumn<Message, Boolean> statusColumn = new TableColumn<>("READ");
-            statusColumn.setMinWidth(100);
-            statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+            TableColumn<Message, Boolean> statusColumn = getColumn("READ", "status", 100);
 
             Button deleteButton = new Button("Delete");
             deleteButton.setOnAction(e -> deleteButtonClicked(suspendedObject));
@@ -111,9 +94,6 @@ public class GamePresenter{
             Button viewButton = new Button("View Attachment");
             viewButton.setOnAction(e -> viewButtonClicked(username, suspendedObject));
 
-            //HBox hBox = new HBox();
-            //hBox.getChildren().addAll(deleteButton, quitButton);
-
             messageTableView = new TableView<>();
             messageTableView.setItems(getMessages(messages));
             messageTableView.getColumns().addAll(timeColumn, fromColumn,messageColumn,attachmentColumn,statusColumn);
@@ -121,19 +101,22 @@ public class GamePresenter{
             VBox vbox = new VBox();
             vbox.getChildren().addAll(messageTableView, deleteButton, quitButton, viewButton);
 
-            //addExitButton(suspendedObject, vbox);
-
             Scene scene = new Scene(vbox);
             window.setScene(scene);
             window.show();
         });
 
         suspendThread(suspendedObject);
-
-
     }
 
-    public void deleteButtonClicked(Object suspendedObject){
+    private TableColumn getColumn(String title, String text, int minWidth) {
+        TableColumn<Message, Date> timeColumn = new TableColumn<>(title);
+        timeColumn.setMinWidth(minWidth);
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>(text));
+        return timeColumn;
+    }
+
+    private void deleteButtonClicked(Object suspendedObject){
         ObservableList<Message> messagesSelected;
         messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
         for (Message msg: messagesSelected){
@@ -142,7 +125,7 @@ public class GamePresenter{
         }
     }
 
-    public void viewButtonClicked(String username,Object suspendedObject){
+    private void viewButtonClicked(String username,Object suspendedObject){
         ObservableList<Message> messagesSelected;
         messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
         for (Message msg: messagesSelected){
@@ -156,7 +139,7 @@ public class GamePresenter{
         }
     }
 
-    public void quitButtonClicked(Object suspendedObject){
+    private void quitButtonClicked(Object suspendedObject){
         window.hide();
         synchronized (suspendedObject) {
             suspendedObject.notify();
@@ -404,7 +387,7 @@ public class GamePresenter{
         dialogueLayout.getChildren().add(button);
     }
 
-    private void displayScene(BorderPane layout) {
+    private void displayScene(Parent layout) {
         Scene scene = new Scene(layout, 1200, 800);
         scene.getStylesheets().add(styleSheet);
         window.setScene(scene);

@@ -38,63 +38,59 @@ public class UserLoginController {
      * Uses user input as well as the UserLoginPresenter to allow the user to login to their account, or login as guest.
      */
     public void NormalUserinput(){
-
-
         GamePresenter gamePresenter = new GamePresenter();
         ArrayList<String> choices = new ArrayList<>();
         choices.add("Login");
         choices.add("Signup");
         choices.add("Login as Guest");
-        choices.add("Forget Password");
+        choices.add("Forgot Password");
         choices.add("EXIT");
         while (true){
             testUM = new UserManager();
             int choice = gamePresenter.displayChoices(this, choices, "Please login first:");
 
-            if (choice == 0){
-
-
-                ArrayList<String> inputs = new ArrayList<>();
-                inputs.add("Username:");
-                inputs.add("Password:");
-                List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Login");
-                this.userName = userinputs.get(0);
-                this.password = userinputs.get(1);
-                RegularLogin();
-            } else if (choice == 1){
+            if (choice == 0){ login(gamePresenter); }
+            else if (choice == 1){
                 UserSignupController signup1 = new UserSignupController(this.testUM);
                 signup1.UserInput();
-                // Going through the login process again
-
-
-            } else if (choice == 2){
-                GuestUserInput();
-            } else if(choice == 3){
-                ArrayList<String> inputs = new ArrayList<>();
-                inputs.add("Your Username:");
-                List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Forget password");
-                String userName = userinputs.get(0);
-                gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for letting us know," +
-                        "a message has been sent to admin. If you registered with an email, we'll send you an email containing temporary info" +
-                        " for logging in");
-                MessageManager mm = new MessageManager();
-                ArrayList<Object> temp = new ArrayList<>();
-                temp.add(userName + "password forgot. Please process");
-                temp.add(userName);
-                temp.add("Admin_Ruilin");
-                temp.add("N/A");
-                temp.add(new Date());
-                mm.addMessage(temp);
-            } else{
-
+            }
+            else if (choice == 2){ GuestUserInput(); }
+            else if(choice == 3){ forgotPassword(gamePresenter); }
+            else{
                 gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for using our program");
                 gamePresenter.terminateGUI();
                 break;
             }
         }
-
     }
 
+    private void login(GamePresenter gamePresenter) {
+        ArrayList<String> inputs = new ArrayList<>();
+        inputs.add("Username:");
+        inputs.add("Password:");
+        List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Login");
+        this.userName = userinputs.get(0);
+        this.password = userinputs.get(1);
+        RegularLogin();
+    }
+
+    private void forgotPassword(GamePresenter gamePresenter) {
+        ArrayList<String> inputs = new ArrayList<>();
+        inputs.add("Your Username:");
+        List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Forget password");
+        String userName = userinputs.get(0);
+        gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for letting us know," +
+                "a message has been sent to admin. If you registered with an email, we'll send you an email containing temporary info" +
+                " for logging in");
+        MessageManager mm = new MessageManager();
+        ArrayList<Object> temp = new ArrayList<>();
+        temp.add(userName + "password forgot. Please process");
+        temp.add(userName);
+        temp.add("Admin_Ruilin");
+        temp.add("N/A");
+        temp.add(new Date());
+        mm.addMessage(temp);
+    }
 
 
     /**
@@ -132,45 +128,41 @@ public class UserLoginController {
 
         GamePresenter gamePresenter = new GamePresenter();
         if (testUM.SearchUser(this.userName) == null) {
-
             gamePresenter.displayTextScene(this, "BACK", "Sorry, but either the username or the password is incorrect");
-        } else {
-            User tempUser = testUM.SearchUser(this.userName);
-            String temppassword = tempUser.getPassword();
-            if (!temppassword.equals(this.password)) {
+            return;
+        }
 
-                gamePresenter.displayTextScene(this, "BACK", "Sorry, but either the username or the password is incorrect");
-            } else if (tempUser.getflag()){
-                if (tempUser.getUsername().startsWith("Regular_")){
-                    RegularUser tempUser2 = (RegularUser)tempUser;
-                } else {
+        User tempUser = testUM.SearchUser(this.userName);
+        String temppassword = tempUser.getPassword();
+        if (!temppassword.equals(this.password)) {
+            gamePresenter.displayTextScene(this, "BACK", "Sorry, but either the username or the password is incorrect");
+        }
+        else if (tempUser.getflag()){
+            gamePresenter.displayTextScene(this, "BACK", "(" + tempUser.getUsername() + ") is currently suspended until "+ tempUser.getsuspensionEndTime()+" . Please contact Ruilin or Ahmad for support.");
+        }
+        else {
+            login(gamePresenter, tempUser);
+        }
+    }
 
-                }
-
-                gamePresenter.displayTextScene(this, "BACK", "(" + tempUser.getUsername() + ") is currently suspended until "+ tempUser.getsuspensionEndTime()+" . Please contact Ruilin or Ahmad for support.");
-            } else {
-                if (this.userName.startsWith("Admin_")) {
-
-                    gamePresenter.displayTextScene(this, "CONTINUE", "Logged in as Admin" );
-                } else if (this.userName.startsWith("Temp_")) {
-                    LocalDate endDate = ((TempUser)tempUser).getEndDate();
-                    LocalDate today = LocalDate.now();
-                    if (today.isAfter(endDate)) {
-
-                        gamePresenter.displayTextScene(this, "BACK", "Sorry, your temporary account has expired." );
-                    }
-                    else {
-
-                        gamePresenter.displayTextScene(this, "BACK", "Temporary. After " + endDate + " your account will be unavailable.");
-                    }
-                }
-                else {
-
-                    gamePresenter.displayTextScene(this, "CONTINUE", "Logged in as Regular" );
-                }
-                redirect(tempUser);
+    private void login(GamePresenter gamePresenter, User tempUser) {
+        if (this.userName.startsWith("Admin_")) {
+            gamePresenter.displayTextScene(this, "CONTINUE", "Logged in as Admin" );
+        }
+        else if (this.userName.startsWith("Temp_")) {
+            LocalDate endDate = ((TempUser) tempUser).getEndDate();
+            LocalDate today = LocalDate.now();
+            if (today.isAfter(endDate)) {
+                gamePresenter.displayTextScene(this, "BACK", "Sorry, your temporary account has expired." );
+            }
+            else {
+                gamePresenter.displayTextScene(this, "BACK", "Temporary. After " + endDate + " your account will be unavailable.");
             }
         }
+        else {
+            gamePresenter.displayTextScene(this, "CONTINUE", "Logged in as Regular" );
+        }
+        redirect(tempUser);
     }
 }
 

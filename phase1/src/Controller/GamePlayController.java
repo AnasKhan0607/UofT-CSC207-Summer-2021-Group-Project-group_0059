@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * Controller class which allows the user to play an existing game.
  *
- * Interacts with GameUseCase, GamePresenter, and userData
+ * Interacts with GamesUseCase, GamePresenter, and userData
  */
 
 public class GamePlayController {

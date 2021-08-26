@@ -19,7 +19,7 @@ public class GameCreateController {
     /**
      * Contructor for the class.
      *
-     * @param gameUseCase A <GameUseCase> containing current game data.
+     * @param gameUseCase A <GamesUseCase> containing current game data.
      * @param templateData A templateData interface containing current templates.
      * @param userData A UserData interface containing info on current existing users.
      */

@@ -1,12 +1,10 @@
 package Controller;
 
-import Entity.Game;
 import Interface.TemplateData;
 import Interface.UserData;
 import Presenter.GameTextPresenter;
 import Presenter.GamePresenter;
-import UseCase.GameUseCase;
-import UseCase.GameUseCase2;
+import UseCase.GamesUseCase;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +15,6 @@ import java.util.Scanner;
 public class GameCreateController {
     public static void main(String[] args) {
         new GameCreateController(null,null,null).test();
-        System.out.println("bruh");
     }
 
     public void test() {
@@ -47,28 +44,27 @@ public class GameCreateController {
 
     private TemplateData templateData;
     private UserData userData;
-    private GameUseCase gameUseCase;
-    private GameUseCase2 gameUseCase2;
+    private GamesUseCase gamesUseCase;
     private GameTextPresenter gameTextPresenter = new GameTextPresenter();
     private Scanner scanner = new Scanner(System.in);
 
     /**
      * Contructor for the class.
      *
-     * @param gameUseCase A <GameUseCase> containing current game data.
+     * @param gamesUseCase A <GamesUseCase> containing current game data.
      * @param templateData A templateData interface containing current templates.
      * @param userData A UserData interface containing info on current existing users.
      */
 
-    public GameCreateController(GameUseCase gameUseCase, TemplateData templateData, UserData userData){
-        this.gameUseCase = gameUseCase;
+    public GameCreateController(GamesUseCase gamesUseCase, TemplateData templateData, UserData userData){
+        this.gamesUseCase = gamesUseCase;
         this.userData = userData;
         this.templateData = templateData;
     }
 
     /**
      * Method to create new games from existing templates.
-     * Interacts with the gamePresenter to communicate with the user and gameUseCase to create games.
+     * Interacts with the gamePresenter to communicate with the user and gamesUseCase to create games.
      */
 
     public void createGame(){
@@ -80,9 +76,9 @@ public class GameCreateController {
         String gameName = String.valueOf(scanner.nextLine());
         gameTextPresenter.displayScene("Please enter the first dialogue.");
         String initialDialogue = String.valueOf(scanner.nextLine());
-        gameUseCase.createGame(choiceNumLimit, gameName, userData.currentUser(), initialDialogue);
+        gamesUseCase.createGame(choiceNumLimit, gameName, userData.currentUser(), initialDialogue);
         gameTextPresenter.displayScene("Game creation complete. Enter anything to continue.");
         scanner.nextLine();
-        gameUseCase2.saveGames();
+        gamesUseCase.saveGames();
     }
 }

@@ -31,7 +31,6 @@ public class UserGate {
         if (directoryListing != null) {
             for (File child : directoryListing) {
                 if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("UserData.txt")){
-                    System.out.println(child.getAbsolutePath());
                     return child.getAbsolutePath();
                 }
                 else{
@@ -62,21 +61,16 @@ public class UserGate {
 //            userFile.createNewFile();
             FileInputStream fileInput = new FileInputStream(myPath);
 
-            System.out.println("bitch");
             ObjectInputStream objectInput
                     = new ObjectInputStream(fileInput);
-            System.out.println("be;iwof");
 
-            System.out.println("c");
             myMaps = (List<HashMap>) objectInput.readObject();
-            System.out.println("d");
 
             objectInput.close();
             fileInput.close();
         }
 
         catch (IOException obj1) {
-            System.out.println(myPath);
             myMaps.add(new HashMap<String, String>());
             System.out.println("Loading...\n" +
                     "No Saved Users.");

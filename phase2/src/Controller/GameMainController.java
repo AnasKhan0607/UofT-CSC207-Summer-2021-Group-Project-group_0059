@@ -4,14 +4,17 @@ import Gateway.GameGate;
 import Interface.TemplateData;
 import Interface.UserData;
 import Presenter.GameTextPresenter;
+import UseCase.GamesUseCase;
 import UseCase.GameUseCase;
-import UseCase.GameUseCase2;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 /**
  * The main Controller class for games. Enables users to Create, Edit, and View games.
+ *
+ * @author Daniel Liu
  */
 
 public class GameMainController {
@@ -22,8 +25,8 @@ public class GameMainController {
     }
 
     private UserData userData;
-    private GameUseCase gameUseCase;
-    private GameUseCase2 gameUseCase2;
+    private GamesUseCase gamesUseCase;
+    private GameUseCase gameUseCase = new GameUseCase();
     private GameCreateController gameCreator;
     public GamePlayController gamePlayer;
     private GameEditController gameEditor;
@@ -31,10 +34,10 @@ public class GameMainController {
     private Scanner scanner = new Scanner(System.in);
 
     public GameMainController(TemplateData templateData, UserData userData){
-        gameUseCase = new GameUseCase(new GameGate());
-        gameCreator = new GameCreateController(gameUseCase, templateData, userData);
-        gameEditor = new GameEditController(gameUseCase, userData);
-        gamePlayer = new GamePlayController(gameUseCase, userData);
+        gamesUseCase = new GamesUseCase(new GameGate());
+        gameCreator = new GameCreateController(gamesUseCase, templateData, userData);
+        gameEditor = new GameEditController(gamesUseCase, userData);
+        gamePlayer = new GamePlayController(gamesUseCase, userData);
         this.userData = userData;
     }
 
@@ -128,13 +131,13 @@ public class GameMainController {
             }
 
             if (userChoice == 1){
-                this.viewGames(gameUseCase.getPrivateGames(userData.currentUser()));
+                this.viewGames(gamesUseCase.getPrivateGames(userData.currentUser()));
             }
             else if (userChoice == 2){
-                this.viewGames(gameUseCase.getPublicGames());
+                this.viewGames(gamesUseCase.getPublicGames());
             }
             else if (userChoice == 3){
-                this.viewGames(gameUseCase.getPublicGamesByAuthor(userData.currentUser()));
+                this.viewGames(gamesUseCase.getPublicGamesByAuthor(userData.currentUser()));
             }
             else if (userChoice == 4){
                 this.viewGame();
@@ -181,19 +184,19 @@ public class GameMainController {
             }
 
             if (userChoice == 1){
-                this.viewGames(gameUseCase.getPrivateGames(userData.currentUser()));
+                this.viewGames(gamesUseCase.getPrivateGames(userData.currentUser()));
             }
             else if (userChoice == 2){
-                this.viewGames(gameUseCase.getPublicGames());
+                this.viewGames(gamesUseCase.getPublicGames());
             }
             else if (userChoice == 3){
-                this.viewGames(gameUseCase.getPublicGamesByAuthor(userData.currentUser()));
+                this.viewGames(gamesUseCase.getPublicGamesByAuthor(userData.currentUser()));
             }
             else if (userChoice == 4){
                 this.viewGame();
             }
             else if(userChoice == 5){
-                this.viewGames(gameUseCase.getAllPrivateGames());
+                this.viewGames(gamesUseCase.getPrivateGames());
             }
             else if (userChoice == 6){
                 break;
@@ -204,11 +207,11 @@ public class GameMainController {
         gameTextPresenter.displayScene("Enter the name of the game you want to view.");
         String gameName = String.valueOf(scanner.next());
 
-        boolean privateGame = gameUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
-        boolean publicGame = gameUseCase.getPublicGames().contains(gameName);
+        boolean privateGame = gamesUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
+        boolean publicGame = gamesUseCase.getPublicGames().contains(gameName);
         if (privateGame || publicGame){
-            gameUseCase2.openGame(gameName);
-            gameTextPresenter.displayScene("Enter anything to exit.", gameUseCase.getGameAsString(gameName));
+            gameUseCase.openGame(gamesUseCase, gameName);
+            gameTextPresenter.displayScene("Enter anything to exit.", gamesUseCase.getGameAsString(gameName));
             scanner.next();
         }
         else{

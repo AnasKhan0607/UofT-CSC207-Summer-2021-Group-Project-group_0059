@@ -26,14 +26,7 @@ public class UserManager {
         UserGate myGate = new UserGate();
         HashMap<String, List<Object>> tempUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
-        System.out.println("?");
         for (Map.Entry <String, List<Object>> mapElement :tempUsers.entrySet()){
-            System.out.println(mapElement.getKey() + "    " + mapElement.getValue());
-        }
-
-
-
-            for (Map.Entry <String, List<Object>> mapElement :tempUsers.entrySet()){
             String username = mapElement.getKey();
             List lst = mapElement.getValue();
             String password = (String)lst.get(0);
@@ -71,8 +64,6 @@ public class UserManager {
                     }
                 }
         }
-
-
         /*buffered array gets updated with what's in tempUsers*/
     }
 

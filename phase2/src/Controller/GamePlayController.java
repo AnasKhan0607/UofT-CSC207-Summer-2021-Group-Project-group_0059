@@ -2,21 +2,24 @@ package Controller;
 
 import Interface.UserData;
 import Presenter.GameTextPresenter;
+import UseCase.GamesUseCase;
 import UseCase.GameUseCase;
-import UseCase.GameUseCase2;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Controller class which allows the user to play an existing game.
  *
- * Interacts with GameUseCase, GameTextPresenter, and userData
+ * Interacts with GamesUseCase, GameTextPresenter, and userData
+ *
+ * @author Daniel Liu
  */
 
 public class GamePlayController {
 
-    private GameUseCase gameUseCase;
-    private GameUseCase2 gameUseCase2;
+    private GamesUseCase gamesUseCase;
+    private GameUseCase gameUseCase = new GameUseCase();
     private GameTextPresenter gameTextPresenter = new GameTextPresenter();
     private Scanner scanner = new Scanner(System.in);
     private UserData userData;
@@ -24,12 +27,12 @@ public class GamePlayController {
     /**
      * Constructor method for GamePlayController
      *
-     * @param gameUseCase gameUseCase class to interact with current games
+     * @param gamesUseCase gamesUseCase class to interact with current games
      * @param userData Interface class for interacting with userData
      */
 
-    public GamePlayController(GameUseCase gameUseCase, UserData userData){
-        this.gameUseCase = gameUseCase;
+    public GamePlayController(GamesUseCase gamesUseCase, UserData userData){
+        this.gamesUseCase = gamesUseCase;
         this.userData = userData;
     }
 
@@ -37,33 +40,33 @@ public class GamePlayController {
      * The method which allows users to play games and select different choices.
      * Handles what should happen when different choices are made.
      *
-     * Interacts with gameTextPresenter, gameUseCase, and userData to play the game
+     * Interacts with gameTextPresenter, gamesUseCase, and userData to play the game
      */
 
     public void playGame(){
         ArrayList<String> newGames = new ArrayList<>();
-        ArrayList<String> publicGames = gameUseCase.getPublicGames();
+        ArrayList<String> publicGames = gamesUseCase.getPublicGames();
         for (String game: publicGames){
             newGames.add(game);
         }
-        newGames.addAll(gameUseCase.getPrivateGames(userData.currentUser()));
+        newGames.addAll(gamesUseCase.getPrivateGames(userData.currentUser()));
 
         gameTextPresenter.displayScene("Enter the name of the game you want to play.", newGames);
         String gameName = String.valueOf(scanner.next());
-        boolean privateGame = gameUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
-        boolean publicGame = gameUseCase.getPublicGames().contains(gameName);
+        boolean privateGame = gamesUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
+        boolean publicGame = gamesUseCase.getPublicGames().contains(gameName);
         if (!privateGame && !publicGame){
             gameTextPresenter.displayScene("No such game! Enter anything to exit.");
             scanner.next();
             return;
         }
 
-        ArrayList<Object> dialogueArrayList = gameUseCase2.openGame(gameName);
+        ArrayList<Object> dialogueArrayList = gameUseCase.openGame(gamesUseCase, gameName);
         Integer dialogueId = (Integer) dialogueArrayList.get(0);
         String dialogue = (String) dialogueArrayList.get(1);
 
-        ArrayList<String> childrenChoices = gameUseCase2.getDialogueChoices(dialogueId);
-        ArrayList<Integer> childrenChoiceIds = gameUseCase2.getDialogueChoiceIds(dialogueId);
+        ArrayList<String> childrenChoices = gameUseCase.getDialogueChoices(dialogueId);
+        ArrayList<Integer> childrenChoiceIds = gameUseCase.getDialogueChoiceIds(dialogueId);
         ArrayList<String> choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
 
         int userChoice = 0;
@@ -90,10 +93,10 @@ public class GamePlayController {
                 continue;
             }
 
-            childrenChoices = gameUseCase2.getDialogueChoices(userChoice);
-            childrenChoiceIds = gameUseCase2.getDialogueChoiceIds(userChoice);
+            childrenChoices = gameUseCase.getDialogueChoices(userChoice);
+            childrenChoiceIds = gameUseCase.getDialogueChoiceIds(userChoice);
             choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
-            dialogue = gameUseCase2.getDialogueById(userChoice);
+            dialogue = gameUseCase.getDialogueById(userChoice);
         }
     }
 

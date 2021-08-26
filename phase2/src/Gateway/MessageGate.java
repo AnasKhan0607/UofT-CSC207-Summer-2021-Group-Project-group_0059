@@ -15,11 +15,10 @@ public class MessageGate {
      */
 
     public MessageGate(){
-        //this.myPath = findSaveUserFile(System.getProperty("message.dir"));
-        this.myPath = new File("").getAbsolutePath() + "\\data\\MessageData.txt";
+        this.myPath = findSaveMessageFile(System.getProperty("user.dir"));
     }
 
-    private String findSaveUserFile(String filePath){
+    private String findSaveMessageFile(String filePath){
         File dir = new File(filePath);
         File[] directoryListing = dir.listFiles();
         String foundPath = "";
@@ -30,7 +29,7 @@ public class MessageGate {
                     return child.getAbsolutePath();
                 }
                 else{
-                    String path = findSaveUserFile(child.getAbsolutePath());
+                    String path = findSaveMessageFile(child.getAbsolutePath());
                     if (!path.equals("")){
                         return path;
                     }

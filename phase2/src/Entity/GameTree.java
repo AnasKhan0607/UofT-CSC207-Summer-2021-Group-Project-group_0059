@@ -10,6 +10,8 @@ import Exception.AddDialogueException;
 /**
  * The entity class which represents a GameTree. This is a part of the tree structure containing different
  * dialogues and options which users can navigate through to play the game.
+ *
+ * @author Daniel Liu
  */
 
 public class GameTree implements GameStorage {
