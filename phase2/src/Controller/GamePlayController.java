@@ -1,5 +1,6 @@
 package Controller;
 
+import Gateway.GameGate;
 import Interface.UserData;
 import Presenter.GamePresenter;
 import Presenter.GameTextPresenter;
@@ -38,6 +39,13 @@ public class GamePlayController {
         this.gamePresenter = gamePresenter;
     }
 
+    // for the purpose of playing games from message attachments only
+    public GamePlayController(UserData userData, GamePresenter gamePresenter){
+        this.gamesUseCase = new GamesUseCase(new GameGate());
+        this.userData = userData;
+        this.gamePresenter = gamePresenter;
+    }
+
     /**
      * The method which allows users to play games and select different choices.
      * Handles what should happen when different choices are made.
@@ -53,6 +61,20 @@ public class GamePlayController {
         String gameName = gamePresenter.displayInputs(this, tags,
                 "Enter the name of the game you want to play.").get(0);
 
+        if (checkGameExistense(gameName)) return;
+
+        ArrayList<Object> dialogueArrayList = gameUseCase.openGame(gamesUseCase, gameName);
+        Integer dialogueId = (Integer) dialogueArrayList.get(0);
+        String dialogue = (String) dialogueArrayList.get(1);
+
+        ArrayList<String> childrenChoices = gameUseCase.getDialogueChoices(dialogueId);
+        ArrayList<Integer> childrenChoiceIds = gameUseCase.getDialogueChoiceIds(dialogueId);
+        ArrayList<String> choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
+
+        presentGame(dialogue, childrenChoiceIds, choices);
+    }
+
+    public void playSpecificGame(String gameName){
         if (checkGameExistense(gameName)) return;
 
         ArrayList<Object> dialogueArrayList = gameUseCase.openGame(gamesUseCase, gameName);

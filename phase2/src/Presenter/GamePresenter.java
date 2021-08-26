@@ -1,6 +1,10 @@
 package Presenter;
+import Controller.AdminUserNavigatorController;
+import Controller.GamePlayController;
 import Controller.MessageController;
 import Entity.Message;
+import Gateway.GameGate;
+import UseCase.GamesUseCase;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -91,7 +95,7 @@ public class GamePresenter{
         return (int) userChoice;
     }
 
-    public void displayMessages(Object suspendedObject, String username, List<Message> messages) {
+    public String displayMessages(Object suspendedObject, String username, List<Message> messages) {
         Platform.runLater(() -> {
             //Time column
             TableColumn<Message, Date> timeColumn = wrapTextInColumn("Time", "time", 200);
@@ -124,13 +128,10 @@ public class GamePresenter{
         });
 
         suspendThread(suspendedObject);
-    }
-
-    private TableColumn wrapTextInColumn(String title, String text, int minWidth) {
-        TableColumn<Message, Date> timeColumn = new TableColumn<>(title);
-        timeColumn.setMinWidth(minWidth);
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>(text));
-        return timeColumn;
+        if (userChoice == null){
+            return "";
+        }
+        return (String) userChoice;
     }
 
     private void deleteButtonClicked(Object suspendedObject){
@@ -146,13 +147,11 @@ public class GamePresenter{
         ObservableList<Message> messagesSelected;
         messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
         for (Message msg: messagesSelected){
-            //MessageController messageController = (MessageController)suspendedObject;
-            //String gameName = msg.getAttachment();
-            //TemplateEditorController te = new TemplateEditorController();
-            //GameMainController gc = new GameMainController(te ,username);
-            //GamePlayController gamePlayer = new GamePlayController();
-            System.out.println("Under construction. Will be redirected to the GamePlay of" + msg.getAttachment() + "" +
-                    "upon completion");
+            userChoice = msg.getAttachment();
+        }
+        window.hide();
+        synchronized (suspendedObject) {
+            suspendedObject.notify();
         }
     }
 
@@ -333,6 +332,13 @@ public class GamePresenter{
             layout.getChildren().add(button);
         }
         return layout;
+    }
+
+    private TableColumn wrapTextInColumn(String title, String text, int minWidth) {
+        TableColumn<Message, Date> timeColumn = new TableColumn<>(title);
+        timeColumn.setMinWidth(minWidth);
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>(text));
+        return timeColumn;
     }
 
     private VBox wrapListItems(Object suspendedObject, List items) {

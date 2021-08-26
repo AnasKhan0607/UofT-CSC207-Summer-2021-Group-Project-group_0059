@@ -74,7 +74,7 @@ public class GamesUseCase {
      * name of author and initial dialogue. Game name must be unique.
      */
     public Boolean createGame(int number_choice, String game_name, String author_name, String initial_dialogue){
-        if (getGameByName(game_name) == null){
+        if (getGameByName(game_name) == null && !game_name.equals("")){
             Game game = new Game(game_name, author_name, false, number_choice, initial_dialogue);
             privateGames.add(game);
             return true;
