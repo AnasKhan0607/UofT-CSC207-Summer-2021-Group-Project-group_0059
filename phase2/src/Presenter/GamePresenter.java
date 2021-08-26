@@ -1,8 +1,5 @@
 package Presenter;
-import Controller.GameMainController;
-import Controller.GamePlayController;
 import Controller.MessageController;
-import Controller.TemplateEditorController;
 import Entity.Message;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -71,21 +68,41 @@ public class GamePresenter{
         if (userChoice == null){
             return -1;
         }
+
+        return (int) userChoice;
+    }
+
+    public int displayChoices(Object suspendedObject, List choices, String text) {
+        Platform.runLater(() -> {
+            VBox textLayout = wrapDialogue(text);
+            VBox choicesLayout = wrapChoices(suspendedObject, choices);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(choicesLayout);
+            layout.setBottom(textLayout);
+
+            displayScene(layout);
+        });
+
+        suspendThread(suspendedObject);
+        if (userChoice == null){
+            return -1;
+        }
         return (int) userChoice;
     }
 
     public void displayMessages(Object suspendedObject, String username, List<Message> messages) {
         Platform.runLater(() -> {
             //Time column
-            TableColumn<Message, Date> timeColumn = getColumn("Time", "time", 200);
+            TableColumn<Message, Date> timeColumn = wrapTextInColumn("Time", "time", 200);
             //from column
-            TableColumn<Message, String> fromColumn = getColumn("From", "from", 100);
+            TableColumn<Message, String> fromColumn = wrapTextInColumn("From", "from", 100);
             //msg column
-            TableColumn<Message, String> messageColumn = getColumn("Message", "msg", 700);
+            TableColumn<Message, String> messageColumn = wrapTextInColumn("Message", "msg", 700);
             //attachment column
-            TableColumn<Message, String> attachmentColumn = getColumn("Attachment", "attachment", 200);
+            TableColumn<Message, String> attachmentColumn = wrapTextInColumn("Attachment", "attachment", 200);
             //status column
-            TableColumn<Message, Boolean> statusColumn = getColumn("READ", "status", 100);
+            TableColumn<Message, Boolean> statusColumn = wrapTextInColumn("READ", "status", 100);
 
             Button deleteButton = new Button("Delete");
             deleteButton.setOnAction(e -> deleteButtonClicked(suspendedObject));
@@ -109,7 +126,7 @@ public class GamePresenter{
         suspendThread(suspendedObject);
     }
 
-    private TableColumn getColumn(String title, String text, int minWidth) {
+    private TableColumn wrapTextInColumn(String title, String text, int minWidth) {
         TableColumn<Message, Date> timeColumn = new TableColumn<>(title);
         timeColumn.setMinWidth(minWidth);
         timeColumn.setCellValueFactory(new PropertyValueFactory<>(text));
@@ -154,26 +171,37 @@ public class GamePresenter{
         return messages1;
     }
 
-    public int displayChoices(Object suspendedObject, List choices, String text) {
+    public void displayList(Object suspendedObject, List items) {
         Platform.runLater(() -> {
-            VBox textLayout = wrapDialogue(text);
-            VBox choicesLayout = wrapChoices(suspendedObject, choices);
+            VBox inputLayout = wrapListItems(suspendedObject, items);
+            addExitButton(suspendedObject, inputLayout);
 
             BorderPane layout = new BorderPane();
-            layout.setCenter(choicesLayout);
+            layout.setCenter(inputLayout);
+
+            displayScene(layout);
+        });
+
+        suspendThread(suspendedObject);
+    }
+
+    public void displayList(Object suspendedObject, List items, String text) {
+        Platform.runLater(() -> {
+            VBox inputLayout = wrapListItems(suspendedObject, items);
+            VBox textLayout = wrapDialogue(text);
+            addExitButton(suspendedObject, textLayout);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(inputLayout);
             layout.setBottom(textLayout);
 
             displayScene(layout);
         });
 
         suspendThread(suspendedObject);
-        if (userChoice == null){
-            return -1;
-        }
-        return (int) userChoice;
     }
 
-    public List displayInputs(Object suspendedObject, List inputTags){
+    public List<String> displayInputs(Object suspendedObject, List inputTags){
         Platform.runLater(() -> {
             VBox inputLayout = wrapInputs(suspendedObject, inputTags);
 
@@ -187,7 +215,7 @@ public class GamePresenter{
         return (List) userChoice;
     }
 
-    public List displayInputs(Object suspendedObject, List inputTags, String text){
+    public List<String> displayInputs(Object suspendedObject, List inputTags, String text){
         Platform.runLater(() -> {
             VBox inputLayout = wrapInputs(suspendedObject, inputTags);
             VBox textLayout = wrapDialogue(text);
@@ -201,6 +229,22 @@ public class GamePresenter{
 
         suspendThread(suspendedObject);
         return (List) userChoice;
+    }
+
+    public String displayTextSceneInput(Object suspendedObject, String dialogue, String textArt) {
+        Platform.runLater(() -> {
+            VBox pictureLayout = wrapDialogue(textArt);
+            VBox dialogueLayout = wrapDialogueInput(suspendedObject, dialogue);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(pictureLayout);
+            layout.setBottom(dialogueLayout);
+
+            displayScene(layout);
+        });
+
+        suspendThread(suspendedObject);
+        return (String) userChoice;
     }
 
     public void displayTextScene(Object suspendedObject, String dialogue) {
@@ -291,6 +335,27 @@ public class GamePresenter{
         return layout;
     }
 
+    private VBox wrapListItems(Object suspendedObject, List items) {
+        VBox layout = new VBox();
+        layout.setMinHeight(650);
+        layout.setMaxHeight(800);
+        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        layout.setAlignment(Pos.CENTER);
+        for(int i = 0; i < items.size(); i++){
+            Label label = new Label(items.get(i).toString());
+            label.setMinWidth(150);
+            label.setMaxWidth(200);
+            label.setMinHeight(40);
+            label.setMaxHeight(40);
+            label.setAlignment(Pos.CENTER);
+            label.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
+            layout.getChildren().add(label);
+        }
+        return layout;
+    }
+
     private VBox wrapInputs(Object suspendedObject, List choices) {
         ArrayList inputList = new ArrayList();
         VBox layout = new VBox();
@@ -319,6 +384,24 @@ public class GamePresenter{
         });
         layout.getChildren().add(button);
         return layout;
+    }
+
+    private VBox wrapDialogueInput(Object suspendedObject, String dialogue) {
+        VBox dialogueLayout = wrapDialogue(dialogue);
+        TextField input = new TextField();
+        input.setMinWidth(200);
+        dialogueLayout.getChildren().add(input);
+
+        Button button = new Button("Finish Entering");
+        button.setOnAction(event -> {
+            userChoice = input.getText();
+            window.hide();
+            synchronized (suspendedObject) {
+                suspendedObject.notify();
+            }
+        });
+        dialogueLayout.getChildren().add(button);
+        return dialogueLayout;
     }
 
     private VBox wrapDialogue(String dialogue) {
@@ -377,7 +460,7 @@ public class GamePresenter{
     }
 
     private void addExitButton(Object suspendedObject, VBox dialogueLayout) {
-        Button button = new Button("Next");
+        Button button = new Button("Continue");
         button.setOnAction(event -> {
             window.hide();
             synchronized (suspendedObject) {

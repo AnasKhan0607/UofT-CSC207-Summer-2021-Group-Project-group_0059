@@ -71,11 +71,15 @@ public class GamesUseCase {
     }
     /**
      * method for creating a new game , which gets number of choice, name of the game,
-     * name of author and initial dialogue.
+     * name of author and initial dialogue. Game name must be unique.
      */
-    public void createGame(int number_choice, String game_name, String author_name, String initial_dialogue){
-        Game game = new Game(game_name, author_name, false, number_choice, initial_dialogue);
-        privateGames.add(game);
+    public Boolean createGame(int number_choice, String game_name, String author_name, String initial_dialogue){
+        if (getGameByName(game_name) == null){
+            Game game = new Game(game_name, author_name, false, number_choice, initial_dialogue);
+            privateGames.add(game);
+            return true;
+        }
+        return false;
     }
 
     /**

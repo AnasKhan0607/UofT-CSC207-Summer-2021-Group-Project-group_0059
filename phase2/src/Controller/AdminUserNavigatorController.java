@@ -59,8 +59,8 @@ public class AdminUserNavigatorController implements UserData {
                 /* Game*/
                 AdminUserNavigatorPresenter.redirectingMessage();
                 TemplateEditorController te = new TemplateEditorController();
-                GameMainController gc = new GameMainController(te ,this::currentUser);
-                gc.gameMenuAdminUser();
+                GameMainController gameController = new GameMainController(te ,this::currentUser);
+                gameController.gameMenu();
 
             } else if (choice == 1) {
                 /* TemplateEditor*/

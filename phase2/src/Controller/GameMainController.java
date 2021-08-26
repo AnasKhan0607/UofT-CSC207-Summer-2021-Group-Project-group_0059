@@ -3,13 +3,13 @@ package Controller;
 import Gateway.GameGate;
 import Interface.TemplateData;
 import Interface.UserData;
+import Presenter.GamePresenter;
 import Presenter.GameTextPresenter;
 import UseCase.GamesUseCase;
 import UseCase.GameUseCase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.List;
 
 /**
  * The main Controller class for games. Enables users to Create, Edit, and View games.
@@ -31,13 +31,13 @@ public class GameMainController {
     public GamePlayController gamePlayer;
     private GameEditController gameEditor;
     private GameTextPresenter gameTextPresenter = new GameTextPresenter();
-    private Scanner scanner = new Scanner(System.in);
+    private GamePresenter gamePresenter = new GamePresenter();
 
     public GameMainController(TemplateData templateData, UserData userData){
         gamesUseCase = new GamesUseCase(new GameGate());
-        gameCreator = new GameCreateController(gamesUseCase, templateData, userData);
-        gameEditor = new GameEditController(gamesUseCase, userData);
-        gamePlayer = new GamePlayController(gamesUseCase, userData);
+        gameCreator = new GameCreateController(gamesUseCase, templateData, userData, gamePresenter);
+        gameEditor = new GameEditController(gamesUseCase, userData, gamePresenter);
+        gamePlayer = new GamePlayController(gamesUseCase, userData, gamePresenter);
         this.userData = userData;
     }
 
@@ -48,176 +48,83 @@ public class GameMainController {
      */
 
     public void gameMenu(){
-        int userChoice = 0;
+        List<String> choices = new ArrayList<>();
+        choices.add("Create Game");
+        choices.add("Edit Game");
+        choices.add("Play Game");
+        choices.add("View Game");
+        choices.add("Exit");
         while (true){
-            gameTextPresenter.displayScene(
-                    "Choose and enter the corresponding integer. Notice: Games are auto saved " +
-                            "unless you are a guest user.",
-                    new ArrayList<>(Arrays.asList(new String[]{
-                            "1: Create Game", "2: Edit Game", "3: Play Game", "4: View Games", "5: Exit"})));
+            int userChoice = gamePresenter.displayChoices(this, choices);
 
-            try{
-                userChoice = Integer.valueOf(scanner.next());
-            }
-            catch(NumberFormatException e){
-                System.out.println(e);
-                continue;
-            }
-
-            if(userChoice == 1){
+            if(userChoice == 0){
                 gameCreator.createGame();
             }
-            else if(userChoice == 2){
+            else if(userChoice == 1){
                 gameEditor.editGame();
             }
-            else if(userChoice == 3){
+            else if(userChoice == 2){
                 gamePlayer.playGame();
             }
-            else if(userChoice == 4){
+            else if(userChoice == 3){
                 this.viewGamesMenu();
             }
-            else if(userChoice == 5){
-                break;
-            }
-        }
-    }
-    public void gameMenuAdminUser(){
-        int userChoice = 0;
-        while (true){
-            gameTextPresenter.displayScene(
-                    "Choose and enter the corresponding integer. Notice: Games are auto saved " +
-                            "unless you are a guest user.",
-                    new ArrayList<>(Arrays.asList(new String[]{
-                            "1: Create Game", "2: Edit or Delete Game", "3: Play Game", "4: View Games", "5: Exit"})));
-            try{
-                userChoice = Integer.valueOf(scanner.next());
-            }
-            catch(NumberFormatException e){
-                System.out.println(e);
-                continue;
-            }
-            if(userChoice == 1){
-                gameCreator.createGame();
-            }
-            else if(userChoice == 2){
-                gameEditor.editGameAdminUser();
-            }
-            else if(userChoice == 3){
-                gamePlayer.playGame();
-            }
             else if(userChoice == 4){
-                this.viewGamesMenuAdminUser();
-            }
-            else if(userChoice == 5){
                 break;
             }
         }
     }
+
     private void viewGamesMenu(){
-
-        int userChoice = 0;
+        List<String> choices = new ArrayList<>();
+        choices.add("View Private Games");
+        choices.add("View Public Games");
+        choices.add("View Specific Game Structure");
+        choices.add("Exit");
         while (true) {
-            gameTextPresenter.displayScene("Choose and enter the corresponding integer.",
-                    new ArrayList<>(Arrays.asList(new String[]{"1: View Private Games (Created by You)",
-                            "2: View Public Games", "3: View All Public Games Created by You",
-                            "4: View Specific Game Structure",
-                            "5: Exit"})));
-            try {
-                userChoice = Integer.valueOf(scanner.next());
-            }
-            catch (NumberFormatException e) {
-                System.out.println(e);
-                continue;
-            }
+            int userChoice = gamePresenter.displayChoices(this, choices);
 
-            if (userChoice == 1){
-                this.viewGames(gamesUseCase.getPrivateGames(userData.currentUser()));
+            if (userChoice == 0){
+                if (userData.currentUser().startsWith("Admin_")){
+                    gamePresenter.displayList(this, gamesUseCase.getPrivateGames());
+                }
+                else{
+                    gamePresenter.displayList(this, gamesUseCase.getPrivateGames(userData.currentUser()));
+                }
+            }
+            else if (userChoice == 1){
+                gamePresenter.displayList(this, gamesUseCase.getPublicGames());
             }
             else if (userChoice == 2){
-                this.viewGames(gamesUseCase.getPublicGames());
-            }
-            else if (userChoice == 3){
-                this.viewGames(gamesUseCase.getPublicGamesByAuthor(userData.currentUser()));
-            }
-            else if (userChoice == 4){
                 this.viewGame();
             }
-            else if (userChoice == 5){
-                break;
-            }
-        }
-    }
-
-    private void viewGames(ArrayList<String> games){
-        int userChoice = 0;
-        while (true) {
-            gameTextPresenter.displayScene("Enter 1 to exit.", games);
-            try {
-                userChoice = Integer.valueOf(scanner.next());
-            }
-            catch (NumberFormatException e) {
-                System.out.println(e);
-                continue;
-            }
-
-            if (userChoice == 1){
-                break;
-            }
-        }
-    }
-
-    private void viewGamesMenuAdminUser(){
-
-        int userChoice = 0;
-        while (true) {
-            gameTextPresenter.displayScene("Choose and enter the corresponding integer.",
-                    new ArrayList<>(Arrays.asList(new String[]{"1: View Private Games (Created by You)",
-                            "2: View Public Games", "3: View All Public Games Created by You",
-                            "4: View Specific Game Structure", "5: view Private Games",
-                            "6: Exit"})));
-            try {
-                userChoice = Integer.valueOf(scanner.next());
-            }
-            catch (NumberFormatException e) {
-                System.out.println(e);
-                continue;
-            }
-
-            if (userChoice == 1){
-                this.viewGames(gamesUseCase.getPrivateGames(userData.currentUser()));
-            }
-            else if (userChoice == 2){
-                this.viewGames(gamesUseCase.getPublicGames());
-            }
             else if (userChoice == 3){
-                this.viewGames(gamesUseCase.getPublicGamesByAuthor(userData.currentUser()));
-            }
-            else if (userChoice == 4){
-                this.viewGame();
-            }
-            else if(userChoice == 5){
-                this.viewGames(gamesUseCase.getPrivateGames());
-            }
-            else if (userChoice == 6){
                 break;
             }
         }
     }
+
     private void viewGame(){
-        gameTextPresenter.displayScene("Enter the name of the game you want to view.");
-        String gameName = String.valueOf(scanner.next());
+        List<String> tags = new ArrayList<>();
+        tags.add("Game Name");
+        String gameName = gamePresenter.displayInputs(this, tags,
+                "Enter the name of the game you want to view.").get(0);
 
-        boolean privateGame = gamesUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
+        boolean privateGame;
+        if (userData.currentUser().startsWith("Admin_")){
+            privateGame = gamesUseCase.getPrivateGames().contains(gameName);
+        }
+        else{
+            privateGame = gamesUseCase.getPrivateGames(userData.currentUser()).contains(gameName);
+        }
         boolean publicGame = gamesUseCase.getPublicGames().contains(gameName);
         if (privateGame || publicGame){
             gameUseCase.openGame(gamesUseCase, gameName);
-            gameTextPresenter.displayScene("Enter anything to exit.", gamesUseCase.getGameAsString(gameName));
-            scanner.next();
+            gamePresenter.displayTextScene(this, "This is the structure of the game.",
+                    gamesUseCase.getGameAsString(gameName));
         }
         else{
-            gameTextPresenter.displayScene("No such game! Enter anything to exit.");
-            scanner.next();
+            gamePresenter.displayTextScene(this, "No such game!");
         }
     }
-
 }
