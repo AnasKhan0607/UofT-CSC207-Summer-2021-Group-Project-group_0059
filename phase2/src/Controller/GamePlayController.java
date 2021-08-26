@@ -3,13 +3,11 @@ package Controller;
 import Gateway.GameGate;
 import Interface.UserData;
 import Presenter.GamePresenter;
-import Presenter.GameTextPresenter;
 import UseCase.GamesUseCase;
 import UseCase.GameUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Controller class which allows the user to play an existing game.

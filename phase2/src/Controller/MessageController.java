@@ -46,7 +46,6 @@ public class MessageController {
                 if (!gameName.equals("")){
                     new GamePlayController(new AdminUserNavigatorController("Admin_"), gamePresenter).
                             playSpecificGame(gameName);
-                    gamePresenter.displayTextScene(this, "Game End.");
                 }
             } else if (choice == 2){
                 writeMessage();
