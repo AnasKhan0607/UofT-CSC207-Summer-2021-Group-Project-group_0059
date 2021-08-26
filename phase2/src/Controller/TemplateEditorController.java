@@ -1,10 +1,23 @@
 package Controller;
 
+
+import Entity.RegularUser;
+import Entity.TempUser;
+import Entity.User;
 import Interface.TemplateData;
+import Presenter.GamePresenter;
 import Presenter.TemplateEditorPresenter;
 import Presenter.TemplatePresenter;
+import Presenter.UserLoginPresenter;
+import UseCase.MessageManager;
 import UseCase.TemplateManager;
+import UseCase.UserManager;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
@@ -15,6 +28,7 @@ public class TemplateEditorController implements TemplateData {
         TemplateEditorController editorController = new TemplateEditorController();
         editorController.run();
     }
+
     private TemplateManager templates;
     private Scanner myObj = new Scanner(System.in);
 
@@ -22,16 +36,17 @@ public class TemplateEditorController implements TemplateData {
      * the constructor for this controller class
      * Initializes a new TemplateManger object and assigns to private class variable templates.
      */
-    public TemplateEditorController(){
+    public TemplateEditorController() {
         this.templates = new TemplateManager();
     }
 
     /**
      * the constructor for this controller class
+     *
      * @return returns chosen template's number of choices or -1 when template isnt chosen.
      */
-    public int chooseTemplate(){
-        for (;;) {
+    public int chooseTemplate() {
+        for (; ; ) {
             TemplateEditorPresenter.chose_template_to_edit(this.templates);
             String choice;
             choice = String.valueOf(myObj.nextLine());
@@ -52,81 +67,73 @@ public class TemplateEditorController implements TemplateData {
     /**
      * the main method that is run to accept user inputs and take them through the whole editing process.
      */
-    public void run(){
-        for (;;){
-            TemplateEditorPresenter.chose_template_to_edit(this.templates);
-            String choice;
-            choice = String.valueOf(myObj.nextLine());
-            while (!this.templates.getTemplates().contains(this.templates.Find_template(choice))&&!choice.equals("-1")){
-                TemplateEditorPresenter.try_agin();
-                choice = String.valueOf(myObj.nextLine());
-
-            }
-            if (choice.equals("-1")){
+    public void run() {
+        GamePresenter gamePresenter = new GamePresenter();
+        ArrayList<String> choices = new ArrayList<>();
+        choices.add("View Template List");
+        choices.add("Choose Template");
+        choices.add("EXIT");
+        for (; ; ) {
+            int choice = gamePresenter.displayChoices(this, choices, "Hello, what you want to do?");
+            if (choice == 0) {
+                String templatelist = new String();
+                for (String template_name : templates.Template_names()) {
+                    templatelist = templatelist + "Template Name: " + template_name + "\n";
+                }
+                gamePresenter.displayTextScene(this, "BACK", "List Of Available Templates:" + "\n" + templatelist);
+            } else if (choice == 1) {
+                ArrayList<String> inputs = new ArrayList<>();
+                inputs.add("Please enter the name of the template you want to edit:");
+                List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Choose Template.");
+                String templatename = userinputs.get(0);
+                if (!this.templates.getTemplates().contains(this.templates.Find_template(templatename))) {
+                    gamePresenter.displayTextScene(this, "BACK", "Sorry, but we do not have such template, please check the template name and try again.");
+                } else {
+                    ArrayList<String> editchoices = new ArrayList<>();
+                    editchoices.add("Change the name of the template");
+                    editchoices.add("Change the description of the template");
+                    editchoices.add("Change the number of choice of the template");
+                    editchoices.add("EXIT");
+                    for (; ; ) {
+                        int edit_choice = gamePresenter.displayChoices(this, editchoices, "What would you like to change in the template?");
+                        if (edit_choice == 3) {
+                            break;
+                        }
+                        if (edit_choice == 0) {
+                            List<String> newname = gamePresenter.displayInputs(this, inputs, "Please enter the new name.");
+                            this.templates.setNewName(templatename, newname.get(0));
+                            templatename = newname.get(0);
+                            gamePresenter.displayTextScene(this, "BACK", "The name is successfully changed.");
+                            break;
+                        }
+                        if (edit_choice == 1) {
+                            List<String> newdescription = gamePresenter.displayInputs(this, inputs, "Please enter the new description.");
+                            this.templates.setNewDescription(templatename, newdescription.get(0));
+                            gamePresenter.displayTextScene(this, "BACK", "The Description is successfully changed.");
+                            break;
+                        }
+                        if (edit_choice == 2) {
+                            List<String> newnumchoices = gamePresenter.displayInputs(this, inputs, "Please enter the new number of choices.");
+                            try {
+                                Integer newchoices = Integer.parseInt(newnumchoices.get(0));
+                                this.templates.setNewChoicesNum(templatename, newchoices);
+                                gamePresenter.displayTextScene(this, "BACK", "The number of choice is successfully changed.");
+                                break;
+                            } catch (NumberFormatException ne) {
+                                gamePresenter.displayTextScene(this, "BACK", "Sorry, please enter a valid input.");
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                this.templates.Save_changes();
+                gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for using our program");
+                gamePresenter.terminateGUI();
                 break;
             }
-            for (;;) {
-                TemplatePresenter.selected_template(this.templates.Find_template(choice));
-                TemplatePresenter.display_template(this.templates, choice);
-                TemplateEditorPresenter.edit_template();
-                String edit_choice = String.valueOf(myObj.nextLine());
-                while (!edit_choice.equals("-1") && !edit_choice.equals("0") && !edit_choice.equals("1") && !edit_choice.equals("2")){
-                    TemplateEditorPresenter.try_agin_option();
-                    edit_choice = String.valueOf(myObj.nextLine());
-                }
-                if (edit_choice.equals("-1")){
-                    break;
-                }
-                if (edit_choice.equals("0")){
-                    choice = change_name(choice);
-                }
-                if (edit_choice.equals("1")){
-                    change_description(choice);
-                }
-                if (edit_choice.equals("2")){
-                    change_choices(choice);
-                }
-            }
-
         }
         this.templates.Save_changes();
 
-    }
-
-    private String change_name(String choice){
-        TemplateEditorPresenter.change_name();
-        String name = String.valueOf(myObj.nextLine());
-        if (name.equals("-1")){
-            TemplateEditorPresenter.try_agin_name();
-            return choice;
-        }
-        else {
-            this.templates.setNewName(choice, name);
-            return name;
-        }
-    }
-
-    private void change_description(String choice){
-        TemplateEditorPresenter.change_description();
-        String description = String.valueOf(myObj.nextLine());
-        this.templates.setNewDescription(choice, description);
-    }
-
-    private void change_choices(String choice){
-        TemplateEditorPresenter.change_choices();
-        boolean changable = false;
-        String read = String.valueOf(myObj.nextLine());
-        while (!changable){
-            try{
-                Integer testint = Integer.parseInt(read);
-                break;
-            }
-            catch (NumberFormatException ne){
-                TemplateEditorPresenter.try_agin_option();
-            }
-            read = String.valueOf(myObj.nextLine());
-        }
-        Integer choices = Integer.parseInt(read);
-        this.templates.setNewChoicesNum(choice, choices);
     }
 }
