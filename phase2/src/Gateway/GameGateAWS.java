@@ -5,6 +5,7 @@ import java.util.*;
 
 public class GameGateAWS {
     public static void main(String[] args) {
+        ArrayList<HashMap<Integer, String>> mapList = new ArrayList<HashMap<Integer, String>>();
 
         List<Integer> ids = Arrays.asList(1 , 2, 3);
         HashMap<Integer, String> gameData = new HashMap<>();
@@ -16,6 +17,12 @@ public class GameGateAWS {
             gameData.put(id, String.valueOf(id));
         }
 
+        mapList.add(gameData);
+
+        GameGateAWS.save(mapList);
+
+    }
+    public static void save(List<HashMap<Integer, String>> myMap){
         String  url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data";
         String username = "admin";
         String password = "BossAcc!";
@@ -28,9 +35,10 @@ public class GameGateAWS {
             ResultSet resSet = statement.executeQuery("select * from test1");
             System.out.println(resSet);
 
-            for (Map.Entry<Integer, String> integerStringEntry : gameData.entrySet()) {
+            for (Map.Entry<Integer, String> integerStringEntry : myMap.get(0).entrySet()) {
                 Map.Entry pair = (Map.Entry) integerStringEntry;
-                statement.executeUpdate("INSERT INTO test1 VALUES("+ pair.getKey() + ",'" + pair.getValue() + "');");
+                statement.executeUpdate("INSERT INTO test1 VALUES("+ pair.getKey() + ",'" + pair.getValue() + "') " +
+                        "ON DUPLICATE KEY UPDATE value='" + pair.getValue() + "';");
             }
             statement.close();
 
@@ -40,5 +48,4 @@ public class GameGateAWS {
         }
 
     }
-
 }
