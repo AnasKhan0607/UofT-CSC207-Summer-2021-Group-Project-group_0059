@@ -148,10 +148,7 @@ public class UserManager {
         return null;
     }
 
-    /**
-     * create a GuestUser instance and return it
-     * @return the GuestUser instance
-     */
+
 
 
     /**
@@ -166,7 +163,7 @@ public class UserManager {
      * validate the username and password given with what's in the record(given that there's a corresponding username)
      * @param username the username we are validating
      * @param passwordInput the password given
-     * @return
+     * @return a boolean if the password given matches the record
      */
     public boolean validatePassword(String username, String passwordInput){
         return SearchUser(username).getPassword().equals(passwordInput);
@@ -175,7 +172,7 @@ public class UserManager {
     /**
      * check if the given username is suspended
      * @param username the username to be checked
-     * @return
+     * @return a boolean indicating if the username is suspended
      */
     public boolean validateFlag(String username){
         return SearchUser(username).getflag();
@@ -235,6 +232,11 @@ public class UserManager {
         return status;
     }
 
+    /**
+     * reset the given username's password to a temporal password(randomly generated) and generate a text file of it
+     * @param username the username who needs to be performed with this action
+     * @return a boolean indicating if the action is successful
+     */
     public boolean resetTempPassword(String username){
         if (SearchUser(username) == null){
             return false;
