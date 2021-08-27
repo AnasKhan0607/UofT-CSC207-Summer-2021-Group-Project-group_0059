@@ -52,8 +52,8 @@ public class RegularUserNavigatorController implements UserData {
                 /* Game*/
                 RegularUserNavigatorPresenter.redirectingMessage();
                 TemplateEditorController te = new TemplateEditorController();
-                GameMainController gc = new GameMainController(te ,this::currentUser);
-                gc.gameMenu();
+                GameMainController gameController = new GameMainController(te ,this::currentUser);
+                gameController.gameMenu();
 
             } else if (choice == 2){
                 MessageController c1 = new MessageController(username);
@@ -62,7 +62,6 @@ public class RegularUserNavigatorController implements UserData {
             else if(choice == 4) {
                 /*logout*/
                 gamePresenter.displayTextScene(this, "CONTINUE", "Successfully logged out");
-
                 break;
 
             } else if (choice ==3){

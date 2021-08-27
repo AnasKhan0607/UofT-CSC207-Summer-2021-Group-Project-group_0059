@@ -45,8 +45,8 @@ public class SuspensionController {
         ArrayList<String> inputs = new ArrayList<>();
         inputs.add("Please input the username you need to suspend:");
         inputs.add("For how many days:");
-        List<Object> lst = gamePresenter.displayInputs(this, inputs);
-        String choice = (String)lst.get(0);
+        List<String> lst = gamePresenter.displayInputs(this, inputs);
+        String choice = lst.get(0);
         int x = Integer.parseInt((String) lst.get(1));
         username = choice;
         if (!username.startsWith("Admin_")){

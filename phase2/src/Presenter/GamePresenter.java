@@ -1,9 +1,10 @@
 package Presenter;
-import Controller.GameMainController;
+import Controller.AdminUserNavigatorController;
 import Controller.GamePlayController;
 import Controller.MessageController;
-import Controller.TemplateEditorController;
 import Entity.Message;
+import Gateway.GameGate;
+import UseCase.GamesUseCase;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -71,87 +72,8 @@ public class GamePresenter{
         if (userChoice == null){
             return -1;
         }
+
         return (int) userChoice;
-    }
-
-    public void displayMessages(Object suspendedObject, String username, List<Message> messages) {
-        Platform.runLater(() -> {
-            //Time column
-            TableColumn<Message, Date> timeColumn = getColumn("Time", "time", 200);
-            //from column
-            TableColumn<Message, String> fromColumn = getColumn("From", "from", 100);
-            //msg column
-            TableColumn<Message, String> messageColumn = getColumn("Message", "msg", 700);
-            //attachment column
-            TableColumn<Message, String> attachmentColumn = getColumn("Attachment", "attachment", 200);
-            //status column
-            TableColumn<Message, Boolean> statusColumn = getColumn("READ", "status", 100);
-
-            Button deleteButton = new Button("Delete");
-            deleteButton.setOnAction(e -> deleteButtonClicked(suspendedObject));
-            Button quitButton = new Button("QUIT");
-            quitButton.setOnAction(e -> quitButtonClicked(suspendedObject));
-            Button viewButton = new Button("View Attachment");
-            viewButton.setOnAction(e -> viewButtonClicked(username, suspendedObject));
-
-            messageTableView = new TableView<>();
-            messageTableView.setItems(getMessages(messages));
-            messageTableView.getColumns().addAll(timeColumn, fromColumn,messageColumn,attachmentColumn,statusColumn);
-
-            VBox vbox = new VBox();
-            vbox.getChildren().addAll(messageTableView, deleteButton, quitButton, viewButton);
-
-            Scene scene = new Scene(vbox);
-            window.setScene(scene);
-            window.show();
-        });
-
-        suspendThread(suspendedObject);
-    }
-
-    private TableColumn getColumn(String title, String text, int minWidth) {
-        TableColumn<Message, Date> timeColumn = new TableColumn<>(title);
-        timeColumn.setMinWidth(minWidth);
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>(text));
-        return timeColumn;
-    }
-
-    private void deleteButtonClicked(Object suspendedObject){
-        ObservableList<Message> messagesSelected;
-        messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
-        for (Message msg: messagesSelected){
-            MessageController messageController = (MessageController)suspendedObject;
-            messageController.removeMessage(msg.getid());
-        }
-    }
-
-    private void viewButtonClicked(String username,Object suspendedObject){
-        ObservableList<Message> messagesSelected;
-        messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
-        for (Message msg: messagesSelected){
-            //MessageController messageController = (MessageController)suspendedObject;
-            //String gameName = msg.getAttachment();
-            //TemplateEditorController te = new TemplateEditorController();
-            //GameMainController gc = new GameMainController(te ,username);
-            //GamePlayController gamePlayer = new GamePlayController();
-            System.out.println("Under construction. Will be redirected to the GamePlay of" + msg.getAttachment() + "" +
-                    "upon completion");
-        }
-    }
-
-    private void quitButtonClicked(Object suspendedObject){
-        window.hide();
-        synchronized (suspendedObject) {
-            suspendedObject.notify();
-        }
-    }
-
-    public ObservableList<Message> getMessages(List<Message> messages){
-        ObservableList<Message> messages1 = FXCollections.observableArrayList();
-        for (Message m: messages) {
-            messages1.add(m);
-        }
-        return messages1;
     }
 
     public int displayChoices(Object suspendedObject, List choices, String text) {
@@ -173,7 +95,112 @@ public class GamePresenter{
         return (int) userChoice;
     }
 
-    public List displayInputs(Object suspendedObject, List inputTags){
+    public String displayMessages(Object suspendedObject, String username, List<Message> messages) {
+        Platform.runLater(() -> {
+            //Time column
+            TableColumn<Message, Date> timeColumn = wrapTextInColumn("Time", "time", 200);
+            //from column
+            TableColumn<Message, String> fromColumn = wrapTextInColumn("From", "from", 100);
+            //msg column
+            TableColumn<Message, String> messageColumn = wrapTextInColumn("Message", "msg", 700);
+            //attachment column
+            TableColumn<Message, String> attachmentColumn = wrapTextInColumn("Attachment", "attachment", 200);
+            //status column
+            TableColumn<Message, Boolean> statusColumn = wrapTextInColumn("READ", "status", 100);
+
+            Button deleteButton = new Button("Delete");
+            deleteButton.setOnAction(e -> deleteButtonClicked(suspendedObject));
+            Button quitButton = new Button("QUIT");
+            quitButton.setOnAction(e -> quitButtonClicked(suspendedObject));
+            Button viewButton = new Button("View Attachment");
+            viewButton.setOnAction(e -> viewButtonClicked(username, suspendedObject));
+
+            messageTableView = new TableView<>();
+            messageTableView.setItems(getMessages(messages));
+            messageTableView.getColumns().addAll(timeColumn, fromColumn,messageColumn,attachmentColumn,statusColumn);
+
+            VBox vbox = new VBox();
+            vbox.getChildren().addAll(messageTableView, deleteButton, quitButton, viewButton);
+
+            Scene scene = new Scene(vbox);
+            window.setScene(scene);
+            window.show();
+        });
+
+        suspendThread(suspendedObject);
+        if (userChoice == null){
+            return "";
+        }
+        return (String) userChoice;
+    }
+
+    private void deleteButtonClicked(Object suspendedObject){
+        ObservableList<Message> messagesSelected;
+        messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
+        for (Message msg: messagesSelected){
+            MessageController messageController = (MessageController)suspendedObject;
+            messageController.removeMessage(msg.getid());
+        }
+    }
+
+    private void viewButtonClicked(String username,Object suspendedObject){
+        ObservableList<Message> messagesSelected;
+        messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
+        for (Message msg: messagesSelected){
+            userChoice = msg.getAttachment();
+        }
+        window.hide();
+        synchronized (suspendedObject) {
+            suspendedObject.notify();
+        }
+    }
+
+    private void quitButtonClicked(Object suspendedObject){
+        window.hide();
+        synchronized (suspendedObject) {
+            suspendedObject.notify();
+        }
+    }
+
+    public ObservableList<Message> getMessages(List<Message> messages){
+        ObservableList<Message> messages1 = FXCollections.observableArrayList();
+        for (Message m: messages) {
+            messages1.add(m);
+        }
+        return messages1;
+    }
+
+    public void displayList(Object suspendedObject, List items) {
+        Platform.runLater(() -> {
+            VBox inputLayout = wrapListItems(suspendedObject, items);
+            addExitButton(suspendedObject, inputLayout);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(inputLayout);
+
+            displayScene(layout);
+        });
+
+        suspendThread(suspendedObject);
+    }
+
+    public void displayList(Object suspendedObject, List items, String text) {
+        Platform.runLater(() -> {
+            VBox inputLayout = wrapListItems(suspendedObject, items);
+            VBox textLayout = wrapDialogue(text);
+            addExitButton(suspendedObject, textLayout);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(inputLayout);
+            layout.setBottom(textLayout);
+
+            displayScene(layout);
+        });
+
+        suspendThread(suspendedObject);
+    }
+
+    public List<String> displayInputs(Object suspendedObject, List inputTags){
         Platform.runLater(() -> {
             VBox inputLayout = wrapInputs(suspendedObject, inputTags);
 
@@ -187,7 +214,7 @@ public class GamePresenter{
         return (List) userChoice;
     }
 
-    public List displayInputs(Object suspendedObject, List inputTags, String text){
+    public List<String> displayInputs(Object suspendedObject, List inputTags, String text){
         Platform.runLater(() -> {
             VBox inputLayout = wrapInputs(suspendedObject, inputTags);
             VBox textLayout = wrapDialogue(text);
@@ -201,6 +228,22 @@ public class GamePresenter{
 
         suspendThread(suspendedObject);
         return (List) userChoice;
+    }
+
+    public String displayTextSceneInput(Object suspendedObject, String dialogue, String textArt) {
+        Platform.runLater(() -> {
+            VBox pictureLayout = wrapDialogue(textArt);
+            VBox dialogueLayout = wrapDialogueInput(suspendedObject, dialogue);
+
+            BorderPane layout = new BorderPane();
+            layout.setCenter(pictureLayout);
+            layout.setBottom(dialogueLayout);
+
+            displayScene(layout);
+        });
+
+        suspendThread(suspendedObject);
+        return (String) userChoice;
     }
 
     public void displayTextScene(Object suspendedObject, String dialogue) {
@@ -291,6 +334,34 @@ public class GamePresenter{
         return layout;
     }
 
+    private TableColumn wrapTextInColumn(String title, String text, int minWidth) {
+        TableColumn<Message, Date> timeColumn = new TableColumn<>(title);
+        timeColumn.setMinWidth(minWidth);
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>(text));
+        return timeColumn;
+    }
+
+    private VBox wrapListItems(Object suspendedObject, List items) {
+        VBox layout = new VBox();
+        layout.setMinHeight(650);
+        layout.setMaxHeight(800);
+        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        layout.setAlignment(Pos.CENTER);
+        for(int i = 0; i < items.size(); i++){
+            Label label = new Label(items.get(i).toString());
+            label.setMinWidth(150);
+            label.setMaxWidth(200);
+            label.setMinHeight(40);
+            label.setMaxHeight(40);
+            label.setAlignment(Pos.CENTER);
+            label.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
+            layout.getChildren().add(label);
+        }
+        return layout;
+    }
+
     private VBox wrapInputs(Object suspendedObject, List choices) {
         ArrayList inputList = new ArrayList();
         VBox layout = new VBox();
@@ -319,6 +390,24 @@ public class GamePresenter{
         });
         layout.getChildren().add(button);
         return layout;
+    }
+
+    private VBox wrapDialogueInput(Object suspendedObject, String dialogue) {
+        VBox dialogueLayout = wrapDialogue(dialogue);
+        TextField input = new TextField();
+        input.setMinWidth(200);
+        dialogueLayout.getChildren().add(input);
+
+        Button button = new Button("Finish Entering");
+        button.setOnAction(event -> {
+            userChoice = input.getText();
+            window.hide();
+            synchronized (suspendedObject) {
+                suspendedObject.notify();
+            }
+        });
+        dialogueLayout.getChildren().add(button);
+        return dialogueLayout;
     }
 
     private VBox wrapDialogue(String dialogue) {
@@ -377,7 +466,7 @@ public class GamePresenter{
     }
 
     private void addExitButton(Object suspendedObject, VBox dialogueLayout) {
-        Button button = new Button("Next");
+        Button button = new Button("Continue");
         button.setOnAction(event -> {
             window.hide();
             synchronized (suspendedObject) {

@@ -39,8 +39,8 @@ public class GuestUserNavigatorController implements UserData {
                 /* Game*/
                 GuestUserNavigatorPresenter.redirectingMessage();
                 TemplateEditorController te = new TemplateEditorController();
-                GameMainController gc = new GameMainController(te ,this::currentUser);
-                gc.gameMenu();
+                GameMainController gameController = new GameMainController(te ,this::currentUser);
+                gameController.gameMenu();
 
             }  else if (choice == 2) {
                 /*logout*/
