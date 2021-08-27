@@ -1,9 +1,8 @@
 package Controller;
 
-import Entity.Message;
-import Entity.MessageSortByTime;
+
 import Presenter.GamePresenter;
-import Presenter.MessagePresenter;
+
 import UseCase.MessageManager;
 
 import java.util.*;
@@ -114,11 +113,7 @@ public class MessageController {
     public void removeMessage(String id){
 
 
-        if(mm.deleteMessage(id)){
-            MessagePresenter.deleteMessageSuccess(id);
-        } else {
-            MessagePresenter.errorMessageID(id);
-        }
+        mm.deleteMessage(id);
 
     }
 

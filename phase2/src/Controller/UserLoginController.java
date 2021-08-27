@@ -33,7 +33,7 @@ public class UserLoginController {
     }
 
     /**
-     * Uses user input as well as the UserLoginPresenter to allow the user to login to their account, or login as guest.
+     * using javafx to let user make choices of what to do
      */
     public void NormalUserinput(){
         GamePresenter gamePresenter = new GamePresenter();
