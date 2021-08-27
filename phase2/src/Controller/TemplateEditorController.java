@@ -5,7 +5,10 @@ import Interface.TemplateData;
 import Presenter.GamePresenter;
 import UseCase.TemplateManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import java.util.Scanner;
 
 /**
  * the controller class that interacts with Userinputs from Admin User wanting to edit a Template or chose Template.
