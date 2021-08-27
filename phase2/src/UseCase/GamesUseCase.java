@@ -155,6 +155,10 @@ public class GamesUseCase {
         return game_list;
     }
 
+    /**
+     * Return an arraylist of all private game names
+     * @return an arraylist of the names of all private game
+     */
     public ArrayList<String> getPrivateGames(){
         ArrayList<String> game_list = new ArrayList<>();
         for(Game game: privateGames){
@@ -289,6 +293,11 @@ public class GamesUseCase {
         return false;
     }
 
+    /**
+     * Delete the game with game_name
+     * @param game_name the name of a Game object
+     * @return whether the game with game_name has been successfully deleted
+     */
     public boolean deleteGame(String game_name){
         for (Game game: this.privateGames){
             if(game.getGameName().equals(game_name)){

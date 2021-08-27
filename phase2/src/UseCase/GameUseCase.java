@@ -108,6 +108,10 @@ public class GameUseCase {
         return childrenIds;
     }
 
+    /**
+     * return the name of the stylesheet of a game
+     * @return the styleSheetName of a game object
+     */
     public String getStyleSheetName(){
         return this.currentGame.getStyleSheetName();
     }
