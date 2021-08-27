@@ -1,5 +1,7 @@
 package Gateway;
 
+import Interface.LoadSave;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +13,7 @@ import java.util.List;
  *
  */
 
-public class UserGate {
+public class UserGate implements LoadSave {
 
     String myPath;
 
