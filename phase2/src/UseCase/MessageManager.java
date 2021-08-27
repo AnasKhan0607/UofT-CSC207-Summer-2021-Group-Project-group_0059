@@ -5,6 +5,7 @@ import Entity.Message;
 
 import Entity.User;
 import Gateway.MessageGate;
+import Presenter.MessagePresenter;
 
 import java.util.*;
 /**
@@ -113,6 +114,18 @@ public class MessageManager {
             }
         }
         return false;
+    }
+
+    /**
+     * mark every Message of this User as read
+     * @param username
+     */
+    public void markAllAsRead(String username){
+        List<Message> bufferedMessages = getMessage(username);
+        for (Message msg: bufferedMessages){
+
+            msg.markAsRead();
+        }
     }
 
     /**

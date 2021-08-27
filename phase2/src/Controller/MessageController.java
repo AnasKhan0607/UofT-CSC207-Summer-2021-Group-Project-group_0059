@@ -42,11 +42,11 @@ public class MessageController {
 
             if (choice == 1){
                 String gameName = messagePresenterV2.displayMessages(this, mm.getMessage(currentUserName));
-                readMessage();
                 if (!gameName.equals("")){
                     new GamePlayController(new AdminUserNavigatorController("Admin_"), gamePresenter).
                             playSpecificGame(gameName);
                 }
+                mm.markAllAsRead(currentUserName);
             } else if (choice == 2){
                 writeMessage();
             } else if(choice == 3){
