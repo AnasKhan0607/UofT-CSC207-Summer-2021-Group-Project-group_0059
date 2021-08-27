@@ -12,36 +12,6 @@ import java.util.List;
  * Game creation controller class which is called by GameMainController.
  */
 public class GameCreateController {
-    public static void main(String[] args) {
-        new GameCreateController(null,null,null, new GamePresenter()).test();
-    }
-
-    public void test() {
-        List bruh = new ArrayList();
-        bruh.add("bruh");
-        bruh.add("bruh2");
-        bruh.add("bruh3");
-        GamePresenter gamePresenter = new GamePresenter();
-        gamePresenter.displayList(this, bruh);
-        gamePresenter.displayList(this, bruh, "bro");
-//        int one = gamePresenter.displayChoices(this, bruh);
-//        System.out.println(one);
-//        int two = gamePresenter.displayChoices(this, bruh, "hmmmmm");
-//        System.out.println(two);
-//        List three = gamePresenter.displayInputs(this, bruh);
-//        System.out.println(three);
-//        List four = gamePresenter.displayInputs(this, bruh, "BRUH!");
-//        System.out.println(four);
-//        gamePresenter.displayPictureScene(this, "hmmmmmm", "BRUH");
-//        System.out.println("5");
-//        gamePresenter.displayTextScene(this, "hmmmmm");
-//        System.out.println(6);
-//        gamePresenter.displayTextScene(this, "hmmmm", "awie;fjweaiofjeawio;fjweaio;f" +
-//                " jwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwefjwaefjaew;iowjfawe;ifj;weioefjweaof;ijwefoi;awejfio;awefjwe;oifjwef");
-//        System.out.println("7");
-        gamePresenter.terminateGUI();
-
-    }
 
     private TemplateData templateData;
     private UserData userData;
@@ -80,7 +50,7 @@ public class GameCreateController {
         tags.add("Game Name");
         tags.add("First Dialogue");
 
-        List<String> inputs = gamePresenter.displayInputs(this, tags);
+        List<String> inputs = gamePresenter.displayInputs(this, tags, "");
         boolean createSuccess = gamesUseCase.createGame(choiceNumLimit, inputs.get(0), userData.currentUser(), inputs.get(1), styleSheetName);
         if (createSuccess){
             gamePresenter.displayTextScene(this, "Game creation completed.");

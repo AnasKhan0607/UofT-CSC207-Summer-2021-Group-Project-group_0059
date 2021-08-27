@@ -23,6 +23,7 @@ public class GameGate implements LoadSave {
      * |-3 (Author)     | "Le Bruh"            |
      * |-2 (Public)     | "false"              |
      * |-1 (ChoiceLimit)| "4"                  |
+     * |-5 (Stylesheet) | "Chill"              |
      * |0               | "Dialogue 0"         |
      * |1               | "Dialogue 1"         |
      * |2               | "Dialogue 2"         |
