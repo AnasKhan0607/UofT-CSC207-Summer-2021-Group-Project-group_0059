@@ -1,13 +1,14 @@
 package Gateway;
 
 import Entity.Message;
+import Interface.LoadSave;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MessageGate {
+public class MessageGate implements LoadSave {
     String myPath;
 
     /**
