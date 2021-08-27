@@ -1,6 +1,5 @@
 package UseCase;
 import Entity.Game;
-import UseCase.GameUseCase;
 import java.util.*;
 /**
  * The UseCase class for games. it has some method for using the given game stored data in the game entity and

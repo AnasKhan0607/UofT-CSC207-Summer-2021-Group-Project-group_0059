@@ -3,8 +3,6 @@ package Presenter;
 import Entity.Template;
 import UseCase.TemplateManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * The presenter class for displaying templates in a user-friendly manner.

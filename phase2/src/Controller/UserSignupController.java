@@ -1,14 +1,12 @@
 package Controller;
 
 import Presenter.GamePresenter;
-import Presenter.UserSignUpPresenter;
 import UseCase.UserManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Controller for the user signup process.

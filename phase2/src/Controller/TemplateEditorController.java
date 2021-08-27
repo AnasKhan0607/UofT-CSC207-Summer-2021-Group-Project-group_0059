@@ -1,23 +1,13 @@
 package Controller;
 
 
-import Entity.RegularUser;
-import Entity.TempUser;
-import Entity.User;
 import Interface.TemplateData;
 import Presenter.GamePresenter;
-import Presenter.TemplateEditorPresenter;
-import Presenter.TemplatePresenter;
-import Presenter.UserLoginPresenter;
-import UseCase.MessageManager;
 import UseCase.TemplateManager;
-import UseCase.UserManager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
@@ -26,7 +16,7 @@ import java.util.Scanner;
 public class TemplateEditorController implements TemplateData {
     public static void main(String[] args) {
         TemplateEditorController editorController = new TemplateEditorController();
-        editorController.run();
+        editorController.chooseTemplate();
     }
 
     private TemplateManager templates;
@@ -45,23 +35,62 @@ public class TemplateEditorController implements TemplateData {
      *
      * @return returns chosen template's number of choices or -1 when template isnt chosen.
      */
-    public int chooseTemplate() {
+    public ArrayList<Object> chooseTemplate() {
+        GamePresenter gamePresenter = new GamePresenter();
+        ArrayList<String> choices = new ArrayList<>();
+        choices.add("View Template List");
+        choices.add("Choose Template");
+        choices.add("EXIT");
+
+
         for (; ; ) {
-            TemplateEditorPresenter.chose_template_to_edit(this.templates);
-            String choice;
-            choice = String.valueOf(myObj.nextLine());
-            while (!this.templates.getTemplates().contains(this.templates.Find_template(choice)) && Integer.parseInt(choice) != -1) {
-                TemplateEditorPresenter.try_agin();
-                choice = String.valueOf(myObj.nextLine());
+            int choice = gamePresenter.displayChoices(this, choices, "What do you want to do?");
+            if (choice == 0) {
+                String templatelist = new String();
+                for (String template_name : templates.Template_names()) {
+                    templatelist = templatelist + "Template Name: " + template_name + "\n" + "Description: " + templates.getDescription(template_name)
+                            + "\n" + "Number of Choices: " + templates.getNumChoices(template_name) + "\n" + "Scheme: " + templates.getScheme(template_name) + "\n" + "\n" + "\n";
+                }
+                gamePresenter.displayTextScene(this, "BACK", "List Of Available Templates:" + "\n" + "\n" + templatelist);
+            } else if (choice == 1) {
+                ArrayList<String> inputs = new ArrayList<>();
+                inputs.add("Please enter the name of the template you want to chose:");
+                List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Choose Template.");
+                String templatename = userinputs.get(0);
+                if (!this.templates.getTemplates().contains(this.templates.Find_template(templatename))) {
+                    gamePresenter.displayTextScene(this, "BACK", "Sorry, but we do not have such template, please check the template name and try again.");
+                }
+                else {
+                    ArrayList<Object> game_instructions = new ArrayList<>();
+                    game_instructions.add(templates.getNumChoices(templatename));
+                    game_instructions.add(templates.getScheme(templatename));
+                    return game_instructions;
+                }
 
             }
-            if (choice.equals("-1")) {
+            else {
                 break;
             }
-            return this.templates.getNumChoices(choice);
         }
-        return -1;
+        ArrayList<Object> game_instructions = new ArrayList<Object>();
+        return game_instructions;
     }
+
+//        for (; ; ) {
+//            TemplateEditorPresenter.chose_template_to_edit(this.templates);
+//            String choice;
+//            choice = String.valueOf(myObj.nextLine());
+//            while (!this.templates.getTemplates().contains(this.templates.Find_template(choice)) && Integer.parseInt(choice) != -1) {
+//                TemplateEditorPresenter.try_agin();
+//                choice = String.valueOf(myObj.nextLine());
+//
+//            }
+//            if (choice.equals("-1")) {
+//                break;
+//            }
+//            return this.templates.getNumChoices(choice);
+//        }
+
 
 
     /**
@@ -74,13 +103,14 @@ public class TemplateEditorController implements TemplateData {
         choices.add("Choose Template");
         choices.add("EXIT");
         for (; ; ) {
-            int choice = gamePresenter.displayChoices(this, choices, "Hello, what you want to do?");
+            int choice = gamePresenter.displayChoices(this, choices, "Hello, what do you want to do?");
             if (choice == 0) {
                 String templatelist = new String();
                 for (String template_name : templates.Template_names()) {
-                    templatelist = templatelist + "Template Name: " + template_name + "\n";
+                    templatelist = templatelist + "Template Name: " + template_name + "\n" + "Description: " + templates.getDescription(template_name)
+                            + "\n" + "Number of Choices: " + templates.getNumChoices(template_name) + "\n" + "Scheme: " + templates.getScheme(template_name) + "\n" + "\n" + "\n";
                 }
-                gamePresenter.displayTextScene(this, "BACK", "List Of Available Templates:" + "\n" + templatelist);
+                gamePresenter.displayTextScene(this, "BACK", "List Of Available Templates:" + "\n" + "\n" + templatelist);
             } else if (choice == 1) {
                 ArrayList<String> inputs = new ArrayList<>();
                 inputs.add("Please enter the name of the template you want to edit:");
@@ -93,16 +123,17 @@ public class TemplateEditorController implements TemplateData {
                     editchoices.add("Change the name of the template");
                     editchoices.add("Change the description of the template");
                     editchoices.add("Change the number of choice of the template");
+                    editchoices.add("Change the scheme of the template");
                     editchoices.add("EXIT");
                     for (; ; ) {
                         int edit_choice = gamePresenter.displayChoices(this, editchoices, "What would you like to change in the template?");
-                        if (edit_choice == 3) {
+                        if (edit_choice == 4) {
                             break;
                         }
                         if (edit_choice == 0) {
                             List<String> newname = gamePresenter.displayInputs(this, inputs, "Please enter the new name.");
-                            this.templates.setNewName(templatename, newname.get(0));
                             templatename = newname.get(0);
+                            this.templates.setNewName(templatename, newname.get(0));
                             gamePresenter.displayTextScene(this, "BACK", "The name is successfully changed.");
                             break;
                         }
@@ -124,12 +155,16 @@ public class TemplateEditorController implements TemplateData {
                                 break;
                             }
                         }
+                        if (edit_choice == 3) {
+                            List<String> newscheme = gamePresenter.displayInputs(this, inputs, "Please enter the new scheme.");
+                            this.templates.setNewScheme(templatename, newscheme.get(0));
+                            gamePresenter.displayTextScene(this, "BACK", "The Description is successfully changed.");
+                            break;
+                        }
                     }
                 }
             } else {
                 this.templates.Save_changes();
-                gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for using our program");
-                gamePresenter.terminateGUI();
                 break;
             }
         }

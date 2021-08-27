@@ -4,7 +4,6 @@ import Gateway.GameGate;
 import Interface.TemplateData;
 import Interface.UserData;
 import Presenter.GamePresenter;
-import Presenter.GameTextPresenter;
 import UseCase.GamesUseCase;
 import UseCase.GameUseCase;
 
@@ -30,7 +29,6 @@ public class GameMainController {
     private GameCreateController gameCreator;
     public GamePlayController gamePlayer;
     private GameEditController gameEditor;
-    private GameTextPresenter gameTextPresenter = new GameTextPresenter();
     private GamePresenter gamePresenter = new GamePresenter();
 
     public GameMainController(TemplateData templateData, UserData userData){
