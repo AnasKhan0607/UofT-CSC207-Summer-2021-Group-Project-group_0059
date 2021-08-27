@@ -3,7 +3,7 @@ package Controller;
 import Interface.UserData;
 
 import Presenter.GamePresenter;
-import Presenter.RegularUserNavigatorPresenter;
+
 import UseCase.UserManager;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class RegularUserNavigatorController implements UserData {
             int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ username + ". what would you like to do?");
             if (choice == 1) {
                 /* Game*/
-                RegularUserNavigatorPresenter.redirectingMessage();
+
                 TemplateEditorController te = new TemplateEditorController();
                 GameMainController gameController = new GameMainController(te ,this::currentUser);
                 gameController.gameMenu();

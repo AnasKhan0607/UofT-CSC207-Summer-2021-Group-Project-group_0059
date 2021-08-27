@@ -76,6 +76,7 @@ public class GamePresenter{
     }
 
     public String displayMessages(Object suspendedObject, List<Message> messages) {
+        userChoice = null;
         Platform.runLater(() -> {
             List<TableColumn<Message, Object>> messageColumns = new ArrayList<>();
             //Time column (TableColumn<Message, Date>)

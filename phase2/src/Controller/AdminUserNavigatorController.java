@@ -1,7 +1,7 @@
 package Controller;
 
 import Interface.UserData;
-import Presenter.AdminUserNavigatorPresenter;
+
 import Presenter.GamePresenter;
 import UseCase.UserManager;
 
@@ -57,14 +57,14 @@ public class AdminUserNavigatorController implements UserData {
 
             if (choice == 0) {
                 /* Game*/
-                AdminUserNavigatorPresenter.redirectingMessage();
+
                 TemplateEditorController te = new TemplateEditorController();
                 GameMainController gameController = new GameMainController(te ,this::currentUser);
                 gameController.gameMenu();
 
             } else if (choice == 1) {
                 /* TemplateEditor*/
-                AdminUserNavigatorPresenter.redirectingMessage();
+
                 TemplateEditorController tec = new TemplateEditorController();
                 tec.run();
 

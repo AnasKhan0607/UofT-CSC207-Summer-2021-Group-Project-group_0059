@@ -2,14 +2,13 @@ package Controller;
 
 
 import Entity.TempUser;
-import Entity.User;
+
 import Presenter.GamePresenter;
-import Presenter.UserLoginPresenter;
-import UseCase.MessageManager;
+
 import UseCase.UserManager;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import java.time.LocalDate;
@@ -97,7 +96,7 @@ public class UserLoginController {
      */
     public void GuestUserInput(){
 
-        UserLoginPresenter.successMessage("Guest");
+
         redirect("Guest");
     }
 
