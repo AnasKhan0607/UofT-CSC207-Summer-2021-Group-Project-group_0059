@@ -38,6 +38,7 @@ public class GameGate implements LoadSave {
 
     public GameGate(){
         this.myPath = findSaveGameFile(System.getProperty("user.dir"));
+        System.out.println(this.myPath);
     }
 
     private String findSaveGameFile(String filePath){

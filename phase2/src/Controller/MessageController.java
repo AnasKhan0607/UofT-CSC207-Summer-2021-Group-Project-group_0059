@@ -60,19 +60,19 @@ public class MessageController {
 
     }
 
-    private void readMessage(){
-
-
-        List<Message> buffered = mm.getMessage(currentUserName);
-        MessagePresenter.printBoxup(currentUserName);
-        MessagePresenter.printBoxDown();
-        buffered.sort(new MessageSortByTime());
-        for (Message msg: buffered){
-            MessagePresenter.printMessage(msg);
-            msg.markAsRead();
-        }
-        MessagePresenter.printBoxDown();
-    }
+//    private void readMessage(){
+//
+//
+//        List<Message> buffered = mm.getMessage(currentUserName);
+//        MessagePresenter.printBoxup(currentUserName);
+//        MessagePresenter.printBoxDown();
+//        buffered.sort(new MessageSortByTime());
+//        for (Message msg: buffered){
+//            MessagePresenter.printMessage(msg);
+//            msg.markAsRead();
+//        }
+//        MessagePresenter.printBoxDown();
+//    }
 
 
 

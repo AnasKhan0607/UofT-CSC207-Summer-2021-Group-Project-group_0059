@@ -81,6 +81,7 @@ public class TemplateGate implements LoadSave {
                     = new ObjectInputStream(fileInput);
 
             myMaps = (List<HashMap>) objectInput.readObject();
+            System.out.println(myMaps);
 
             objectInput.close();
             fileInput.close();

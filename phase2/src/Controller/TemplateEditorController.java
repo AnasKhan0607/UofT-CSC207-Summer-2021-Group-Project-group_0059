@@ -58,6 +58,7 @@ public class TemplateEditorController implements TemplateData {
             if (choice.equals("-1")) {
                 break;
             }
+            System.out.println(this.templates.getScheme(choice));
             return this.templates.getNumChoices(choice);
         }
         return -1;

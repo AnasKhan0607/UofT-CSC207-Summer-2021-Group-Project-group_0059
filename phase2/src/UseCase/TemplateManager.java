@@ -14,12 +14,14 @@ public class TemplateManager {
         TemplateGate t = new TemplateGate();
 
         List<HashMap> template_maps = t.load();
+        System.out.println(template_maps);
         for (HashMap<Integer, String> template_map : template_maps){
             Template a = new Template(template_map.get(0));
             a.setTemplatename(template_map.get(0));
             a.setDescription(template_map.get(1));
             a.setNumchoice(Integer.parseInt(template_map.get(2)));
             a.setScheme(template_map.get(3));
+            System.out.println(template_map.get(3));
             this.templates.add(a);
         }
     }

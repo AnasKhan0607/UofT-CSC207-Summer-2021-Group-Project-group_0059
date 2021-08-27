@@ -35,7 +35,6 @@ public class GamePresenter{
     Object userChoice;
     String styleSheet = Objects.requireNonNull(getClass().getResource("GamePresenter.css")).toExternalForm();
     TableView<Message> messageTableView;
-    // = findFile("GamePresenter.css", System.getProperty("user.dir"));
 
     public GamePresenter(){
         // To do Platform.runlater, the toolkits must be initialized, see
@@ -105,19 +104,14 @@ public class GamePresenter{
             //status column (TableColumn<Message, Boolean>)
             messageColumns.add(wrapTextInColumn("READ", "status", 100));
 
-            Button deleteButton = new Button("Delete");
-            deleteButton.setOnAction(e -> deleteButtonClicked(suspendedObject));
-            Button quitButton = new Button("QUIT");
-            quitButton.setOnAction(e -> quitButtonClicked(suspendedObject));
-            Button viewButton = new Button("View Attachment");
-            viewButton.setOnAction(e -> viewButtonClicked(suspendedObject));
+            List<Button> buttons = getMessageButtons(suspendedObject);
 
             messageTableView = new TableView<>();
             messageTableView.setItems(getMessages(messages));
             messageTableView.getColumns().addAll(messageColumns);
 
             VBox vbox = new VBox();
-            vbox.getChildren().addAll(messageTableView, deleteButton, quitButton, viewButton);
+            vbox.getChildren().addAll(messageTableView, buttons.get(0), buttons.get(1), buttons.get(2));
 
             Scene scene = new Scene(vbox);
             window.setScene(scene);
@@ -131,32 +125,41 @@ public class GamePresenter{
         return (String) userChoice;
     }
 
-    private void deleteButtonClicked(Object suspendedObject){
-        ObservableList<Message> messagesSelected;
-        messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
-        for (Message msg: messagesSelected){
-            MessageController messageController = (MessageController)suspendedObject;
-            messageController.removeMessage(msg.getid());
-        }
-    }
+    private List<Button> getMessageButtons(Object suspendedObject) {
+        Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(e -> {
+            ObservableList<Message> messagesSelected;
+            messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
+            for (Message msg: messagesSelected){
+                MessageController messageController = (MessageController) suspendedObject;
+                messageController.removeMessage(msg.getid());
+            }
+        });
+        Button quitButton = new Button("QUIT");
+        quitButton.setOnAction(e -> {
+            window.hide();
+            synchronized (suspendedObject) {
+                suspendedObject.notify();
+            }
+        });
+        Button viewButton = new Button("View Attachment");
+        viewButton.setOnAction(e -> {
+            ObservableList<Message> messagesSelected;
+            messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
+            for (Message msg: messagesSelected){
+                userChoice = msg.getAttachment();
+            }
+            window.hide();
+            synchronized (suspendedObject) {
+                suspendedObject.notify();
+            }
+        });
 
-    private void viewButtonClicked(Object suspendedObject){
-        ObservableList<Message> messagesSelected;
-        messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
-        for (Message msg: messagesSelected){
-            userChoice = msg.getAttachment();
-        }
-        window.hide();
-        synchronized (suspendedObject) {
-            suspendedObject.notify();
-        }
-    }
-
-    private void quitButtonClicked(Object suspendedObject){
-        window.hide();
-        synchronized (suspendedObject) {
-            suspendedObject.notify();
-        }
+        List<Button> buttons = new ArrayList<>();
+        buttons.add(deleteButton);
+        buttons.add(quitButton);
+        buttons.add(viewButton);
+        return buttons;
     }
 
     public ObservableList<Message> getMessages(List<Message> messages){
