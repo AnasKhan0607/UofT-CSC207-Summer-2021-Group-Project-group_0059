@@ -2,14 +2,11 @@ package Controller;
 
 import Interface.TemplateData;
 import Interface.UserData;
-import Presenter.GameTextPresenter;
 import Presenter.GamePresenter;
 import UseCase.GamesUseCase;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Game creation controller class which is called by GameMainController.

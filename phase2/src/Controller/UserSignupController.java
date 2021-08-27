@@ -1,14 +1,12 @@
 package Controller;
 
 import Presenter.GamePresenter;
-import Presenter.UserSignUpPresenter;
 import UseCase.UserManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Controller for the user signup process.
@@ -58,7 +56,7 @@ public class UserSignupController {
                 userInput.add(this.username);
                 userInput.add(this.password);
                 testUM.addUser(userInput);
-                if (PasswordStrength(password)){
+                if (testUM.PasswordStrength(password)){
                     gamePresenter.displayTextScene(this, "CONTINUE", "Successfully signed up. Password " +
                             "Strength: HIGH");
                 } else {
@@ -76,18 +74,5 @@ public class UserSignupController {
 
     // helper method
 
-    private boolean PasswordStrength(String password) {
-        // Source for the Regex for what is considered a good password: https://mkyong.com/regular-expressions/how-to-validate-password-with-regular-expression/
-        /* Criteria for a good password:
-        Password must contain at least one digit [0-9].
-        Password must contain at least one lowercase Latin character [a-z].
-        Password must contain at least one uppercase Latin character [A-Z].
-        Password must contain at least one special character like ! @ # & ( ).
-        Password must contain a length of at least 8 characters and a maximum of 20 characters (in our case we are allowing more than 20 characters)
-         */
-        String goodPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,}$";
-        Pattern pattern = Pattern.compile(goodPassword);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
-    }
+
 }

@@ -4,7 +4,6 @@ import Gateway.GameGate;
 import Interface.TemplateData;
 import Interface.UserData;
 import Presenter.GamePresenter;
-import Presenter.GameTextPresenter;
 import UseCase.GamesUseCase;
 import UseCase.GameUseCase;
 

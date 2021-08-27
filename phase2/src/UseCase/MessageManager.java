@@ -5,7 +5,6 @@ import Entity.Message;
 
 import Entity.User;
 import Gateway.MessageGate;
-import Presenter.MessagePresenter;
 
 import java.util.*;
 /**
