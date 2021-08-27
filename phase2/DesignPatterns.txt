@@ -1,0 +1,16 @@
+Design Patterns used for each branch and classes involved
+- Game
+    - Dependency Injection
+    - Adapter
+- Template
+    - Dependency Injection
+- User
+    - Dependency Injection
+        - Classes used: LoadSave, UserGate, MessageGate, UserManager, MessageManager, UserSignupController, UserLoginController
+        - Dependency injection was used to remove dependency between the Use Case and Gateway classes - by using the LoadSave interface,
+        the Use Case classes such as UserManager and MessageManager could use the LoadSave class as an injector for the UserGate/MessageGate classes,
+        so the services of the Gateway classes could be used (storing data in files outside the program) in the Use Case classes without hard dependencies.
+        - Dependency Injection was also used between the Controller and Entity layers - during the signup and login processes, unwanted dependencies are
+        avoided between the two layers because the Controller classes do not create Entity objects (such as the User objects) directly, but rather the 
+        UserManager class is used instead - for example, when creating a new user, the addUser() method in the Use Case is called from the Controller, rather than
+        create a new User object directly.
