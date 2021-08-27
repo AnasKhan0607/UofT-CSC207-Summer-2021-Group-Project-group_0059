@@ -41,7 +41,12 @@ public class MessageController {
             int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ currentUserName + ". what would you like to do?");
 
             if (choice == 1){
-                messagePresenterV2.displayMessages(this, currentUserName, mm.getMessage(currentUserName));
+                String gameName = messagePresenterV2.displayMessages(this, currentUserName, mm.getMessage(currentUserName));
+                if (!gameName.equals("")){
+                    new GamePlayController(new AdminUserNavigatorController("Admin_"), gamePresenter).
+                            playSpecificGame(gameName);
+                    //gamePresenter.displayTextScene(this, "Game End.");
+                }
                 mm.markAllAsRead(currentUserName);
             } else if (choice == 2){
                 writeMessage();
