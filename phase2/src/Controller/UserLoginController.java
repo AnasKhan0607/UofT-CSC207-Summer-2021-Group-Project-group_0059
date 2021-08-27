@@ -1,7 +1,6 @@
 package Controller;
 
 
-import Entity.RegularUser;
 import Entity.TempUser;
 import Entity.User;
 import Presenter.GamePresenter;

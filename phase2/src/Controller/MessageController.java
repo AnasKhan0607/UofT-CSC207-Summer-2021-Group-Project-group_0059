@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class MessageController {
     private String currentUserName;
-    private MessageManager mm = new MessageManager();;
+    private MessageManager mm = new MessageManager();
 
     /**
      * create the controller, call to get Messages loaded and also load the one operating
@@ -41,11 +41,10 @@ public class MessageController {
             int choice = 1 + gamePresenter.displayChoices(this, choices, "Hello, "+ currentUserName + ". what would you like to do?");
 
             if (choice == 1){
-                String gameName = messagePresenterV2.displayMessages(this, currentUserName, mm.getMessage(currentUserName));
+                String gameName = messagePresenterV2.displayMessages(this, mm.getMessage(currentUserName));
                 if (!gameName.equals("")){
                     new GamePlayController(new AdminUserNavigatorController("Admin_"), gamePresenter).
                             playSpecificGame(gameName);
-                    //gamePresenter.displayTextScene(this, "Game End.");
                 }
                 mm.markAllAsRead(currentUserName);
             } else if (choice == 2){
@@ -61,7 +60,19 @@ public class MessageController {
 
     }
 
+    private void readMessage(){
 
+
+        List<Message> buffered = mm.getMessage(currentUserName);
+        MessagePresenter.printBoxup(currentUserName);
+        MessagePresenter.printBoxDown();
+        buffered.sort(new MessageSortByTime());
+        for (Message msg: buffered){
+            MessagePresenter.printMessage(msg);
+            msg.markAsRead();
+        }
+        MessagePresenter.printBoxDown();
+    }
 
 
 
@@ -73,7 +84,7 @@ public class MessageController {
                 "to every user recorded in the system(for use of ADMIN ONLY)");
         inputs.add("Your message:");
         inputs.add("Your attachment(the gameName you want to share. Type N/A if doesn't apply):");
-        List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Compose message");
+        List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Login");
         String receiver = userinputs.get(0);
         String msg = userinputs.get(1);
         String attachment = userinputs.get(2);

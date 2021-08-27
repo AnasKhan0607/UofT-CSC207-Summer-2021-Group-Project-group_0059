@@ -1,6 +1,5 @@
 package Interface;
 
-import java.util.ArrayList;
 
 /**
  * The interface for all UserNavigator interfaces
