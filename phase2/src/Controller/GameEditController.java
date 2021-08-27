@@ -61,7 +61,7 @@ public class GameEditController {
     private void editGameMenu(String gameName, List<Object> initialIdAndDialogue, List<String> choices) {
         int userChoice;
         while (true){
-            userChoice = gamePresenter.displayChoices(this, choices);
+            userChoice = gamePresenter.displayChoices(this, choices, "");
 
             if(userChoice == 0){
                 if (changeGameState(gameName)) break;

@@ -45,7 +45,7 @@ public class SuspensionController {
         ArrayList<String> inputs = new ArrayList<>();
         inputs.add("Please input the username you need to suspend:");
         inputs.add("For how many days:");
-        List<String> lst = gamePresenter.displayInputs(this, inputs);
+        List<String> lst = gamePresenter.displayInputs(this, inputs, "");
         String choice = lst.get(0);
         int x = Integer.parseInt((String) lst.get(1));
         username = choice;
@@ -64,7 +64,7 @@ public class SuspensionController {
         GamePresenter gamePresenter = new GamePresenter();
         ArrayList<String> inputs = new ArrayList<>();
         inputs.add("Please input the username you need to unsuspend:");
-        String choice = (String)gamePresenter.displayInputs(this, inputs).get(0);
+        String choice = (String)gamePresenter.displayInputs(this, inputs, "").get(0);
         username = choice;
         UserManager tempum = new UserManager();
         boolean rst = tempum.unsuspendUser(username);

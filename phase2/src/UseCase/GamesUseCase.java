@@ -181,11 +181,11 @@ public class GamesUseCase {
     private HashMap<Integer, String> gameToHashMap(Game game){
         ArrayList<Integer> ids = game.getAllId();
         HashMap<Integer, String> gameData = new HashMap<>();
-        gameData.put(-5, game.getGameName());
-        gameData.put(-4, game.getGameAuthor());
-        gameData.put(-3, String.valueOf(game.getGamePublic()));
-        gameData.put(-2, String.valueOf(game.getchoiceNumLimit()));
-        gameData.put(-1, String.valueOf(game.getStyleSheetName()));
+        gameData.put(-4, game.getGameName());
+        gameData.put(-3, game.getGameAuthor());
+        gameData.put(-2, String.valueOf(game.getGamePublic()));
+        gameData.put(-1, String.valueOf(game.getchoiceNumLimit()));
+        gameData.put(-5, game.getStyleSheetName());
         for (int id: ids){
             gameData.put(id, game.getDialogueById(id));
         }
@@ -195,12 +195,12 @@ public class GamesUseCase {
 
     private Game hashMapToGame(HashMap<Integer, String> hashMap){
         if(!hashMap.containsKey(0) || !hashMap.containsKey(-1) || !hashMap.containsKey(-2) ||
-                !hashMap.containsKey(-3) || !hashMap.containsKey(-4) || !hashMap.containsKey(-5)){
+                !hashMap.containsKey(-3) || !hashMap.containsKey(-4)|| !hashMap.containsKey(-5)){
             System.out.println("hashmap to game failed.");
             return null;
         }
-        Game game = new Game(hashMap.get(-5), hashMap.get(-4), Boolean.parseBoolean(hashMap.get(-3)),
-                Integer.parseInt(hashMap.get(-2)), hashMap.get(0), hashMap.get(-1));
+        Game game = new Game(hashMap.get(-4), hashMap.get(-3), Boolean.parseBoolean(hashMap.get(-2)),
+                Integer.parseInt(hashMap.get(-1)), hashMap.get(0), hashMap.get(-5));
 
         ArrayList<Integer> childrenDialogueIds = new ArrayList<>();
         for ( int key : hashMap.keySet() ) {

@@ -53,7 +53,7 @@ public class GameMainController {
         choices.add("View Game");
         choices.add("Exit");
         while (true){
-            int userChoice = gamePresenter.displayChoices(this, choices);
+            int userChoice = gamePresenter.displayChoices(this, choices, "");
 
             if(userChoice == 0){
                 gameCreator.createGame();
@@ -80,18 +80,18 @@ public class GameMainController {
         choices.add("View Specific Game Structure");
         choices.add("Exit");
         while (true) {
-            int userChoice = gamePresenter.displayChoices(this, choices);
+            int userChoice = gamePresenter.displayChoices(this, choices, "");
 
             if (userChoice == 0){
                 if (userData.currentUser().startsWith("Admin_")){
-                    gamePresenter.displayList(this, gamesUseCase.getPrivateGames());
+                    gamePresenter.displayList(this, gamesUseCase.getPrivateGames(), "");
                 }
                 else{
-                    gamePresenter.displayList(this, gamesUseCase.getPrivateGames(userData.currentUser()));
+                    gamePresenter.displayList(this, gamesUseCase.getPrivateGames(userData.currentUser()), "");
                 }
             }
             else if (userChoice == 1){
-                gamePresenter.displayList(this, gamesUseCase.getPublicGames());
+                gamePresenter.displayList(this, gamesUseCase.getPublicGames(), "");
             }
             else if (userChoice == 2){
                 this.viewGame();
