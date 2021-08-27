@@ -78,17 +78,17 @@ public class UserLoginController {
         inputs.add("Your Username:");
         List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Forget password");
         String userName = userinputs.get(0);
-        gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for letting us know," +
-                "a message has been sent to admin. If you registered with an email, we'll send you an email containing temporary info" +
-                " for logging in");
-        MessageManager mm = new MessageManager();
-        ArrayList<Object> temp = new ArrayList<>();
-        temp.add(userName + "password forgot. Please process");
-        temp.add(userName);
-        temp.add("Admin_Ruilin");
-        temp.add("N/A");
-        temp.add(new Date());
-        mm.addMessage(temp);
+        if (!testUM.resetTempPassword(userName)){
+            gamePresenter.displayTextScene(this, "BACK", "There is no such username in " +
+                    "record, please check your spelling and try again!");
+        } else {
+            gamePresenter.displayTextScene(this, "CONTINUE", "reset successful, " +
+                    "please check the text file(named with your username) with your temporal password. And don't forget to reset your password after " +
+                    "you login!");
+        }
+
+
+
     }
 
 
