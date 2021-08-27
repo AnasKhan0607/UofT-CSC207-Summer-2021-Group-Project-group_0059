@@ -74,7 +74,7 @@ public class TemplateEditorController implements TemplateData {
         choices.add("Choose Template");
         choices.add("EXIT");
         for (; ; ) {
-            int choice = gamePresenter.displayChoices(this, choices, "Hello, what you want to do?");
+            int choice = gamePresenter.displayChoices(this, choices, "Hello, what do you want to do?");
             if (choice == 0) {
                 String templatelist = new String();
                 for (String template_name : templates.Template_names()) {
@@ -93,16 +93,17 @@ public class TemplateEditorController implements TemplateData {
                     editchoices.add("Change the name of the template");
                     editchoices.add("Change the description of the template");
                     editchoices.add("Change the number of choice of the template");
+                    editchoices.add("Change the scheme of the template");
                     editchoices.add("EXIT");
                     for (; ; ) {
                         int edit_choice = gamePresenter.displayChoices(this, editchoices, "What would you like to change in the template?");
-                        if (edit_choice == 3) {
+                        if (edit_choice == 4) {
                             break;
                         }
                         if (edit_choice == 0) {
                             List<String> newname = gamePresenter.displayInputs(this, inputs, "Please enter the new name.");
-                            this.templates.setNewName(templatename, newname.get(0));
                             templatename = newname.get(0);
+                            this.templates.setNewName(templatename, newname.get(0));
                             gamePresenter.displayTextScene(this, "BACK", "The name is successfully changed.");
                             break;
                         }
@@ -124,12 +125,16 @@ public class TemplateEditorController implements TemplateData {
                                 break;
                             }
                         }
+                        if (edit_choice == 3) {
+                            List<String> newscheme = gamePresenter.displayInputs(this, inputs, "Please enter the new scheme.");
+                            this.templates.setNewScheme(templatename, newscheme.get(0));
+                            gamePresenter.displayTextScene(this, "BACK", "The Description is successfully changed.");
+                            break;
+                        }
                     }
                 }
             } else {
                 this.templates.Save_changes();
-                gamePresenter.displayTextScene(this, "CONTINUE", "Thank you for using our program");
-                gamePresenter.terminateGUI();
                 break;
             }
         }

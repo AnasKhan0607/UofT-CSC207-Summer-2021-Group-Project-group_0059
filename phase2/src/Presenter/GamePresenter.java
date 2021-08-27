@@ -1,10 +1,6 @@
 package Presenter;
-import Controller.AdminUserNavigatorController;
-import Controller.GamePlayController;
 import Controller.MessageController;
 import Entity.Message;
-import Gateway.GameGate;
-import UseCase.GamesUseCase;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,8 +22,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Daniel Liu
@@ -37,7 +33,7 @@ public class GamePresenter{
 
     Stage window;
     Object userChoice;
-    String styleSheet = getClass().getResource("GamePresenter.css").toExternalForm();
+    String styleSheet = Objects.requireNonNull(getClass().getResource("GamePresenter.css")).toExternalForm();
     TableView<Message> messageTableView;
     // = findFile("GamePresenter.css", System.getProperty("user.dir"));
 
@@ -58,7 +54,7 @@ public class GamePresenter{
         });
     }
 
-    public Integer displayChoices(Object suspendedObject, List choices){
+    public Integer displayChoices(Object suspendedObject, List<String> choices){
         Platform.runLater(() -> {
             VBox choicesLayout = wrapChoices(suspendedObject, choices);
 
@@ -76,7 +72,7 @@ public class GamePresenter{
         return (int) userChoice;
     }
 
-    public int displayChoices(Object suspendedObject, List choices, String text) {
+    public int displayChoices(Object suspendedObject, List<String> choices, String text) {
         Platform.runLater(() -> {
             VBox textLayout = wrapDialogue(text);
             VBox choicesLayout = wrapChoices(suspendedObject, choices);
@@ -95,29 +91,30 @@ public class GamePresenter{
         return (int) userChoice;
     }
 
-    public String displayMessages(Object suspendedObject, String username, List<Message> messages) {
+    public String displayMessages(Object suspendedObject, List<Message> messages) {
         Platform.runLater(() -> {
-            //Time column
-            TableColumn<Message, Date> timeColumn = wrapTextInColumn("Time", "time", 200);
-            //from column
-            TableColumn<Message, String> fromColumn = wrapTextInColumn("From", "from", 100);
-            //msg column
-            TableColumn<Message, String> messageColumn = wrapTextInColumn("Message", "msg", 700);
-            //attachment column
-            TableColumn<Message, String> attachmentColumn = wrapTextInColumn("Attachment", "attachment", 200);
-            //status column
-            TableColumn<Message, Boolean> statusColumn = wrapTextInColumn("READ", "status", 100);
+            List<TableColumn<Message, Object>> messageColumns = new ArrayList<>();
+            //Time column (TableColumn<Message, Date>)
+            messageColumns.add(wrapTextInColumn("Time", "time", 200));
+            //from column (TableColumn<Message, String>)
+            messageColumns.add(wrapTextInColumn("From", "from", 100));
+            //msg column (TableColumn<Message, String>)
+            messageColumns.add(wrapTextInColumn("Message", "msg", 700));
+            //attachment column (TableColumn<Message, String>)
+            messageColumns.add(wrapTextInColumn("Attachment", "attachment", 200));
+            //status column (TableColumn<Message, Boolean>)
+            messageColumns.add(wrapTextInColumn("READ", "status", 100));
 
             Button deleteButton = new Button("Delete");
             deleteButton.setOnAction(e -> deleteButtonClicked(suspendedObject));
             Button quitButton = new Button("QUIT");
             quitButton.setOnAction(e -> quitButtonClicked(suspendedObject));
             Button viewButton = new Button("View Attachment");
-            viewButton.setOnAction(e -> viewButtonClicked(username, suspendedObject));
+            viewButton.setOnAction(e -> viewButtonClicked(suspendedObject));
 
             messageTableView = new TableView<>();
             messageTableView.setItems(getMessages(messages));
-            messageTableView.getColumns().addAll(timeColumn, fromColumn,messageColumn,attachmentColumn,statusColumn);
+            messageTableView.getColumns().addAll(messageColumns);
 
             VBox vbox = new VBox();
             vbox.getChildren().addAll(messageTableView, deleteButton, quitButton, viewButton);
@@ -143,7 +140,7 @@ public class GamePresenter{
         }
     }
 
-    private void viewButtonClicked(String username,Object suspendedObject){
+    private void viewButtonClicked(Object suspendedObject){
         ObservableList<Message> messagesSelected;
         messagesSelected = messageTableView.getSelectionModel().getSelectedItems();
         for (Message msg: messagesSelected){
@@ -164,15 +161,13 @@ public class GamePresenter{
 
     public ObservableList<Message> getMessages(List<Message> messages){
         ObservableList<Message> messages1 = FXCollections.observableArrayList();
-        for (Message m: messages) {
-            messages1.add(m);
-        }
+        messages1.addAll(messages);
         return messages1;
     }
 
-    public void displayList(Object suspendedObject, List items) {
+    public void displayList(Object suspendedObject, List<String> items) {
         Platform.runLater(() -> {
-            VBox inputLayout = wrapListItems(suspendedObject, items);
+            VBox inputLayout = wrapListItems(items);
             addExitButton(suspendedObject, inputLayout);
 
             BorderPane layout = new BorderPane();
@@ -184,9 +179,9 @@ public class GamePresenter{
         suspendThread(suspendedObject);
     }
 
-    public void displayList(Object suspendedObject, List items, String text) {
+    public void displayList(Object suspendedObject, List<String> items, String text) {
         Platform.runLater(() -> {
-            VBox inputLayout = wrapListItems(suspendedObject, items);
+            VBox inputLayout = wrapListItems(items);
             VBox textLayout = wrapDialogue(text);
             addExitButton(suspendedObject, textLayout);
 
@@ -200,7 +195,7 @@ public class GamePresenter{
         suspendThread(suspendedObject);
     }
 
-    public List<String> displayInputs(Object suspendedObject, List inputTags){
+    public List<String> displayInputs(Object suspendedObject, List<String> inputTags){
         Platform.runLater(() -> {
             VBox inputLayout = wrapInputs(suspendedObject, inputTags);
 
@@ -211,10 +206,11 @@ public class GamePresenter{
         });
 
         suspendThread(suspendedObject);
-        return (List) userChoice;
+        // I know user choice will be a list of strings due to nature of wrapInputs()
+        return (List<String>) userChoice;
     }
 
-    public List<String> displayInputs(Object suspendedObject, List inputTags, String text){
+    public List<String> displayInputs(Object suspendedObject, List<String> inputTags, String text){
         Platform.runLater(() -> {
             VBox inputLayout = wrapInputs(suspendedObject, inputTags);
             VBox textLayout = wrapDialogue(text);
@@ -227,7 +223,8 @@ public class GamePresenter{
         });
 
         suspendThread(suspendedObject);
-        return (List) userChoice;
+        // I know user choice will be a list of strings due to nature of wrapInputs()
+        return (List<String>) userChoice;
     }
 
     public String displayTextSceneInput(Object suspendedObject, String dialogue, String textArt) {
@@ -249,7 +246,7 @@ public class GamePresenter{
     public void displayTextScene(Object suspendedObject, String dialogue) {
         Platform.runLater(() -> {
             VBox dialogueLayout = wrapDialogue(dialogue);
-            VBox pictureLayout = wrapChoices(null, new ArrayList());
+            VBox pictureLayout = wrapChoices(null, new ArrayList<>());
             addExitButton(suspendedObject, dialogueLayout);
 
             BorderPane layout = new BorderPane();
@@ -297,9 +294,7 @@ public class GamePresenter{
 
     public void terminateGUI(){
         Platform.setImplicitExit(true);
-        Platform.runLater(() -> {
-            window.close();
-        });
+        Platform.runLater(() -> window.close());
     }
 
     private void suspendThread(Object suspendedObject) {
@@ -312,7 +307,7 @@ public class GamePresenter{
         }
     }
 
-    private VBox wrapChoices(Object suspendedObject, List choices) {
+    private VBox wrapChoices(Object suspendedObject, List<String> choices) {
         VBox layout = new VBox();
         layout.setMinHeight(650);
         layout.setMaxHeight(800);
@@ -321,7 +316,7 @@ public class GamePresenter{
         layout.setAlignment(Pos.CENTER);
         for(int i = 0; i < choices.size(); i++){
             final int counter = i;
-            Button button = new Button(choices.get(i).toString());
+            Button button = new Button(choices.get(i));
             button.setOnAction(event -> {
                 userChoice = counter;
                 window.hide();
@@ -334,22 +329,22 @@ public class GamePresenter{
         return layout;
     }
 
-    private TableColumn wrapTextInColumn(String title, String text, int minWidth) {
-        TableColumn<Message, Date> timeColumn = new TableColumn<>(title);
+    private TableColumn<Message, Object> wrapTextInColumn(String title, String text, int minWidth) {
+        TableColumn<Message, Object> timeColumn = new TableColumn<>(title);
         timeColumn.setMinWidth(minWidth);
         timeColumn.setCellValueFactory(new PropertyValueFactory<>(text));
         return timeColumn;
     }
 
-    private VBox wrapListItems(Object suspendedObject, List items) {
+    private VBox wrapListItems(List<String> items) {
         VBox layout = new VBox();
         layout.setMinHeight(650);
         layout.setMaxHeight(800);
         layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         layout.setAlignment(Pos.CENTER);
-        for(int i = 0; i < items.size(); i++){
-            Label label = new Label(items.get(i).toString());
+        for (Object item : items) {
+            Label label = new Label(item.toString());
             label.setMinWidth(150);
             label.setMaxWidth(200);
             label.setMinHeight(40);
@@ -362,16 +357,18 @@ public class GamePresenter{
         return layout;
     }
 
-    private VBox wrapInputs(Object suspendedObject, List choices) {
-        ArrayList inputList = new ArrayList();
+    private VBox wrapInputs(Object suspendedObject, List<String> choices) {
+        List<TextField> inputList = new ArrayList<>();
+        List<String> inputString = new ArrayList<>();
+
         VBox layout = new VBox();
         layout.setMinHeight(650);
         layout.setMaxHeight(800);
         layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         layout.setAlignment(Pos.CENTER);
-        for(int i = 0; i < choices.size(); i++){
-            Label inputLabel = new Label(choices.get(i).toString());
+        for (Object choice : choices) {
+            Label inputLabel = new Label(choice.toString());
             TextField input = new TextField();
             input.setMaxWidth(400);
             inputList.add(input);
@@ -379,10 +376,10 @@ public class GamePresenter{
         }
         Button button = new Button("Finish Entering");
         button.setOnAction(event -> {
-            for(int i = 0; i < inputList.size(); i++){
-                inputList.set(i, ((TextField) inputList.get(i)).getText());
+            for (TextField textField : inputList) {
+                inputString.add(textField.getText());
             }
-            userChoice = inputList;
+            userChoice = inputString;
             window.hide();
             synchronized (suspendedObject) {
                 suspendedObject.notify();
@@ -418,9 +415,9 @@ public class GamePresenter{
         dialogueLayout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         dialogueLayout.setPadding(new Insets(20));
-        Label dialogueLable = new Label(dialogue);
-        dialogueLable.setWrapText(true);
-        dialogueLayout.getChildren().add(dialogueLable);
+        Label dialogueLabel = new Label(dialogue);
+        dialogueLabel.setWrapText(true);
+        dialogueLayout.getChildren().add(dialogueLabel);
         return dialogueLayout;
     }
 

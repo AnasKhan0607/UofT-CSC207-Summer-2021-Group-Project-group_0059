@@ -74,7 +74,6 @@ public class GameCreateController {
     public void createGame(){
         int choiceNumLimit = templateData.chooseTemplate();
         if (choiceNumLimit == -1){
-            System.out.println("bruh");
             return;
         }
         ArrayList<String> tags = new ArrayList<>();

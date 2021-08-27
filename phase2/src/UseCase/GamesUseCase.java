@@ -247,7 +247,7 @@ public class GamesUseCase {
      * method for saving the created game if the author isn't Guest user.
      */
     public void saveGames(){
-        List<HashMap> gamesData = new ArrayList<HashMap>();
+        List<HashMap> gamesData = new ArrayList<>();
         for (Game game: this.privateGames){
             if (!game.getGameAuthor().equals("Guest")){
                 gamesData.add(this.gameToHashMap(game));
