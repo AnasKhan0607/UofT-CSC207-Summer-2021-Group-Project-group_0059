@@ -9,6 +9,8 @@ import Gateway.UserGate;
 
 import java.util.*;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The use case class for the users.
@@ -75,6 +77,10 @@ public class UserManager {
      */
     public boolean resetPassword(String userName, String newPassword){
         User temp = SearchUser(userName);
+        if (newPassword.length() < 8){
+            return false;
+        }
+
         if (temp != null){
             if (temp.getUsername().startsWith("Admin_")){
                 ((AdminUser) temp).setPassword(newPassword);
@@ -226,6 +232,21 @@ public class UserManager {
         }
         save(temp, false, null);
         return status;
+    }
+
+    public static boolean PasswordStrength(String password) {
+        // Source for the Regex for what is considered a good password: https://mkyong.com/regular-expressions/how-to-validate-password-with-regular-expression/
+        /* Criteria for a good password:
+        Password must contain at least one digit [0-9].
+        Password must contain at least one lowercase Latin character [a-z].
+        Password must contain at least one uppercase Latin character [A-Z].
+        Password must contain at least one special character like ! @ # & ( ).
+        Password must contain a length of at least 8 characters and a maximum of 20 characters (in our case we are allowing more than 20 characters)
+         */
+        String goodPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,}$";
+        Pattern pattern = Pattern.compile(goodPassword);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 
     /**

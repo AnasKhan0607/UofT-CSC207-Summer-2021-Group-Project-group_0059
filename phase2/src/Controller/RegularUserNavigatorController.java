@@ -74,7 +74,7 @@ public class RegularUserNavigatorController implements UserData {
                 if (status){
                     gamePresenter.displayTextScene(this, "CONTINUE", "Reset successful");
                 } else {
-                    gamePresenter.displayTextScene(this, "BACK", "Something went wrong");
+                    gamePresenter.displayTextScene(this, "BACK", "Password of poor Strength, please try again!");
                 }
             } else {
                 gamePresenter.displayTextScene(this, "BACK","Invalid choice, please try again");
