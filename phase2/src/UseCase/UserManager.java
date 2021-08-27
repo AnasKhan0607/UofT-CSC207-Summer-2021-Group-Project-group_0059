@@ -155,6 +155,27 @@ public class UserManager {
         return bufferedUsers;
     }
 
+    /**
+     * validate the username and password given with what's in the record(given that there's a corresponding username)
+     * @param username the username we are validating
+     * @param passwordInput the password given
+     * @return
+     */
+    public boolean validatePassword(String username, String passwordInput){
+        return SearchUser(username).getPassword().equals(passwordInput);
+    }
+
+    /**
+     * check if the given username is suspended
+     * @param username the username to be checked
+     * @return
+     */
+    public boolean validateFlag(String username){
+        return SearchUser(username).getflag();
+    }
+
+
+
 
     /**
      * suspend a User

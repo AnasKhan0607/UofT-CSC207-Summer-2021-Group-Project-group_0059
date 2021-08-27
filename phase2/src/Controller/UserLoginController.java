@@ -99,15 +99,15 @@ public class UserLoginController {
     public void GuestUserInput(){
 
         UserLoginPresenter.successMessage("Guest");
-        redirect(testUM.CreateGuestUser());
+        redirect("Guest");
     }
 
     /**
      * Uses the UserNavigator classes to redirect the user to a new UI once they have logged in.
-     * @param user a User object that shows whether it is an Admin, Regular, or Guest user to redirect to a new UI
+     * @param username a String object that shows whether it is an Admin, Regular, or Guest user to redirect to a new UI
      */
-    public void redirect(User user){
-        String username = user.getUsername();
+    public void redirect(String username){
+
         if (username.startsWith("Admin_")){
             AdminUserNavigatorController aunc = new AdminUserNavigatorController(username);
             aunc.run();
@@ -132,25 +132,24 @@ public class UserLoginController {
             return;
         }
 
-        User tempUser = testUM.SearchUser(this.userName);
-        String temppassword = tempUser.getPassword();
-        if (!temppassword.equals(this.password)) {
+
+        if (!testUM.validatePassword(userName, password)) {
             gamePresenter.displayTextScene(this, "BACK", "Sorry, but either the username or the password is incorrect");
         }
-        else if (tempUser.getflag()){
-            gamePresenter.displayTextScene(this, "BACK", "(" + tempUser.getUsername() + ") is currently suspended until "+ tempUser.getsuspensionEndTime()+" . Please contact Ruilin or Ahmad for support.");
+        else if (testUM.validateFlag(userName)){
+            gamePresenter.displayTextScene(this, "BACK", "(" + userName + ") is currently suspended until "+ testUM.SearchUser(userName).getsuspensionEndTime()+" . Please contact Ruilin or Ahmad for support.");
         }
         else {
-            login(gamePresenter, tempUser);
+            login(gamePresenter, userName);
         }
     }
 
-    private void login(GamePresenter gamePresenter, User tempUser) {
+    private void login(GamePresenter gamePresenter, String tempUser) {
         if (this.userName.startsWith("Admin_")) {
             gamePresenter.displayTextScene(this, "CONTINUE", "Logged in as Admin" );
         }
         else if (this.userName.startsWith("Temp_")) {
-            LocalDate endDate = ((TempUser) tempUser).getEndDate();
+            LocalDate endDate = ((TempUser)testUM.SearchUser(userName)).getEndDate();
             LocalDate today = LocalDate.now();
             if (today.isAfter(endDate)) {
                 gamePresenter.displayTextScene(this, "BACK", "Sorry, your temporary account has expired." );
@@ -162,7 +161,7 @@ public class UserLoginController {
         else {
             gamePresenter.displayTextScene(this, "CONTINUE", "Logged in as Regular" );
         }
-        redirect(tempUser);
+        redirect(userName);
     }
 }
 
