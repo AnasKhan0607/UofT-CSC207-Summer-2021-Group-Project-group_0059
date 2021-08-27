@@ -1,6 +1,5 @@
 package Gateway;
 
-import Entity.Template;
 import Interface.LoadSave;
 
 import java.io.*;
@@ -15,32 +14,6 @@ import java.util.List;
  */
 
 public class TemplateGate implements LoadSave {
-    public static void main(String[] args) {
-        List<HashMap> template_maps = new ArrayList<>();
-        HashMap<Integer, String> template_map = new HashMap<>();
-        template_map.put(0, "Futuristic Template");
-        template_map.put(1, "Dark Background, Blue Text, Roboto Font, Font Size 20");
-        template_map.put(2, "4");
-        template_map.put(3, "Future_Blue");
-        TemplateGate t = new TemplateGate();
-        template_maps.add(template_map);
-
-        template_map = new HashMap<>();
-        template_map.put(0, "Plain White");
-        template_map.put(1, "White Background, Black Text, Sans-Serif Font, Font Size 16");
-        template_map.put(2, "3");
-        template_map.put(3, "Plain");
-        template_maps.add(template_map);
-
-        template_map = new HashMap<>();
-        template_map.put(0, "Chill Bro");
-        template_map.put(1, "Chill Red Background, Chill Blue Text, Patricks Hand Font, Font Size 20");
-        template_map.put(2, "2");
-        template_map.put(3, "Chill");
-        template_maps.add(template_map);
-
-        t.save(template_maps);
-    }
 
     /*
      * Similar format as GameGate
@@ -122,7 +95,6 @@ public class TemplateGate implements LoadSave {
 
         catch (ClassNotFoundException obj2) {
             System.out.println("Class not found");
-//            obj2.printStackTrace();
 
         }
 
@@ -147,14 +119,11 @@ public class TemplateGate implements LoadSave {
 
             myObjectOutStream.writeObject(myMap);
 
-            // closing FileOutputStream and
-            // ObjectOutputStream
             myObjectOutStream.close();
             myFileOutStream.close();
         }
         catch (IOException e) {
             System.out.println(e);
-//            e.printStackTrace();
         }
     }
 
