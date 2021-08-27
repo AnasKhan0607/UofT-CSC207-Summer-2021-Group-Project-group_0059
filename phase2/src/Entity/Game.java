@@ -15,7 +15,8 @@ public class Game {
     private String gameAuthor;
     private boolean gamePublic = false;
     private int choiceNumLimit;
-    private GameStorage gameStorage;
+    private String styleSheetName;
+    private final GameStorage gameStorage;
     /**
      * Contructor for the class.
      *
@@ -29,22 +30,16 @@ public class Game {
      * @param  gameStorage A <gameStorage> it contains the initialized storage of gameTree for our game.
      */
 
-//    public Game(String gameName, String gameAuthor, boolean gamePublic, int choiceNumLimit, GameStorage gameStorage) {
-//        this.gameName = gameName;
-//        this.gameAuthor = gameAuthor;
-//        this.gamePublic = gamePublic;
-//        this.choiceNumLimit = choiceNumLimit;
-//        this.gameStorage = gameStorage;
-//    }
     /**
      * the setter class for game entity variables.
      */
-    public Game(String gameName, String gameAuthor, boolean gamePublic, int choiceNumLimit, String initialDialogue) {
+    public Game(String gameName, String gameAuthor, boolean gamePublic, int choiceNumLimit, String initialDialogue, String styleSheetName) {
         this.gameName = gameName;
         this.gameAuthor = gameAuthor;
         this.gamePublic = gamePublic;
         this.choiceNumLimit = choiceNumLimit;
         this.gameStorage = GameStorage.initializeStorage(choiceNumLimit, initialDialogue);
+        this.styleSheetName = styleSheetName;
     }
     /**
      * the getter method for game name which set by author of the game.
@@ -86,13 +81,8 @@ public class Game {
      * @return maximum number of chose the author give in the hole of the game.
      */
     public int getchoiceNumLimit(){return choiceNumLimit;}
-    /**
-     * the setter method for maximum number of choices in game which set by author of the game with
-     * choosing one of the given templates.
-     */
-    public void setChoiceNumLimit(int choiceNumLimit) {
-        this.choiceNumLimit = choiceNumLimit;
-    }
+
+    public String getStyleSheetName(){return styleSheetName;}
     /**
      * the getter method for the stored game tree(it print the tree).
      * @return it prints the stored gameTree for the given game.

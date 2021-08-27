@@ -69,16 +69,19 @@ public class GameCreateController {
      */
 
     public void createGame(){
-        int choiceNumLimit = templateData.chooseTemplate();
-        if (choiceNumLimit == -1){
+        List<Object> templateInfo = templateData.chooseTemplate();
+        if (templateInfo.size() == 0){
             return;
         }
+
+        int choiceNumLimit = (int) templateInfo.get(0);
+        String styleSheetName = (String) templateInfo.get(1);
         ArrayList<String> tags = new ArrayList<>();
         tags.add("Game Name");
         tags.add("First Dialogue");
 
         List<String> inputs = gamePresenter.displayInputs(this, tags);
-        boolean createSuccess = gamesUseCase.createGame(choiceNumLimit, inputs.get(0), userData.currentUser(), inputs.get(1));
+        boolean createSuccess = gamesUseCase.createGame(choiceNumLimit, inputs.get(0), userData.currentUser(), inputs.get(1), styleSheetName);
         if (createSuccess){
             gamePresenter.displayTextScene(this, "Game creation completed.");
             gamesUseCase.saveGames();

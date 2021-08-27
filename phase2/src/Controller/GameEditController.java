@@ -15,15 +15,10 @@ import java.util.List;
 
 public class GameEditController {
 
-    private UserData userData;
-    private GamesUseCase gamesUseCase;
-    private GameUseCase gameUseCase = new GameUseCase();
-    private GamePresenter gamePresenter;
-    private final String editGameDialogueChoices = "Enter r to return to the parent dialogue, " +
-            "v + id to view the dialogue with that id (e.g. v1), " +
-            "c + id to change a game dialogue, " +
-            "a + id to add a dialogue, d + id to delete a dialogue, " +
-            "and e to exit.";
+    private final UserData userData;
+    private final GamesUseCase gamesUseCase;
+    private final GameUseCase gameUseCase = new GameUseCase();
+    private final GamePresenter gamePresenter;
 
     /**
      * Contructor for the class.
@@ -143,7 +138,12 @@ public class GameEditController {
             gamePresenter.displayTextScene(this, "Dialogue ID " + currentId + ": " + currentDialogue,
                     gamesUseCase.getGameAsString(gameName, 150, currentId));
 
-            String userChoice = gamePresenter.displayTextSceneInput(this, this.editGameDialogueChoices,
+            String editGameDialogueChoices = "Enter r to return to the parent dialogue, " +
+                    "v + id to view the dialogue with that id (e.g. v1), " +
+                    "c + id to change a game dialogue, " +
+                    "a + id to add a dialogue, d + id to delete a dialogue, " +
+                    "and e to exit.";
+            String userChoice = gamePresenter.displayTextSceneInput(this, editGameDialogueChoices,
                     gamesUseCase.getGameAsString(gameName, 150, currentId));
 
             ArrayList<Object> actionAndId = this.EGDVerifyUserChoice(userChoice);
@@ -192,6 +192,9 @@ public class GameEditController {
 
     private ArrayList<Object> EGDVerifyUserChoice(String userChoice){
         ArrayList<Object> actionAndId = new ArrayList<>();
+        if (userChoice.equals("")){
+            return new ArrayList<>();
+        }
         Character action = userChoice.charAt(0);
         if (action.equals('r') || action.equals('e')) {
             if (userChoice.length() == 1){
@@ -201,7 +204,7 @@ public class GameEditController {
             return actionAndId;
         }
 
-        Integer id = -1;
+        int id;
         try {
             id = Integer.parseInt(userChoice.substring(1));
         } catch (NumberFormatException b) {

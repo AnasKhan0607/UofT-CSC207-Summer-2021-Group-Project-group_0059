@@ -1,6 +1,6 @@
 .root{
-    -fx-background-color: #383838;
-    -fx-font-size: 15;
+    -fx-background-color: #ffffff;
+    -fx-font-family: sans-serif;
 }
 
 VBox{
@@ -8,9 +8,9 @@ VBox{
     -fx-border-insets: 1px;
     -fx-background-insets: 1px;
     -fx-border-color: #000000;
-    -fx-border-width: 3;
+    -fx-border-width: 1;
 }
 
 .label{
-    -fx-text-fill: #e8e8e8;
+    -fx-font-size: 16;
 }

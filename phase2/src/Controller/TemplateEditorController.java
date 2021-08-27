@@ -8,8 +8,6 @@ import UseCase.TemplateManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.Scanner;
-
 /**
  * the controller class that interacts with Userinputs from Admin User wanting to edit a Template or chose Template.
  */
@@ -20,7 +18,7 @@ public class TemplateEditorController implements TemplateData {
     }
 
     private TemplateManager templates;
-    private Scanner myObj = new Scanner(System.in);
+//    private Scanner myObj = new Scanner(System.in);
 
     /**
      * the constructor for this controller class
@@ -72,25 +70,8 @@ public class TemplateEditorController implements TemplateData {
                 break;
             }
         }
-        ArrayList<Object> game_instructions = new ArrayList<Object>();
-        return game_instructions;
+        return new ArrayList<>();
     }
-
-//        for (; ; ) {
-//            TemplateEditorPresenter.chose_template_to_edit(this.templates);
-//            String choice;
-//            choice = String.valueOf(myObj.nextLine());
-//            while (!this.templates.getTemplates().contains(this.templates.Find_template(choice)) && Integer.parseInt(choice) != -1) {
-//                TemplateEditorPresenter.try_agin();
-//                choice = String.valueOf(myObj.nextLine());
-//
-//            }
-//            if (choice.equals("-1")) {
-//                break;
-//            }
-//            return this.templates.getNumChoices(choice);
-//        }
-
 
 
     /**

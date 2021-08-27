@@ -1,5 +1,6 @@
 package Gateway;
 
+import Entity.Template;
 import Interface.LoadSave;
 
 import java.io.*;
@@ -14,6 +15,32 @@ import java.util.List;
  */
 
 public class TemplateGate implements LoadSave {
+    public static void main(String[] args) {
+        List<HashMap> template_maps = new ArrayList<>();
+        HashMap<Integer, String> template_map = new HashMap<>();
+        template_map.put(0, "Futuristic Template");
+        template_map.put(1, "Dark Background, Blue Text, Roboto Font, Font Size 20");
+        template_map.put(2, "4");
+        template_map.put(3, "Future_Blue");
+        TemplateGate t = new TemplateGate();
+        template_maps.add(template_map);
+
+        template_map = new HashMap<>();
+        template_map.put(0, "Plain White");
+        template_map.put(1, "White Background, Black Text, Sans-Serif Font, Font Size 16");
+        template_map.put(2, "3");
+        template_map.put(3, "Plain");
+        template_maps.add(template_map);
+
+        template_map = new HashMap<>();
+        template_map.put(0, "Chill Bro");
+        template_map.put(1, "Chill Red Background, Chill Blue Text, Patricks Hand Font, Font Size 20");
+        template_map.put(2, "2");
+        template_map.put(3, "Chill");
+        template_maps.add(template_map);
+
+        t.save(template_maps);
+    }
 
     /*
      * Similar format as GameGate
@@ -24,6 +51,7 @@ public class TemplateGate implements LoadSave {
      * |0 (Name)        | "SampleTemplateOne"  |
      * |1 (description) | "SampleOfTemplate"   |
      * |2 (Numchoice)   | "3"                  |
+     * |3 (Scheme)      | "Black Times New R." |
      * |_______________________________________|
      * Remember that java hashmap is just dict in python
      * */
@@ -81,7 +109,6 @@ public class TemplateGate implements LoadSave {
                     = new ObjectInputStream(fileInput);
 
             myMaps = (List<HashMap>) objectInput.readObject();
-            System.out.println(myMaps);
 
             objectInput.close();
             fileInput.close();

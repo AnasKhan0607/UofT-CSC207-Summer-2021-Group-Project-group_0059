@@ -3,6 +3,14 @@
     -fx-font-size: 15;
 }
 
+VBox{
+    -fx-padding: 1px;
+    -fx-border-insets: 1px;
+    -fx-background-insets: 1px;
+    -fx-border-color: #000000;
+    -fx-border-width: 3;
+}
+
 .label{
     -fx-text-fill: #e8e8e8;
 }

@@ -107,4 +107,8 @@ public class GameUseCase {
         }
         return childrenIds;
     }
+
+    public String getStyleSheetName(){
+        return this.currentGame.getStyleSheetName();
+    }
 }

@@ -30,11 +30,14 @@ import java.util.Objects;
  */
 
 public class GamePresenter{
+    public static void main(String[] args) {
+        new GamePresenter().setStyleSheet("");
+    }
 
-    Stage window;
-    Object userChoice;
-    String styleSheet = Objects.requireNonNull(getClass().getResource("GamePresenter.css")).toExternalForm();
-    TableView<Message> messageTableView;
+    private Stage window;
+    private Object userChoice;
+    private String styleSheet = Objects.requireNonNull(getClass().getResource("GamePresenter.css")).toExternalForm();
+    private TableView<Message> messageTableView;
 
     public GamePresenter(){
         // To do Platform.runlater, the toolkits must be initialized, see
@@ -51,6 +54,15 @@ public class GamePresenter{
             });
             Platform.setImplicitExit(false);
         });
+    }
+
+    public void setStyleSheet(String styleSheetName){
+        try{
+            this.styleSheet = Objects.requireNonNull(getClass().getResource(styleSheetName + ".css")).toExternalForm();
+        }
+        catch (NullPointerException e){
+            styleSheet = Objects.requireNonNull(getClass().getResource("GamePresenter.css")).toExternalForm();
+        }
     }
 
     public Integer displayChoices(Object suspendedObject, List<String> choices){
@@ -314,8 +326,8 @@ public class GamePresenter{
         VBox layout = new VBox();
         layout.setMinHeight(650);
         layout.setMaxHeight(800);
-        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+//                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         layout.setAlignment(Pos.CENTER);
         for(int i = 0; i < choices.size(); i++){
             final int counter = i;
@@ -343,15 +355,13 @@ public class GamePresenter{
         VBox layout = new VBox();
         layout.setMinHeight(650);
         layout.setMaxHeight(800);
-        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+//                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         layout.setAlignment(Pos.CENTER);
         for (Object item : items) {
             Label label = new Label(item.toString());
-            label.setMinWidth(150);
-            label.setMaxWidth(200);
+            label.setMinWidth(200);
             label.setMinHeight(40);
-            label.setMaxHeight(40);
             label.setAlignment(Pos.CENTER);
             label.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
                     BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
@@ -367,8 +377,8 @@ public class GamePresenter{
         VBox layout = new VBox();
         layout.setMinHeight(650);
         layout.setMaxHeight(800);
-        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//        layout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+//                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         layout.setAlignment(Pos.CENTER);
         for (Object choice : choices) {
             Label inputLabel = new Label(choice.toString());
@@ -395,7 +405,7 @@ public class GamePresenter{
     private VBox wrapDialogueInput(Object suspendedObject, String dialogue) {
         VBox dialogueLayout = wrapDialogue(dialogue);
         TextField input = new TextField();
-        input.setMinWidth(200);
+        input.setMinWidth(100);
         dialogueLayout.getChildren().add(input);
 
         Button button = new Button("Finish Entering");
@@ -415,8 +425,8 @@ public class GamePresenter{
         dialogueLayout.setMinHeight(150);
         dialogueLayout.setMaxHeight(650);
         dialogueLayout.setAlignment(Pos.CENTER);
-        dialogueLayout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//        dialogueLayout.setBorder(new Border(new BorderStroke(Paint.valueOf("#000000"),
+//                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         dialogueLayout.setPadding(new Insets(20));
         Label dialogueLabel = new Label(dialogue);
         dialogueLabel.setWrapText(true);

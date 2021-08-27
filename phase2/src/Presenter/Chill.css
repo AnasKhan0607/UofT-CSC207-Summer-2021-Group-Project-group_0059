@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap')
+
+.root{
+    -fx-background-color: #226765;
+    -fx-font-family: 'Patrick Hand', cursive;
+}
+
+VBox{
+    -fx-padding: 1px;
+    -fx-border-insets: 1px;
+    -fx-background-insets: 1px;
+    -fx-border-color: #A8383B;
+    -fx-border-width: 3;
+}
+
+.label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 20;
+}

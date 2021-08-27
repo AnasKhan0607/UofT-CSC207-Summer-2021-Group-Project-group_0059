@@ -19,10 +19,10 @@ import java.util.List;
 
 public class GamePlayController {
 
-    private GamesUseCase gamesUseCase;
-    private GameUseCase gameUseCase = new GameUseCase();
-    private GamePresenter gamePresenter;
-    private UserData userData;
+    private final GamesUseCase gamesUseCase;
+    private final GameUseCase gameUseCase = new GameUseCase();
+    private final GamePresenter gamePresenter;
+    private final UserData userData;
 
     /**
      * Constructor method for GamePlayController
@@ -115,14 +115,18 @@ public class GamePlayController {
     }
 
     private void presentGame(String dialogue, ArrayList<Integer> childrenChoiceIds, ArrayList<String> choices) {
+        gamePresenter.setStyleSheet(gameUseCase.getStyleSheetName());
         ArrayList<String> childrenChoices;
         int userChoice = 0;
         while (!childrenChoiceIds.contains(userChoice)){
             gamePresenter.displayTextScene(this, dialogue);
-            if (childrenChoiceIds.size() == 0){
-                break;
+            if (childrenChoiceIds.size() == 0){ break; }
+            else if(childrenChoiceIds.size() == 1){
+                userChoice = childrenChoiceIds.get(0);
             }
-            userChoice = childrenChoiceIds.get(gamePresenter.displayChoices(this, choices, dialogue));
+            else{
+                userChoice = childrenChoiceIds.get(gamePresenter.displayChoices(this, choices, dialogue));
+            }
 
             if(!childrenChoiceIds.contains(userChoice)){
                 System.out.println(userChoice + " " + childrenChoiceIds);
@@ -135,6 +139,7 @@ public class GamePlayController {
             choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
             dialogue = gameUseCase.getDialogueById(userChoice);
         }
+        gamePresenter.setStyleSheet("");
     }
 
     private ArrayList<String> addPrefixesToStrings(ArrayList<Integer> prefixes, ArrayList<String> strings){
