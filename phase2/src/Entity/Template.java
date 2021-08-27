@@ -8,6 +8,7 @@ public class Template {
     private String templatename; // name of this template
     private String description; // description of the template
     private int numchoice; // max number of choices
+    private String scheme; // colour scheme of the game
 
     /**
      * The constructor when a template is first called.
@@ -71,4 +72,23 @@ public class Template {
     public int getNumchoice() {
         return this.numchoice;
     }
+
+    /**
+     * Setter for the colour scheme of this template for the game.
+     * @param scheme The colour scheme of game.
+     */
+
+    public void setScheme(String scheme) {
+        this.scheme = scheme;
+    }
+
+    /**
+     * Getter for the colour scheme of this template for the game.
+     * @return scheme The colour scheme of game.
+     */
+
+    public String getScheme() {
+        return this.scheme;
+    }
 }
+
