@@ -1,23 +1,14 @@
 package Controller;
 
 
-import Entity.RegularUser;
-import Entity.TempUser;
-import Entity.User;
 import Interface.TemplateData;
 import Presenter.GamePresenter;
 import Presenter.TemplateEditorPresenter;
-import Presenter.TemplatePresenter;
-import Presenter.UserLoginPresenter;
-import UseCase.MessageManager;
 import UseCase.TemplateManager;
-import UseCase.UserManager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
