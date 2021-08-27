@@ -1,7 +1,13 @@
 Features Implemented
-- All mandatory extensions
+- Mandatory extensions
+    - Extra template added. Have 3 templates at the moment
+    - Temporary user added
+    - Templates now have a scheme feature so games have different colour schemes and fonts
+    - Admin user is now able to change any creations from public to private and vice versa
+    - Admin user is able to interact with any users creations and delete it
+    - Admin user can suspend users
 - Optional extensions/features
 	- GUI
 	- Password system
 	- Messaging system
-	- Database
+	- Database (attempted)
