@@ -19,6 +19,7 @@ public class TemplateManager {
             a.setTemplatename(template_map.get(0));
             a.setDescription(template_map.get(1));
             a.setNumchoice(Integer.parseInt(template_map.get(2)));
+            a.setScheme(template_map.get(3));
             this.templates.add(a);
         }
     }
@@ -31,6 +32,7 @@ public class TemplateManager {
             template_map.put(0, template.getTemplatename());
             template_map.put(1, template.getDescription());
             template_map.put(2, Integer.toString(template.getNumchoice()));
+            template_map.put(3, template.getScheme());
             template_maps.add(template_map);
         }
         t.save(template_maps);
@@ -73,6 +75,9 @@ public class TemplateManager {
     public void setNewDescription(String name, String new_){
         Find_template(name).setDescription(new_);
     }
+    public void setNewScheme(String name, String new_){
+        Find_template(name).setScheme(new_);
+    }
     public void setNewChoicesNum(String name, Integer new_){
         Find_template(name).setNumchoice(new_);
     }
@@ -81,5 +86,8 @@ public class TemplateManager {
     }
     public String getDescription(String name){
         return Find_template(name).getDescription();
+    }
+    public String getScheme(String name){
+        return Find_template(name).getScheme();
     }
 }
