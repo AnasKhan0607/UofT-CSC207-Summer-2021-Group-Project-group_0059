@@ -1,6 +1,5 @@
 package Gateway;
 
-import Entity.Message;
 import Interface.LoadSave;
 
 import java.io.*;

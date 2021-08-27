@@ -1,8 +1,6 @@
 package Controller;
 
 import Interface.TemplateData;
-import Presenter.TemplateEditorPresenter;
-import Presenter.TemplatePresenter;
 import UseCase.TemplateManager;
 
 import java.util.Scanner;

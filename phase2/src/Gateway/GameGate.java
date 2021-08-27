@@ -92,13 +92,11 @@ public class GameGate implements LoadSave {
         catch (IOException obj1) {
             System.out.println("Loading...\n" +
                     "No Saved Games.");
-//            obj1.printStackTrace();
 
         }
 
         catch (ClassNotFoundException obj2) {
             System.out.println("Class not found!");
-//            obj2.printStackTrace();
 
         }
 
@@ -122,14 +120,11 @@ public class GameGate implements LoadSave {
 
             myObjectOutStream.writeObject(myMap);
 
-            // closing FileOutputStream and
-            // ObjectOutputStream
             myObjectOutStream.close();
             myFileOutStream.close();
         }
         catch (IOException e) {
             System.out.println(e);
-//            e.printStackTrace();
         }
     }
 }
