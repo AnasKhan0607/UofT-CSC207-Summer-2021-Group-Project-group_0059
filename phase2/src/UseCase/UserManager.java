@@ -7,6 +7,9 @@ import Entity.TempUser;
 import Entity.User;
 import Gateway.UserGate;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -149,9 +152,7 @@ public class UserManager {
      * create a GuestUser instance and return it
      * @return the GuestUser instance
      */
-    public GuestUser CreateGuestUser(){
-        return new GuestUser("Guest");
-    }
+
 
     /**
      * return all the users in record right now
@@ -234,6 +235,28 @@ public class UserManager {
         return status;
     }
 
+    public boolean resetTempPassword(String username){
+        if (SearchUser(username) == null){
+            return false;
+        }
+        //https://www.baeldung.com/java-random-string
+        byte[] array = new byte[8]; // length is bounded by 7
+        new Random().nextBytes(array);
+        String generatedPassword = new String(array, Charset.forName("UTF-8"));
+        resetPassword(username, generatedPassword);
+        try {
+            FileWriter myWriter = new FileWriter(username +".txt");
+            myWriter.write(generatedPassword);
+            myWriter.close();
+
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return true;
+
+    }
+
     public static boolean PasswordStrength(String password) {
         // Source for the Regex for what is considered a good password: https://mkyong.com/regular-expressions/how-to-validate-password-with-regular-expression/
         /* Criteria for a good password:
@@ -277,6 +300,7 @@ public class UserManager {
 
         myGate.save(userData);
     }
+
 
     /**
      * Converts the list of users to a string.
