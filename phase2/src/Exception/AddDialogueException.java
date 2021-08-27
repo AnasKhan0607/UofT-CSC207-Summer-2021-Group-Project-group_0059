@@ -1,8 +1,10 @@
 package Exception;
 
 public class AddDialogueException extends Exception{
-    public AddDialogueException() { super(); }
+    /**
+     * Prints message; signifies that something wrong had occurred when adding
+     * a dialogue to a game.
+     * @param message a string that is printed when this exception is encountered
+     */
     public AddDialogueException(String message) { super(message); }
-    public AddDialogueException(String message, Throwable cause) { super(message, cause); }
-    public AddDialogueException(Throwable cause) { super(cause); }
 }

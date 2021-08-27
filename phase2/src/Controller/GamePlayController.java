@@ -38,6 +38,12 @@ public class GamePlayController {
     }
 
     // for the purpose of playing games from message attachments only
+
+    /**
+     * A class that lets the user play a game
+     * @param userData the userData which provides the user name
+     * @param gamePresenter the gui class
+     */
     public GamePlayController(UserData userData, GamePresenter gamePresenter){
         this.gamesUseCase = new GamesUseCase(new GameGate());
         this.userData = userData;
@@ -50,7 +56,6 @@ public class GamePlayController {
      *
      * Interacts with gameTextPresenter, gamesUseCase, and userData to play the game
      */
-
     public void playGame(){
         presentAvailableGames();
 
@@ -72,6 +77,10 @@ public class GamePlayController {
         presentGame(dialogue, childrenChoiceIds, choices);
     }
 
+    /**
+     * Plays and presents a game with the name gameName
+     * @param gameName the name of a game
+     */
     public void playSpecificGame(String gameName){
         if (checkGameExistense(gameName)) return;
 

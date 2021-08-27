@@ -82,6 +82,10 @@ public class Game {
      */
     public int getchoiceNumLimit(){return choiceNumLimit;}
 
+    /**
+     * return the name of the styleSheet of a game object
+     * @return the name of the styleSheet of a game object
+     */
     public String getStyleSheetName(){return styleSheetName;}
     /**
      * the getter method for the stored game tree(it print the tree).
