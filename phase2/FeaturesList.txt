@@ -1,0 +1,7 @@
+Features Implemented
+- All mandatory extensions
+- Optional extensions/features
+	- GUI
+	- Password system
+	- Messaging system
+	- Database
