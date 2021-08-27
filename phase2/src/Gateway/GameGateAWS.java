@@ -4,10 +4,14 @@ import java.sql.*;
 import java.util.*;
 
 public class GameGateAWS {
+    private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data";
+    private final String username = "admin";
+    private final String password = "BossAcc!";
+
     public static void main(String[] args) {
         List<HashMap<Integer, String>> mapList = new ArrayList<>();
 
-        List<HashMap<Integer, String>> outList;
+        List<HashMap<Integer, String>> outList = new ArrayList<>();
 
         List<Integer> ids = Arrays.asList(1 , 2, 3);
 
@@ -23,39 +27,27 @@ public class GameGateAWS {
             mapList.add(gameData);
         }
 
-        GameGateAWS.save(mapList);
-        outList = GameGateAWS.load();
+        GameGateAWS ggaws = new GameGateAWS();
 
-        System.out.println((long) outList.size());
-
-        for (HashMap<Integer, String> aMap : outList) {
-            for (Map.Entry<Integer, String> mapEntry : aMap.entrySet()) {
-                System.out.println(mapEntry.getKey() + ", " + mapEntry.getValue());
-            }
-        }
-
+        ggaws.save(mapList);
+        outList = ggaws.load();
+        
     }
-    public static void save(List<HashMap<Integer, String>> myMaps){
-        String  url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data";
-        String username = "admin";
-        String password = "BossAcc!";
+
+    public GameGateAWS() {
+    }
+
+    public void save(List<HashMap<Integer, String>> myMaps){
 
         String tableName;
 
-
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
-            System.out.println("Connected to Database!");
-            System.out.println(connection.getMetaData().getTables(null, null, "test1", null).next());
             Statement statement = connection.createStatement();
-            ResultSet resSet = statement.executeQuery("select * from test1");
-            System.out.println(resSet);
-
 
             for (HashMap<Integer, String> hMap : myMaps) {
                 tableName = hMap.get(-4);
                 if (connection.getMetaData().getTables(null, null, tableName, null).next()) {
-                    System.out.println("Table found.");
                     for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
                         statement.executeUpdate("INSERT INTO " + tableName + " VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
                                 "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
@@ -84,32 +76,21 @@ public class GameGateAWS {
 
     }
 
-    public static List<HashMap<Integer, String>> load() {
-        String  url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data?currentSchema=wtf";
-        String username = "admin";
-        String password = "BossAcc!";
-
-        String tableName;
+    public List<HashMap<Integer, String>> load() {
 
         List<HashMap<Integer, String>> dbMaps = new ArrayList<>();
         HashMap<Integer, String > currMap;
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
-            System.out.println("Connected to Database!");
             connection.setSchema("game_data");
-            System.out.println(connection.getCatalog());
-            System.out.println(connection.getMetaData().getTables(null, null, "test1", null).next());
             Statement statement = connection.createStatement();
-            ResultSet resSet = statement.executeQuery("select * from test1");
-            System.out.println(resSet);
-
+            ResultSet resSet;
 
             ResultSet myTables = connection.getMetaData().getTables("game_data", null, null, new String[]{"TABLE"});
 
             while (myTables.next()) {
                 currMap = new HashMap<>();
-                System.out.println(myTables.getString(3) + ", " + myTables.getString(1));
                 resSet = statement.executeQuery("select * from " + myTables.getString(3));
 
                 while(resSet.next()) {
