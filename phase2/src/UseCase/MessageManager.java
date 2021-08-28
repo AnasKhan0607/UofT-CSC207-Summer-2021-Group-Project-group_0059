@@ -5,6 +5,8 @@ import Entity.Message;
 
 import Entity.User;
 import Gateway.MessageGate;
+import Gateway.UserGate;
+import Interface.LoadSave;
 
 import java.util.*;
 /**
@@ -13,15 +15,16 @@ import java.util.*;
  */
 public class MessageManager {
     private List<Message> bufferedMessages;
-    private UserManager um = new UserManager();
+    private UserManager um;
+    private LoadSave MG;
 
     /**
      * create a list of all messages obtained from file
      */
-    public MessageManager(){
+    public MessageManager(LoadSave gate){
         bufferedMessages = new ArrayList<>();
-
-
+        MG = gate;
+        um = new UserManager(gate);
         MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> tempMessages = (HashMap<String, List<Object>>) MG.load().get(0);
 
