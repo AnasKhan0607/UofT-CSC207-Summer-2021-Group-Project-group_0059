@@ -14,38 +14,6 @@ import java.util.*;
  * @author Daniel Liu Kimia Raminrad
  */
 public class GamesUseCase {
-    public static void main(String[] args) {
-//        HashMap<Integer, String> gameData = new HashMap<>();
-//        gameData.put(-4, "bruh");
-//        gameData.put(-3, "Daniel Liu");
-//        gameData.put(-2, "true");
-//        gameData.put(-1, "4");
-//        gameData.put(0, "Dialogue 1");
-//        gameData.put(1, "1");
-//        gameData.put(2, "2");
-//        gameData.put(3, "3");
-//        gameData.put(4, "4");
-//        gameData.put(5, "5");
-//        gameData.put(21, "21");
-//        gameData.put(9, "9");
-//
-//        List<HashMap> game4sData = new ArrayList<>();
-//        gamesData.add(gameData);
-//        GameGate bruh = new GameGate();
-//        bruh.save(gamesData);
-
-        GamesUseCase gamesUseCase = new GamesUseCase(new GameGate());
-        GameMainController gameController = new GameMainController(new TemplateEditorController(), new RegularUserNavigatorController("Daniel Liu"));
-        gameController.gameMenu();
-
-//        System.out.println(game);4
-//        System.out.println(game.getDialogueById(1));
-//        System.out.println(game.getDialogueById(4));
-//        System.out.println(game.getDialogueById(21));
-//        System.out.println(game.getDialogueById(9));
-//        System.out.println(game.getDialogueById(5));
-
-    }
 
     private ArrayList<Game> publicGames = new ArrayList<>();
     private ArrayList<Game> privateGames = new ArrayList<>();
