@@ -3,8 +3,6 @@ package Controller;
 
 import Entity.TempUser;
 
-import Gateway.UserGate;
-import Interface.LoadSave;
 import Presenter.GamePresenter;
 
 import UseCase.UserManager;
@@ -46,8 +44,7 @@ public class UserLoginController {
         choices.add("Forgot Password");
         choices.add("EXIT");
         while (true){
-            LoadSave gate = new UserGate();
-            testUM = new UserManager(gate);
+            testUM = new UserManager();
             int choice = gamePresenter.displayChoices(this, choices, "Please login first:");
 
             if (choice == 0){ login(gamePresenter); }
