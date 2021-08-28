@@ -17,11 +17,6 @@ import java.util.List;
  */
 
 public class GameMainController {
-    public static void main(String[] args) {
-
-//        GameMainController gameController = new GameMainController(new TemplateEditorController(), new RegularUserNavigatorController("Daniel Liu"));
-//        gameController.gameMenu();
-    }
 
     private UserData userData;
     private GamesUseCase gamesUseCase;
