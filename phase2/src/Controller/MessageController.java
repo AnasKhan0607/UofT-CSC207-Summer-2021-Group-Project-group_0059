@@ -2,7 +2,6 @@ package Controller;
 
 
 import Gateway.MessageGate;
-import Gateway.UserGate;
 import Interface.LoadSave;
 import Presenter.GamePresenter;
 
