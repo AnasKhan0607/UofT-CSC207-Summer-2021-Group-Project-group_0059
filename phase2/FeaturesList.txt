@@ -10,4 +10,4 @@ Features Implemented
 	- GUI
 	- Password system
 	- Messaging system
-	- Database (attempted)
+	- Database for Games and Templates
