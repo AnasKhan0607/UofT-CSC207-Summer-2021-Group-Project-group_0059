@@ -12,13 +12,8 @@ import java.util.List;
  * the controller class that interacts with Userinputs from Admin User wanting to edit a Template or chose Template.
  */
 public class TemplateEditorController implements TemplateData {
-    public static void main(String[] args) {
-        TemplateEditorController editorController = new TemplateEditorController();
-        editorController.chooseTemplate();
-    }
 
     private TemplateManager templates;
-//    private Scanner myObj = new Scanner(System.in);
 
     /**
      * the constructor for this controller class

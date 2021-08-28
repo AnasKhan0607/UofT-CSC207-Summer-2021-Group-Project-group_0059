@@ -23,9 +23,6 @@ import java.util.Objects;
  */
 
 public class GamePresenter{
-    public static void main(String[] args) {
-        new GamePresenter().setStyleSheet("");
-    }
 
     static Stage window;
     static Object userChoice;

@@ -1,7 +1,5 @@
 package Controller;
 
-import Gateway.UserGate;
-import Interface.LoadSave;
 import Presenter.GamePresenter;
 
 import UseCase.UserManager;
@@ -52,8 +50,7 @@ public class SuspensionController {
         int x = Integer.parseInt((String) lst.get(1));
         username = choice;
         if (!username.startsWith("Admin_")){
-            LoadSave gate = new UserGate();
-            UserManager tempum = new UserManager(gate);
+            UserManager tempum = new UserManager();
             boolean rst = tempum.suspendUser(username, x);
             if (rst){
                 gamePresenter.displayTextScene(this, "CONTINUE", username + "has been successfully unsuspended");
@@ -69,8 +66,7 @@ public class SuspensionController {
         inputs.add("Please input the username you need to unsuspend:");
         String choice = (String)gamePresenter.displayInputs(this, inputs, "").get(0);
         username = choice;
-        LoadSave gate = new UserGate();
-        UserManager tempum = new UserManager(gate);
+        UserManager tempum = new UserManager();
         boolean rst = tempum.unsuspendUser(username);
         if (rst){gamePresenter.displayTextScene(this, "CONTINUE", username + "has been successfully unsuspended");}
         else {gamePresenter.displayTextScene(this, "BACK", "Username not found");}
