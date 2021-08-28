@@ -1,5 +1,7 @@
 package Controller;
 
+import Gateway.UserGate;
+import Interface.LoadSave;
 import Interface.UserData;
 
 import Presenter.GamePresenter;
@@ -69,7 +71,8 @@ public class RegularUserNavigatorController implements UserData {
                 inputs.add("New password:");
                 List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Reset password");
                 String password = userinputs.get(0);
-                UserManager userManager = new UserManager();
+                LoadSave gate = new UserGate();
+                UserManager userManager = new UserManager(gate);
                 boolean status = userManager.resetPassword(this.username, password);
                 if (status){
                     gamePresenter.displayTextScene(this, "CONTINUE", "Reset successful");
