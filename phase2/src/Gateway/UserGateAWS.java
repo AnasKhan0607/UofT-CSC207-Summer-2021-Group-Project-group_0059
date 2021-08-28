@@ -2,43 +2,60 @@ package Gateway;
 
 import java.sql.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class GameGateAWS {
-    private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data";
+public class UserGateAWS {
+
+    /*
+     * Similar format as GameGate
+     * Each hashmap in the list of hashmaps should have this specific format:
+     *  _______________________________________
+     * |Key             | Value                |
+     * |_______________________________________|
+     * |0 (Name)        | "SampleuserOne"  |
+     * |1 (description) | "SampleOfuser"   |
+     * |2 (Numchoice)   | "3"                  |
+     * |3 (Scheme)      | "Black Times New R." |
+     * |_______________________________________|
+     *
+     * */
+
+
+    private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/user_data";
     private final String username = "admin";
     private final String password = "BossAcc!";
 
     public static void main(String[] args) {
-        List<HashMap<Integer, String>> mapList = new ArrayList<>();
+        List<HashMap> mapList = new ArrayList<>();
 
-        List<HashMap<Integer, String>> outList = new ArrayList<>();
+        List<HashMap<String, List<Object>>> outList = new ArrayList<>();
 
         List<Integer> ids = Arrays.asList(1 , 2, 3);
 
         for (int i: ids) {
             HashMap<Integer, String> gameData = new HashMap<>();
-            gameData.put(-4, "test" + i);
-            gameData.put(-3, "author test");
-            gameData.put(-2, String.valueOf(true));
-            gameData.put(-1, String.valueOf(5));
+            gameData.put(0, "test" + i);
+            gameData.put(1, "author test");
+            gameData.put(2, String.valueOf(true));
+            gameData.put(3, String.valueOf(5));
             for (int id : ids) {
                 gameData.put(id, String.valueOf(id));
             }
             mapList.add(gameData);
         }
 
-        GameGateAWS ggaws = new GameGateAWS();
-        GameGate oldGG = new GameGate();
+        UserGateAWS ggaws = new UserGateAWS();
+        UserGate oldGG = new UserGate();
 
-        ggaws.save(mapList);
+        ggaws.save(oldGG.load());
         outList = ggaws.load();
-        
+
     }
 
-    public GameGateAWS() {
+    public UserGateAWS() {
     }
 
-    public void save(List<HashMap<Integer, String>> myMaps){
+    public void save(List<HashMap> myMaps){
 
         String tableName;
 
@@ -47,16 +64,18 @@ public class GameGateAWS {
             Statement statement = connection.createStatement();
 
             for (HashMap<Integer, String> hMap : myMaps) {
-                tableName = hMap.get(-4);
-                if (connection.getMetaData().getTables("game_data", null, tableName, null).next()) {
-                    for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
-                        statement.executeUpdate("INSERT INTO " + tableName + " VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
-                                "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
+                tableName = "users";
+                if (connection.getMetaData().getTables("user_data", null, tableName, null).next()) {
+                    HashMap<String, List<Object>> users = myMaps.get(0);
+                    for (Map.Entry<String, List<Object>> integerStringEntry : users.entrySet()) {
+                        statement.executeUpdate("INSERT INTO " + tableName + " VALUES(" + integerStringEntry.getKey() + ",'" +
+                                integerStringEntry.getValue().get(0) + "') " +
+                                "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue().stream().map(String::valueOf).collect(Collectors.joining(",", "(", ")")) + "';");
                     }
                 } else {
                     System.out.println("Creating new table.");
 
-                    statement.execute("CREATE TABLE `" + tableName + "` (\n" +
+                    statement.execute("CREATE TABLE `" + "users" + "` (\n" +
                             "  `key` INT NOT NULL,\n" +
                             "  `value` MEDIUMTEXT NULL,\n" +
                             "  PRIMARY KEY (`key`));");
@@ -77,10 +96,10 @@ public class GameGateAWS {
 
     }
 
-    public List<HashMap<Integer, String>> load() {
+    public List<HashMap<String, List<Object>>> load() {
 
-        List<HashMap<Integer, String>> dbMaps = new ArrayList<>();
-        HashMap<Integer, String > currMap;
+        List<HashMap<String, List<Object>>> dbMaps = new ArrayList<>();
+        HashMap<String, List<Object>> currMap;
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
@@ -88,14 +107,14 @@ public class GameGateAWS {
             Statement statement = connection.createStatement();
             ResultSet resSet;
 
-            ResultSet myTables = connection.getMetaData().getTables("game_data", null, null, new String[]{"TABLE"});
+            ResultSet myTables = connection.getMetaData().getTables("user_data", null, null, new String[]{"TABLE"});
 
             while (myTables.next()) {
                 currMap = new HashMap<>();
                 resSet = statement.executeQuery("select * from " + myTables.getString(3));
 
                 while(resSet.next()) {
-                    currMap.put(resSet.getInt("key"), resSet.getString("value"));
+                    currMap.put(resSet.getString("key"), (List<Object>) resSet.getArray("value"));
                 }
                 dbMaps.add(currMap);
             }

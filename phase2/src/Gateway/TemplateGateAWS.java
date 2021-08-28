@@ -3,13 +3,29 @@ package Gateway;
 import java.sql.*;
 import java.util.*;
 
-public class GameGateAWS {
-    private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data";
+public class TemplateGateAWS {
+
+    /*
+     * Similar format as GameGate
+     * Each hashmap in the list of hashmaps should have this specific format:
+     *  _______________________________________
+     * |Key             | Value                |
+     * |_______________________________________|
+     * |0 (Name)        | "SampleTemplateOne"  |
+     * |1 (description) | "SampleOfTemplate"   |
+     * |2 (Numchoice)   | "3"                  |
+     * |3 (Scheme)      | "Black Times New R." |
+     * |_______________________________________|
+     *
+     * */
+
+
+    private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/template_data";
     private final String username = "admin";
     private final String password = "BossAcc!";
 
     public static void main(String[] args) {
-        List<HashMap<Integer, String>> mapList = new ArrayList<>();
+        List<HashMap> mapList = new ArrayList<>();
 
         List<HashMap<Integer, String>> outList = new ArrayList<>();
 
@@ -17,28 +33,28 @@ public class GameGateAWS {
 
         for (int i: ids) {
             HashMap<Integer, String> gameData = new HashMap<>();
-            gameData.put(-4, "test" + i);
-            gameData.put(-3, "author test");
-            gameData.put(-2, String.valueOf(true));
-            gameData.put(-1, String.valueOf(5));
+            gameData.put(0, "test" + i);
+            gameData.put(1, "author test");
+            gameData.put(2, String.valueOf(true));
+            gameData.put(3, String.valueOf(5));
             for (int id : ids) {
                 gameData.put(id, String.valueOf(id));
             }
             mapList.add(gameData);
         }
 
-        GameGateAWS ggaws = new GameGateAWS();
-        GameGate oldGG = new GameGate();
+        TemplateGateAWS ggaws = new TemplateGateAWS();
+        TemplateGate oldGG = new TemplateGate();
 
-        ggaws.save(mapList);
+        ggaws.save(oldGG.load());
         outList = ggaws.load();
-        
+
     }
 
-    public GameGateAWS() {
+    public TemplateGateAWS() {
     }
 
-    public void save(List<HashMap<Integer, String>> myMaps){
+    public void save(List<HashMap> myMaps){
 
         String tableName;
 
@@ -47,8 +63,8 @@ public class GameGateAWS {
             Statement statement = connection.createStatement();
 
             for (HashMap<Integer, String> hMap : myMaps) {
-                tableName = hMap.get(-4);
-                if (connection.getMetaData().getTables("game_data", null, tableName, null).next()) {
+                tableName = hMap.get(0).replaceAll(" ", "_");
+                if (connection.getMetaData().getTables("template_data", null, tableName, null).next()) {
                     for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
                         statement.executeUpdate("INSERT INTO " + tableName + " VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
                                 "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
@@ -88,7 +104,7 @@ public class GameGateAWS {
             Statement statement = connection.createStatement();
             ResultSet resSet;
 
-            ResultSet myTables = connection.getMetaData().getTables("game_data", null, null, new String[]{"TABLE"});
+            ResultSet myTables = connection.getMetaData().getTables("template_data", null, null, new String[]{"TABLE"});
 
             while (myTables.next()) {
                 currMap = new HashMap<>();
