@@ -100,6 +100,7 @@ public class GamePresenter{
      * @return string representing the game name the user opened in a message
      */
     public String displayMessages(Object suspendedObject, List<Message> messages) {
+        userChoice = null;
         Platform.runLater(() -> {
             List<TableColumn<Message, Object>> messageColumns = new ArrayList<>();
             //Time column (TableColumn<Message, Date>)
