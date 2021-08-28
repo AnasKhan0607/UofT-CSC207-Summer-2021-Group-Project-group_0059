@@ -231,7 +231,8 @@ public class GameEditController {
 
     private void addDialogue(String gameName, int id, int currentId){
         String newDialogue = gamePresenter.displayTextSceneInput(this,
-                "Enter the new choice you want to add to the dialogue with id " + id + ":",
+                "Enter the new choice you want to add to the dialogue with id " + id + ": Start with the choice then the " +
+                        "symbol #; then your dialouge and next question",
                 gamesUseCase.getGameAsString(gameName, 150, currentId));
         gameUseCase.addChoiceToDialogue(newDialogue, id);
     }

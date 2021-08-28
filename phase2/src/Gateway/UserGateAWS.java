@@ -69,8 +69,8 @@ public class UserGateAWS {
                     HashMap<String, List<Object>> users = myMaps.get(0);
                     for (Map.Entry<String, List<Object>> integerStringEntry : users.entrySet()) {
                         statement.executeUpdate("INSERT INTO " + tableName + " VALUES(" + integerStringEntry.getKey() + ",'" +
-                                integerStringEntry.getValue().stream().map(String::valueOf).collect(Collectors.joining(",", "[", "]")) + "') " +
-                                "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue().stream().map(String::valueOf).collect(Collectors.joining(",", "[", "]")) + "';");
+                                integerStringEntry.getValue().get(0) + "') " +
+                                "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue().stream().map(String::valueOf).collect(Collectors.joining(",", "(", ")")) + "';");
                     }
                 } else {
                     System.out.println("Creating new table.");
