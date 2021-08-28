@@ -10,7 +10,7 @@ import Interface.LoadSave;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
+
 import java.util.*;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -244,9 +244,32 @@ public class UserManager {
             return false;
         }
         //https://www.baeldung.com/java-random-string
-        byte[] array = new byte[8]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedPassword = new String(array, Charset.forName("UTF-8"));
+        // create a string of all characters
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        // create random string builder
+        StringBuilder sb = new StringBuilder();
+
+        // create an object of Random class
+        Random random = new Random();
+
+        // specify length of random string
+        int length = 8;
+
+        for(int i = 0; i < length; i++) {
+
+            // generate random index number
+            int index = random.nextInt(alphabet.length());
+
+            // get character specified by index
+            // from the string
+            char randomChar = alphabet.charAt(index);
+
+            // append the character to string builder
+            sb.append(randomChar);
+        }
+
+        String generatedPassword = sb.toString();
         resetPassword(username, generatedPassword);
         try {
             FileWriter myWriter = new FileWriter(username +".txt");
