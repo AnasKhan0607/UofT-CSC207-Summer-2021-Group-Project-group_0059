@@ -17,6 +17,10 @@ Design Patterns used for each branch and classes involved
         VBox (and some other javafx objects) in the way that is desired.
 - Template
     - Dependency Injection
+        - classes used: Template Manager, TemplateGate,
+         - Dependency injection was used to remove dependency between the Use Case and Gateway classes - by using the LoadSave interface,
+           the Use Case classes such as TemplateManager could use the LoadSave class as an injector for the TemplateGate classes,
+           so the services of the Gateway classes could be used (storing data in files outside the program) in the Use Case classes without hard dependencies.
 - User
     - Dependency Injection
         - Classes used: LoadSave, UserGate, MessageGate, UserManager, MessageManager, UserSignupController, UserLoginController
