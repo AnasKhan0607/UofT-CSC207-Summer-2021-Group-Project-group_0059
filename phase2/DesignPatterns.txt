@@ -1,7 +1,20 @@
 Design Patterns used for each branch and classes involved
 - Game
     - Dependency Injection
+        - Classes used: GameStorage, UserData, TemplateData
+        - Dependency Injection was used to remove the dependency between Game and GameTree
+        (using Game Storage) by injecting GameTree into Game as the type GameStorage which
+        is a interface that requires class that implements it to provide the storage service.
+        - Dependency injection was used to remove the dependency between Game controller and
+        the template controller (using TemplateData), and the game controller and the
+        user controller (Using userData) as these two interface provides service of providing
+        template data and userData. Both Template controller and user controller are injected
+        into the Game Controllers.
     - Adapter
+        - Classes used: GameWrapper, GamePresenter
+        - A wrapper class was used to wrap objects with VBox (and some other javafx objects),
+        implementing wrapper methods so that the GamePresenter class can interact with
+        VBox (and some other javafx objects) in the way that is desired.
 - Template
     - Dependency Injection
 - User
