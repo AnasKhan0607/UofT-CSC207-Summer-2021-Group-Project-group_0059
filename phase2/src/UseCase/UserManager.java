@@ -26,6 +26,7 @@ public class UserManager {
 
     /**
      * Creates a list of users using the UserGate class. and for every suspended user, checks his/her suspension end date that if it's today and decide whether to unsuspend automatically
+     * @param gate the object (its type is the LoadSave interface) used to access the UserGate methods
      */
     public UserManager(LoadSave gate){
         this.bufferedUsers = new ArrayList<>();
