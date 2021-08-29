@@ -25,7 +25,6 @@ public class MessageManager {
         bufferedMessages = new ArrayList<>();
         MG = gate1;
         um = new UserManager(gate2);
-        MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> tempMessages = (HashMap<String, List<Object>>) MG.load().get(0);
 
         for (Map.Entry mapElement :tempMessages.entrySet()){
