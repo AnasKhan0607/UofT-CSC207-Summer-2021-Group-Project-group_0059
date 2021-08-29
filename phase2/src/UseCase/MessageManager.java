@@ -21,10 +21,10 @@ public class MessageManager {
     /**
      * create a list of all messages obtained from file
      */
-    public MessageManager(LoadSave gate){
+    public MessageManager(LoadSave gate1, LoadSave gate2){
         bufferedMessages = new ArrayList<>();
-        MG = gate;
-        um = new UserManager(new UserGate());
+        MG = gate1;
+        um = new UserManager(gate2);
         MessageGate MG = new MessageGate();
         HashMap<String, List<Object>> tempMessages = (HashMap<String, List<Object>>) MG.load().get(0);
 

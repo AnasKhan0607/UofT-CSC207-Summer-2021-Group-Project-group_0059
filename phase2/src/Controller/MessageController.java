@@ -24,7 +24,8 @@ public class MessageController {
     public MessageController(String un){
         this.currentUserName = un;
         LoadSave gate = new MessageGate();
-        this.mm = new MessageManager(gate);
+        LoadSave gate2 = new UserGate();
+        this.mm = new MessageManager(gate, gate2);
 
     }
 
