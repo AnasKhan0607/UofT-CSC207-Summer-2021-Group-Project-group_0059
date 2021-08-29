@@ -38,7 +38,9 @@ public class UserSignupController {
         inputs.add("Username:");
         inputs.add("Password:");
         inputs.add("Enter your password again:");
-        List<String> userinputs = gamePresenter.displayInputs(this, inputs, "When creating your username, put 'Temp_' at the beginning for a Temporary account (lasting 30 days), otherwise input the username normally.");
+        List<String> userinputs = gamePresenter.displayInputs(this, inputs, "When creating your " +
+                "username, put 'Temp_' at the beginning for a Temporary account (lasting 30 days) or 'Admin_' at the " +
+                "beginning for an Admin account, otherwise input the username normally.");
         if (userinputs.get(1).equals(userinputs.get(2))){
             this.username = userinputs.get(0);
             if (testUM.SearchUser(this.username) != null) {
