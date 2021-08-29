@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * A Gateway class used to implement the LoadSave interface for loading and saving messages.
+ */
 public class MessageGate implements LoadSave {
     String myPath;
 
@@ -41,7 +44,7 @@ public class MessageGate implements LoadSave {
 
     /**
      * The load method reads the serialized txt file and returns a /List</Hashmap>>
-     * which represents the users.
+     * which represents the messages.
      * @return A list of Hashmaps that represents the saved users in the file.
      */
 
@@ -82,7 +85,7 @@ public class MessageGate implements LoadSave {
     }
 
     /**
-     * The save method takes a /List</Hashmap>> which represents the users
+     * The save method takes a /List</Hashmap>> which represents the messages
      * and saves it to a serialized txt file.
      * @param myMap The list of Hashmaps to be saved.
      */
