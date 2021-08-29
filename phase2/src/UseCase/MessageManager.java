@@ -20,6 +20,8 @@ public class MessageManager {
 
     /**
      * create a list of all messages obtained from file
+     * @param gate1 the object (its type is the LoadSave interface) used to access the MessageGate methods
+     * @param gate2 the object (its type is the LoadSave interface) used to access the UserGate methods
      */
     public MessageManager(LoadSave gate1, LoadSave gate2){
         bufferedMessages = new ArrayList<>();
