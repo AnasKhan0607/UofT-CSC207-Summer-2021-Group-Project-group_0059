@@ -17,5 +17,5 @@ In the Template editing interface you choose one of the available templates and 
 
 
 design1.png  //the uml of Game
-design2.pdf   //the uml of User,Message
+design2.png   //the uml of User,Message
 design3.png  //the uml of Template
