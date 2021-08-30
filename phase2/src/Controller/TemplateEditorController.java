@@ -108,8 +108,8 @@ public class TemplateEditorController implements TemplateData {
                         }
                         if (edit_choice == 0) {
                             List<String> newname = gamePresenter.displayInputs(this, inputs, "Please enter the new name.");
-                            templatename = newname.get(0);
                             this.templates.setNewName(templatename, newname.get(0));
+                            templatename = newname.get(0);
                             gamePresenter.displayTextScene(this, "BACK", "The name is successfully changed.");
                             break;
                         }
