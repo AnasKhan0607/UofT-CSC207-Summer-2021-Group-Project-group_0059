@@ -74,7 +74,7 @@ public class GamePlayController {
         ArrayList<Integer> childrenChoiceIds = gameUseCase.getDialogueChoiceIds(dialogueId);
         ArrayList<String> choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
 
-        presentGame(dialogue.substring(5), childrenChoiceIds, choices);
+        presentGame(dialogue, childrenChoiceIds, choices);
     }
 
     /**
@@ -92,7 +92,7 @@ public class GamePlayController {
         ArrayList<Integer> childrenChoiceIds = gameUseCase.getDialogueChoiceIds(dialogueId);
         ArrayList<String> choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
 
-        presentGame(dialogue.substring(5), childrenChoiceIds, choices);
+        presentGame(dialogue, childrenChoiceIds, choices);
     }
 
     private boolean checkGameExistense(String gameName) {
