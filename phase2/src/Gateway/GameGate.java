@@ -1,11 +1,11 @@
 package Gateway;
 
-import Entity.Game;
+import Interface.LoadSave;
 
 import java.sql.*;
 import java.util.*;
 
-public class GameGate {
+public class GameGate implements LoadSave {
     private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data";
     private final String username = "admin";
     private final String password = "BossAcc!";
@@ -13,7 +13,7 @@ public class GameGate {
 
     public static void main(String[] args) {
 
-        List<HashMap> mapList = new ArrayList<>();
+        List<HashMap<Integer, String>> mapList = new ArrayList<>();
 
         List<HashMap<Integer, String>> outList;
 
@@ -39,14 +39,14 @@ public class GameGate {
         }
         GameGateOld ggo = new GameGateOld();
         GameGate gg = new GameGate();
-        gg.save(mapList);
+        // gg.save(mapList);
 
     }
 
     public GameGate() {
     }
 
-    public void save(List<HashMap> myMaps){
+    public void save(List<HashMap<Integer, String>> myMaps){
 
         String tableName;
 

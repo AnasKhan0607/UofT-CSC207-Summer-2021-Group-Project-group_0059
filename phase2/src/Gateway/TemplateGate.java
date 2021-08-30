@@ -1,9 +1,11 @@
 package Gateway;
 
+import Interface.LoadSave;
+
 import java.sql.*;
 import java.util.*;
 
-public class TemplateGate {
+public class TemplateGate implements LoadSave {
 
     /*
      * Similar format as GameGate
@@ -27,7 +29,7 @@ public class TemplateGate {
     public TemplateGate() {
     }
 
-    public void save(List<HashMap> myMaps){
+    public void save(List<HashMap<Integer, String>> myMaps){
 
         String tableName;
 
