@@ -5,6 +5,9 @@ import Entity.GameTree;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interface for the storage of Game data.
+ */
 public interface GameStorage {
     String toString();
     String toString(int id);

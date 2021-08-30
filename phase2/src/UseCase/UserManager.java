@@ -6,10 +6,11 @@ import Entity.RegularUser;
 import Entity.TempUser;
 import Entity.User;
 import Gateway.UserGate;
+import Interface.LoadSave;
 
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.nio.charset.Charset;
 import java.util.*;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -21,15 +22,15 @@ import java.util.regex.Pattern;
  */
 public class UserManager {
     private List<User> bufferedUsers;
+    private LoadSave myGate;
 
     /**
      * Creates a list of users using the UserGate class. and for every suspended user, checks his/her suspension end date that if it's today and decide whether to unsuspend automatically
-     * @param gate the object (its type is the LoadSave interface) used to access the Gateway methods
+     * @param gate the object (its type is the LoadSave interface) used to access the UserGate methods
      */
-    public UserManager(){
+    public UserManager(LoadSave gate){
         this.bufferedUsers = new ArrayList<>();
-
-        UserGate myGate = new UserGate();
+        this.myGate = gate;
         HashMap<String, List<Object>> tempUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
         for (Map.Entry <String, List<Object>> mapElement :tempUsers.entrySet()){
@@ -61,14 +62,14 @@ public class UserManager {
                 this.bufferedUsers.add(tempUser);
             }
 
-                if (suspension){
-                    LocalDate suspensionEndTime = (LocalDate) lst.get(2);
-                    if (suspensionEndTime.equals(LocalDate.now())){
-                        unsuspendUser(username);
-                    } else if (suspensionEndTime == null){
-                        unsuspendUser(username);
-                    }
+            if (suspension){
+                LocalDate suspensionEndTime = (LocalDate) lst.get(2);
+                if (suspensionEndTime.equals(LocalDate.now())){
+                    unsuspendUser(username);
+                } else if (suspensionEndTime == null){
+                    unsuspendUser(username);
                 }
+            }
         }
         /*buffered array gets updated with what's in tempUsers*/
     }
@@ -196,13 +197,13 @@ public class UserManager {
         for (i = 0; i < bufferedUsers.size(); i++) {
             temp = bufferedUsers.get(i);
             if (temp.getUsername().equals(username)) {
-               temp.raiseFlag();
+                temp.raiseFlag();
 
-               suspensionEndTime = LocalDate.now().plusDays(x);
-               temp.setsuspensionEndTime(suspensionEndTime);
-               result = true;
-               save(temp, true, suspensionEndTime);
-               break;
+                suspensionEndTime = LocalDate.now().plusDays(x);
+                temp.setsuspensionEndTime(suspensionEndTime);
+                result = true;
+                save(temp, true, suspensionEndTime);
+                break;
             }
         }
 
@@ -243,32 +244,9 @@ public class UserManager {
             return false;
         }
         //https://www.baeldung.com/java-random-string
-        // create a string of all characters
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        // create random string builder
-        StringBuilder sb = new StringBuilder();
-
-        // create an object of Random class
-        Random random = new Random();
-
-        // specify length of random string
-        int length = 8;
-
-        for(int i = 0; i < length; i++) {
-
-            // generate random index number
-            int index = random.nextInt(alphabet.length());
-
-            // get character specified by index
-            // from the string
-            char randomChar = alphabet.charAt(index);
-
-            // append the character to string builder
-            sb.append(randomChar);
-        }
-
-        String generatedPassword = sb.toString();
+        byte[] array = new byte[8]; // length is bounded by 7
+        new Random().nextBytes(array);
+        String generatedPassword = new String(array, Charset.forName("UTF-8"));
         resetPassword(username, generatedPassword);
         try {
             FileWriter myWriter = new FileWriter(username +".txt");
@@ -305,7 +283,6 @@ public class UserManager {
      * @param suspensionEndTime the time when user's suspension is over(null if not suspended)
      */
     private void save(User user, boolean status, LocalDate suspensionEndTime){
-        UserGate myGate = new UserGate();
         HashMap<String, List<Object>> oldUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
 
 

@@ -1,6 +1,9 @@
 package Controller;
 
 
+import Gateway.MessageGate;
+import Gateway.UserGate;
+import Interface.LoadSave;
 import Presenter.GamePresenter;
 
 import UseCase.MessageManager;
@@ -12,7 +15,7 @@ import java.util.*;
  */
 public class MessageController {
     private String currentUserName;
-    private MessageManager mm = new MessageManager();
+    private MessageManager mm;
 
     /**
      * create the controller, call to get Messages loaded and also load the one operating
@@ -20,6 +23,9 @@ public class MessageController {
      */
     public MessageController(String un){
         this.currentUserName = un;
+        LoadSave gate = new MessageGate();
+        LoadSave gate2 = new UserGate();
+        this.mm = new MessageManager(gate, gate2);
 
     }
 
