@@ -1,7 +1,5 @@
 package Gateway;
 
-import Interface.LoadSave;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,11 +7,11 @@ import java.util.List;
 
 /**
  *
- * A Gateway class used to implement <I>LoadSave</I> for loading and saving users.
+ * A Gateway class used to implement <I>GameTemplateLoadSave</I> for loading and saving users.
  *
  */
 
-public class UserGateOld implements LoadSave {
+public class UserGateOld {
 
     String myPath;
 

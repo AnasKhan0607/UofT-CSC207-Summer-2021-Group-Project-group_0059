@@ -37,7 +37,7 @@ public class UserGateAWS {
         }
         GameGateOld ggo = new GameGateOld();
         GameGate gg = new GameGate();
-        gg.save(mapList);
+//        gg.save(mapList);
 
     }
 

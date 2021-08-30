@@ -1,11 +1,11 @@
 package Gateway;
 
-import Interface.LoadSave;
+import Interface.GameTemplateLoadSave;
 
 import java.sql.*;
 import java.util.*;
 
-public class TemplateGate implements LoadSave {
+public class TemplateGate implements GameTemplateLoadSave {
 
     /*
      * Similar format as GameGate

@@ -6,7 +6,7 @@ import Entity.Message;
 import Entity.User;
 import Gateway.MessageGate;
 import Gateway.UserGate;
-import Interface.LoadSave;
+import Interface.UserMessageLoadSave;
 
 import java.util.*;
 /**
@@ -16,18 +16,18 @@ import java.util.*;
 public class MessageManager {
     private List<Message> bufferedMessages;
     private UserManager um;
-    private LoadSave MG;
+    private UserMessageLoadSave MG;
 
     /**
      * create a list of all messages obtained from file
-     * @param gate1 the object (its type is the LoadSave interface) used to access the MessageGate methods
-     * @param gate2 the object (its type is the LoadSave interface) used to access the UserGate methods
+     * @param gate1 the object (its type is the UserMessageLoadSave interface) used to access the MessageGate methods
+     * @param gate2 the object (its type is the UserMessageLoadSave interface) used to access the UserGate methods
      */
-    public MessageManager(LoadSave gate1, LoadSave gate2){
+    public MessageManager(UserMessageLoadSave gate1, UserMessageLoadSave gate2){
         bufferedMessages = new ArrayList<>();
         MG = gate1;
         um = new UserManager(gate2);
-        HashMap<String, List<Object>> tempMessages = (HashMap<String, List<Object>>) MG.load().get(0);
+        HashMap<String, List<Object>> tempMessages = MG.load().get(0);
 
         for (Map.Entry mapElement :tempMessages.entrySet()){
             String id = (String)mapElement.getKey();
@@ -153,7 +153,7 @@ public class MessageManager {
         sections.add(time);
         sections.add(status);
         oldMessages.put(id, sections);
-        List<HashMap> MessageData = new ArrayList<HashMap>();
+        List<HashMap<String, List<Object>>> MessageData = new ArrayList<>();
         MessageData.add(oldMessages);
 
         MG.save(MessageData);
@@ -180,7 +180,7 @@ public class MessageManager {
         sections.add(time);
         sections.add(status);
         oldMessages.remove(id, sections);
-        List<HashMap> MessageData = new ArrayList<HashMap>();
+        List<HashMap<String, List<Object>>> MessageData = new ArrayList<>();
         MessageData.add(oldMessages);
 
         MG.save(MessageData);

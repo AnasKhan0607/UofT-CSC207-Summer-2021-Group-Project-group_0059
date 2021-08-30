@@ -1,5 +1,5 @@
 package Gateway;
-import Interface.LoadSave;
+import Interface.GameTemplateLoadSave;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,11 +7,11 @@ import java.util.List;
 
 /**
  *
- * A Gateway class used to implement <I>LoadSave</I> for loading and saving games.
+ * A Gateway class used to implement <I>GameTemplateLoadSave</I> for loading and saving games.
  *
  */
 
-public class GameGateOld implements LoadSave {
+public class GameGateOld implements GameTemplateLoadSave {
 
     /*
      * Each hashmap in the list of hashmaps should have this specific format:
@@ -67,11 +67,11 @@ public class GameGateOld implements LoadSave {
      * @return A list of Hashmaps that represents the saved games in the file.
      */
 
-    public List<HashMap> load() {
+    public List<HashMap<Integer, String>> load() {
 
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
 
-        List<HashMap> myMaps = new ArrayList<>();
+        List<HashMap<Integer, String>> myMaps = new ArrayList<>();
 
         try {
 //            File gameFile = new File(myPath);
@@ -82,7 +82,7 @@ public class GameGateOld implements LoadSave {
             ObjectInputStream objectInput
                     = new ObjectInputStream(fileInput);
 
-            myMaps = (List<HashMap>) objectInput.readObject();
+            myMaps = (List<HashMap<Integer, String>>) objectInput.readObject();
 
             objectInput.close();
             fileInput.close();
@@ -108,7 +108,7 @@ public class GameGateOld implements LoadSave {
      * @param myMap The list of Hashmaps to be saved.
      */
 
-    public void save(List<HashMap> myMap){
+    public void save(List<HashMap<Integer, String>> myMap){
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
         try {
             FileOutputStream myFileOutStream

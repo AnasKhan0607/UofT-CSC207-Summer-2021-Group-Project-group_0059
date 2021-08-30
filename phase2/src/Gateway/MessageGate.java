@@ -1,6 +1,6 @@
 package Gateway;
 
-import Interface.LoadSave;
+import Interface.UserMessageLoadSave;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * A Gateway class used to implement the LoadSave interface for loading and saving messages.
+ * A Gateway class used to implement the GameTemplateLoadSave interface for loading and saving messages.
  */
-public class MessageGate implements LoadSave {
+public class MessageGate implements UserMessageLoadSave {
     String myPath;
 
     /**
@@ -48,11 +48,11 @@ public class MessageGate implements LoadSave {
      * @return A list of Hashmaps that represents the saved users in the file.
      */
 
-    public List<HashMap> load() {
+    public List<HashMap<String, List<Object>>> load() {
 
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
 
-        List<HashMap> myMaps = new ArrayList<>();
+        List<HashMap<String, List<Object>>> myMaps = new ArrayList<>();
 
         try {
 //            File userFile = new File(myPath);
@@ -63,14 +63,14 @@ public class MessageGate implements LoadSave {
             ObjectInputStream objectInput
                     = new ObjectInputStream(fileInput);
 
-            myMaps = (List<HashMap>) objectInput.readObject();
+            myMaps = (List<HashMap<String, List<Object>>>) objectInput.readObject();
 
             objectInput.close();
             fileInput.close();
         }
 
         catch (IOException obj1) {
-            myMaps.add(new HashMap<String, String>());
+            myMaps.add(new HashMap<>());
             System.out.println("Loading...\n" +
                     "No Saved Messages.");
 //            obj1.printStackTrace();
@@ -90,7 +90,7 @@ public class MessageGate implements LoadSave {
      * @param myMap The list of Hashmaps to be saved.
      */
 
-    public void save(List<HashMap> myMap){
+    public void save(List<HashMap<String, List<Object>>> myMap){
         // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
         try {
             FileOutputStream myFileOutStream

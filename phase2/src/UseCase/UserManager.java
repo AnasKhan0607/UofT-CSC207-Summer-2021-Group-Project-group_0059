@@ -6,7 +6,7 @@ import Entity.RegularUser;
 import Entity.TempUser;
 import Entity.User;
 import Gateway.UserGate;
-import Interface.LoadSave;
+import Interface.UserMessageLoadSave;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,16 +22,16 @@ import java.util.regex.Pattern;
  */
 public class UserManager {
     private List<User> bufferedUsers;
-    private LoadSave myGate;
+    private UserMessageLoadSave myGate;
 
     /**
      * Creates a list of users using the UserGate class. and for every suspended user, checks his/her suspension end date that if it's today and decide whether to unsuspend automatically
-     * @param gate the object (its type is the LoadSave interface) used to access the UserGate methods
+     * @param gate the object (its type is the UserMessageLoadSave interface) used to access the UserGate methods
      */
-    public UserManager(LoadSave gate){
+    public UserManager(UserMessageLoadSave gate){
         this.bufferedUsers = new ArrayList<>();
         this.myGate = gate;
-        HashMap<String, List<Object>> tempUsers = (HashMap<String, List<Object>>) myGate.load().get(0);
+        HashMap<String, List<Object>> tempUsers = myGate.load().get(0);
 
         for (Map.Entry <String, List<Object>> mapElement :tempUsers.entrySet()){
             String username = mapElement.getKey();
@@ -298,7 +298,7 @@ public class UserManager {
             sections.add(endDate);
         }
         oldUsers.put(username, sections);
-        List<HashMap> userData = new ArrayList<HashMap>();
+        List<HashMap<String, List<Object>>> userData = new ArrayList<>();
         userData.add(oldUsers);
 
         myGate.save(userData);

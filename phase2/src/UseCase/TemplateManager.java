@@ -20,7 +20,7 @@ public class TemplateManager {
         this.templates = new ArrayList<>();
         TemplateGate t = new TemplateGate();
 
-        List<HashMap> template_maps = t.load();
+        List<HashMap<Integer, String>> template_maps = t.load();
         for (HashMap<Integer, String> template_map : template_maps){
             Template a = new Template(template_map.get(0));
             a.setTemplatename(template_map.get(0));
@@ -35,7 +35,7 @@ public class TemplateManager {
      * Saves the updated list of templates into the file.
      */
     public void Save_changes(){
-        List<HashMap> template_maps = new ArrayList<>();
+        List<HashMap<Integer, String>> template_maps = new ArrayList<>();
         TemplateGate t = new TemplateGate();
         for (Template template : this.templates){
             HashMap<Integer, String> template_map = new HashMap<>();

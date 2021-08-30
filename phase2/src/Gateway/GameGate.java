@@ -1,11 +1,11 @@
 package Gateway;
 
-import Interface.LoadSave;
+import Interface.GameTemplateLoadSave;
 
 import java.sql.*;
 import java.util.*;
 
-public class GameGate implements LoadSave {
+public class GameGate implements GameTemplateLoadSave {
     private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data";
     private final String username = "admin";
     private final String password = "BossAcc!";
@@ -33,13 +33,13 @@ public class GameGate implements LoadSave {
             gameData.put(-3, "author");
             gameData.put(-2, "true");
             gameData.put(-1, "5");
-            gameData.put(0, "#;Dialogue 1");
+            gameData.put(0, " #;Dialogue 1");
             mapList.add(gameData);
 
         }
         GameGateOld ggo = new GameGateOld();
         GameGate gg = new GameGate();
-        // gg.save(mapList);
+        gg.save(mapList);
 
     }
 

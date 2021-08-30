@@ -3,7 +3,7 @@ package Controller;
 
 import Gateway.MessageGate;
 import Gateway.UserGate;
-import Interface.LoadSave;
+import Interface.UserMessageLoadSave;
 import Presenter.GamePresenter;
 
 import UseCase.MessageManager;
@@ -23,8 +23,8 @@ public class MessageController {
      */
     public MessageController(String un){
         this.currentUserName = un;
-        LoadSave gate = new MessageGate();
-        LoadSave gate2 = new UserGate();
+        UserMessageLoadSave gate = new MessageGate();
+        UserMessageLoadSave gate2 = new UserGate();
         this.mm = new MessageManager(gate, gate2);
 
     }

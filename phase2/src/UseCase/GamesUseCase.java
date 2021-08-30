@@ -1,10 +1,6 @@
 package UseCase;
-import Controller.GameMainController;
-import Controller.RegularUserNavigatorController;
-import Controller.TemplateEditorController;
 import Entity.Game;
-import Gateway.GameGate;
-import Interface.LoadSave;
+import Interface.GameTemplateLoadSave;
 
 import java.util.*;
 /**
@@ -17,16 +13,16 @@ public class GamesUseCase {
 
     private ArrayList<Game> publicGames = new ArrayList<>();
     private ArrayList<Game> privateGames = new ArrayList<>();
-    private LoadSave database;
+    private GameTemplateLoadSave database;
     /**
      * Contructor for the class. Gets all the games saved using GameGate and load them into this.publicGames and this.privateGames
      *
      * @param  database A <database> the stored load save which store list of hashmap
      *                  which can be transformed into needed data for a Game entity.
      */
-    public GamesUseCase(LoadSave database){
+    public GamesUseCase(GameTemplateLoadSave database){
         this.database = database;
-        List<HashMap> gamesData = database.load();
+        List<HashMap<Integer, String>> gamesData = database.load();
         for (HashMap gameData: gamesData){
             Game game = hashMapToGame(gameData);
             if (game.getGamePublic()){
@@ -220,7 +216,7 @@ public class GamesUseCase {
      * method for saving the created game if the author isn't Guest user.
      */
     public void saveGames(){
-        List<HashMap> gamesData = new ArrayList<>();
+        List<HashMap<Integer, String>> gamesData = new ArrayList<>();
         for (Game game: this.privateGames){
             if (!game.getGameAuthor().equals("Guest")){
                 gamesData.add(this.gameToHashMap(game));
