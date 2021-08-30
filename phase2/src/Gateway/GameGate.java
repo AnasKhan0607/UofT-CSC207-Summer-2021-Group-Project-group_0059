@@ -1,130 +1,119 @@
 package Gateway;
-import Interface.LoadSave;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import Entity.Game;
 
-/**
- *
- * A Gateway class used to implement <I>LoadSave</I> for loading and saving games.
- *
- */
+import java.sql.*;
+import java.util.*;
 
-public class GameGate implements LoadSave {
+public class GameGate {
+    private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data";
+    private final String username = "admin";
+    private final String password = "BossAcc!";
 
-    /*
-     * Each hashmap in the list of hashmaps should have this specific format:
-     *  _______________________________________
-     * |Key             | Value                |
-     * |_______________________________________|
-     * |-4 (Name)       | "Bruhther's Broments"|
-     * |-3 (Author)     | "Le Bruh"            |
-     * |-2 (Public)     | "false"              |
-     * |-1 (ChoiceLimit)| "4"                  |
-     * |-5 (Stylesheet) | "Chill"              |
-     * |0               | "Dialogue 0"         |
-     * |1               | "Dialogue 1"         |
-     * |2               | "Dialogue 2"         |
-     * |...             | ...                  |
-     * |_______________________________________|
-     *
-     * */
-    String myPath;
 
-    /**
-     * The gateway's constructor that gets a relative path for the current directory.
-     */
+    public static void main(String[] args) {
 
-    public GameGate(){
-        this.myPath = findSaveGameFile(System.getProperty("user.dir"));
+        List<HashMap> mapList = new ArrayList<>();
+
+        List<HashMap<Integer, String>> outList;
+
+
+        for (int i: Arrays.asList(1, 2, 3)){
+
+//            gameData.put(-4, game.getGameName());
+//            gameData.put(-3, game.getGameAuthor());
+//            gameData.put(-2, String.valueOf(game.getGamePublic()));
+//            gameData.put(-1, String.valueOf(game.getchoiceNumLimit()));
+//            gameData.put(-5, game.getStyleSheetName());
+
+            HashMap<Integer, String> gameData = new HashMap<>();
+            gameData.put(-100, "game");
+            gameData.put(-5, "blue");
+            gameData.put(-4, "Game " + i);
+            gameData.put(-3, "author");
+            gameData.put(-2, "true");
+            gameData.put(-1, "5");
+            gameData.put(0, "#;Dialogue 1");
+            mapList.add(gameData);
+
+        }
+        GameGateOld ggo = new GameGateOld();
+        GameGate gg = new GameGate();
+        gg.save(mapList);
+
     }
 
-    private String findSaveGameFile(String filePath){
-        File dir = new File(filePath);
-        File[] directoryListing = dir.listFiles();
-        String foundPath = "";
+    public GameGate() {
+    }
 
-        if (directoryListing != null) {
-            for (File child : directoryListing) {
-                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("GameData.txt")){
-                    return child.getAbsolutePath();
-                }
-                else{
-                    String path = findSaveGameFile(child.getAbsolutePath());
-                    if (!path.equals("")){
-                        return path;
+    public void save(List<HashMap> myMaps){
+
+        String tableName;
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+
+            for (HashMap<Integer, String> hMap : myMaps) {
+                tableName = hMap.get(-4);
+                if (connection.getMetaData().getTables("game_data", null, tableName, null).next()) {
+                    for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
+                        statement.executeUpdate("INSERT INTO `" + tableName + "` VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
+                                "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
                     }
+                } else {
+                    System.out.println("Creating new table.");
+
+                    statement.execute("CREATE TABLE `" + tableName + "` (\n" +
+                            "  `key` INT NOT NULL,\n" +
+                            "  `value` MEDIUMTEXT NULL,\n" +
+                            "  PRIMARY KEY (`key`));");
+
+                    for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
+                        statement.executeUpdate("INSERT INTO `" + tableName + "` VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
+                                "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
+                    }
+
                 }
             }
+            statement.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error connecting!");
+            e.printStackTrace();
         }
-        return foundPath;
+
     }
 
-    /**
-     * The load method reads the serialized txt file and returns a /List</Hashmap>>
-     * which represents the games.
-     * @return A list of Hashmaps that represents the saved games in the file.
-     */
+    public List<HashMap<Integer, String>> load() {
 
-    public List<HashMap> load() {
-
-        // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
-
-        List<HashMap> myMaps = new ArrayList<>();
+        List<HashMap<Integer, String>> dbMaps = new ArrayList<>();
+        HashMap<Integer, String > currMap;
 
         try {
-//            File gameFile = new File(myPath);
-//            gameFile.createNewFile();
+            Connection connection = DriverManager.getConnection(url, username, password);
+            connection.setSchema("game_data");
+            Statement statement = connection.createStatement();
+            ResultSet resSet;
 
-            FileInputStream fileInput = new FileInputStream(myPath);
+            ResultSet myTables = connection.getMetaData().getTables("game_data", null, null, new String[]{"TABLE"});
 
-            ObjectInputStream objectInput
-                    = new ObjectInputStream(fileInput);
+            while (myTables.next()) {
+                currMap = new HashMap<>();
+                resSet = statement.executeQuery("select * from `" + myTables.getString(3) + "`");
 
-            myMaps = (List<HashMap>) objectInput.readObject();
+                while(resSet.next()) {
+                    currMap.put(resSet.getInt("key"), resSet.getString("value"));
+                }
+                dbMaps.add(currMap);
+            }
 
-            objectInput.close();
-            fileInput.close();
+        } catch (SQLException e) {
+            System.out.println("Error connecting!");
+            e.printStackTrace();
         }
 
-        catch (IOException obj1) {
-            System.out.println("Loading...\n" +
-                    "No Saved Games.");
-
-        }
-
-        catch (ClassNotFoundException obj2) {
-            System.out.println("Class not found!");
-
-        }
-
-        return myMaps;
+        return dbMaps;
     }
 
-    /**
-     * The save method takes a /List</Hashmap>> which represents the games
-     * and saves it to a serialized txt file.
-     * @param myMap The list of Hashmaps to be saved.
-     */
-
-    public void save(List<HashMap> myMap){
-        // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
-        try {
-            FileOutputStream myFileOutStream
-                    = new FileOutputStream(myPath);
-
-            ObjectOutputStream myObjectOutStream
-                    = new ObjectOutputStream(myFileOutStream);
-
-            myObjectOutStream.writeObject(myMap);
-
-            myObjectOutStream.close();
-            myFileOutStream.close();
-        }
-        catch (IOException e) {
-            System.out.println(e);
-        }
-    }
 }

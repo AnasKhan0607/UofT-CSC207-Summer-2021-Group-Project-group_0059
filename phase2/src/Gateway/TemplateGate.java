@@ -1,19 +1,9 @@
 package Gateway;
 
-import Interface.LoadSave;
+import java.sql.*;
+import java.util.*;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-/**
- *
- * A Gateway class used to implement <I>LoadSave</I> for loading and saving templates.
- *
- */
-
-public class TemplateGate implements LoadSave {
+public class TemplateGate {
 
     /*
      * Similar format as GameGate
@@ -26,106 +16,85 @@ public class TemplateGate implements LoadSave {
      * |2 (Numchoice)   | "3"                  |
      * |3 (Scheme)      | "Black Times New R." |
      * |_______________________________________|
-     * Remember that java hashmap is just dict in python
+     *
      * */
 
-    String myPath;
 
-    /**
-     * The gateway's constructor that gets a relative path for the current directory.
-     */
+    private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/template_data";
+    private final String username = "admin";
+    private final String password = "BossAcc!";
 
-    public TemplateGate(){
-        this.myPath = findSaveTemplateFile(System.getProperty("user.dir"));
+    public TemplateGate() {
     }
 
-    private String findSaveTemplateFile(String filePath){
-        File dir = new File(filePath);
-        File[] directoryListing = dir.listFiles();
-        String foundPath = "";
+    public void save(List<HashMap> myMaps){
 
-        if (directoryListing != null) {
-            for (File child : directoryListing) {
-                if(child.getAbsolutePath().contains("data") && child.getAbsolutePath().contains("TemplateData.txt")){
-                    return child.getAbsolutePath();
-                }
-                else{
-                    String path = findSaveTemplateFile(child.getAbsolutePath());
-                    if (!path.equals("")){
-                        return path;
+        String tableName;
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = connection.createStatement();
+
+            for (HashMap<Integer, String> hMap : myMaps) {
+                tableName = hMap.get(0);
+                if (connection.getMetaData().getTables("template_data", null, tableName, null).next()) {
+                    for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
+                        statement.executeUpdate("INSERT INTO `" + tableName + "` VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
+                                "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
                     }
+                } else {
+                    System.out.println("Creating new table.");
+
+                    statement.execute("CREATE TABLE `" + tableName + "` (\n" +
+                            "  `key` INT NOT NULL,\n" +
+                            "  `value` MEDIUMTEXT NULL,\n" +
+                            "  PRIMARY KEY (`key`));");
+
+                    for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
+                        statement.executeUpdate("INSERT INTO `" + tableName + "` VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
+                                "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
+                    }
+
                 }
             }
+            statement.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error connecting!");
+            e.printStackTrace();
         }
-        return foundPath;
+
     }
 
-    /**
-     * The load method reads the serialized txt file and returns a /List</Hashmap>>
-     * which represents the templates.
-     * @return A list of Hashmaps that represents the saved templates in the file.
-     */
+    public List<HashMap<Integer, String>> load() {
 
-    public List<HashMap> load() {
-
-        // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
-
-        List<HashMap> myMaps = new ArrayList<>();
+        List<HashMap<Integer, String>> dbMaps = new ArrayList<>();
+        HashMap<Integer, String > currMap;
 
         try {
-            File templateFile = new File(myPath);
-            templateFile.createNewFile();
+            Connection connection = DriverManager.getConnection(url, username, password);
+            connection.setSchema("game_data");
+            Statement statement = connection.createStatement();
+            ResultSet resSet;
 
-            FileInputStream fileInput = new FileInputStream(myPath);
+            ResultSet myTables = connection.getMetaData().getTables("template_data", null, null, new String[]{"TABLE"});
 
-            ObjectInputStream objectInput
-                    = new ObjectInputStream(fileInput);
+            while (myTables.next()) {
+                currMap = new HashMap<>();
+                resSet = statement.executeQuery("select * from `" + myTables.getString(3) + "`");
 
-            myMaps = (List<HashMap>) objectInput.readObject();
+                while(resSet.next()) {
+                    currMap.put(resSet.getInt("key"), resSet.getString("value"));
+                }
+                dbMaps.add(currMap);
+            }
 
-            objectInput.close();
-            fileInput.close();
+        } catch (SQLException e) {
+            System.out.println("Error connecting!");
+            e.printStackTrace();
         }
 
-        catch (IOException obj1) {
-            System.out.println("Loading...\n" +
-                    "No Saved Templates.");
-
-        }
-
-        catch (ClassNotFoundException obj2) {
-            System.out.println("Class not found");
-
-        }
-
-        return myMaps;
+        return dbMaps;
     }
-
-    /**
-     * The save method takes a /List</Hashmap>> which represents the templates
-     * and saves it to a serialized txt file.
-     * @param myMap The list of Hashmaps to be saved.
-     */
-
-    // an arraylist will be passed here
-    public void save(List<HashMap> myMap){
-        // Source: https://www.geeksforgeeks.org/how-to-serialize-hashmap-in-java/
-        try {
-            FileOutputStream myFileOutStream
-                    = new FileOutputStream(myPath);
-
-            ObjectOutputStream myObjectOutStream
-                    = new ObjectOutputStream(myFileOutStream);
-
-            myObjectOutStream.writeObject(myMap);
-
-            myObjectOutStream.close();
-            myFileOutStream.close();
-        }
-        catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
 
 }
