@@ -136,8 +136,8 @@ public class GamePlayController {
             }
             else{
                 ArrayList<String> a = new ArrayList<String>();
-                for (String chice : choices){
-                    String c = chice.split("#;")[0];
+                for (String choice : choices){
+                    String c = choice.split("#;")[0];
                     a.add(c);
                 }
                 userChoice = childrenChoiceIds.get(gamePresenter.displayChoices(this, a, d));

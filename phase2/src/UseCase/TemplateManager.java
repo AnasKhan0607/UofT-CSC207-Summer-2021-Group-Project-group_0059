@@ -40,6 +40,7 @@ public class TemplateManager {
         for (Template template : this.templates){
             HashMap<Integer, String> template_map = new HashMap<>();
             template_map.put(0, template.getTemplatename());
+            System.out.println(template.getTemplatename());
             template_map.put(1, template.getDescription());
             template_map.put(2, Integer.toString(template.getNumchoice()));
             template_map.put(3, template.getScheme());
