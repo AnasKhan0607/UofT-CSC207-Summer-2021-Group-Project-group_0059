@@ -58,7 +58,7 @@ public class GameGate implements GameTemplateLoadSave {
                 tableName = hMap.get(-4);
                 if (connection.getMetaData().getTables("game_data", null, tableName, null).next()) {
 
-                    statement.executeUpdate("DROP TABLE `" + tableName + "`");
+                    statement.executeUpdate("DROP TABLE `" + tableName + "`;");
 
                     statement.execute("CREATE TABLE `" + tableName + "` (\n" +
                             "  `key` INT NOT NULL,\n" +

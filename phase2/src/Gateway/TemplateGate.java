@@ -41,7 +41,7 @@ public class TemplateGate implements GameTemplateLoadSave {
                 tableName = hMap.get(0);
                 if (connection.getMetaData().getTables("template_data", null, tableName, null).next()) {
 
-                    statement.executeUpdate("DROP TABLE `" + tableName + "`");
+                    statement.executeUpdate("DROP TABLE `" + tableName + "`;");
 
                     statement.execute("CREATE TABLE `" + tableName + "` (\n" +
                             "  `key` INT NOT NULL,\n" +
