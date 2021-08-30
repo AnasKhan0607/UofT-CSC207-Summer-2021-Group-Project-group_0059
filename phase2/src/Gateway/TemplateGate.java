@@ -37,6 +37,13 @@ public class TemplateGate implements GameTemplateLoadSave {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
 
+            Connection connDel = DriverManager.getConnection(url, username, password);
+            ResultSet delTabs = connDel.getMetaData().getTables("template_data", null, null, new String[]{"TABLE"});
+
+            while (delTabs.next()) {
+                statement.executeUpdate("DROP TABLE `" + delTabs.getString(3) + "`;");
+            }
+
             for (HashMap<Integer, String> hMap : myMaps) {
                 tableName = hMap.get(0);
                 if (connection.getMetaData().getTables("template_data", null, tableName, null).next()) {

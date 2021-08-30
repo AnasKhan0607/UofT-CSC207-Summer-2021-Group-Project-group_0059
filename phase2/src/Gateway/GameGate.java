@@ -34,6 +34,8 @@ public class GameGate implements GameTemplateLoadSave {
             gameData.put(-2, "true");
             gameData.put(-1, "5");
             gameData.put(0, " #;Dialogue 1");
+            gameData.put(1, " #;Dialogue 2");
+            gameData.put(2, " #;Dialogue 3");
             mapList.add(gameData);
 
         }
@@ -53,6 +55,13 @@ public class GameGate implements GameTemplateLoadSave {
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
+            Connection connDel = DriverManager.getConnection(url, username, password);
+            ResultSet delTabs = connDel.getMetaData().getTables("game_data", null, null, new String[]{"TABLE"});
+
+
+            while (delTabs.next()) {
+                statement.executeUpdate("DROP TABLE `" + delTabs.getString(3) + "`;");
+            }
 
             for (HashMap<Integer, String> hMap : myMaps) {
                 tableName = hMap.get(-4);
