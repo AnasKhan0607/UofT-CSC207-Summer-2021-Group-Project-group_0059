@@ -76,12 +76,11 @@ public class UserGate implements UserMessageLoadSave {
             myMaps.add(new HashMap<>());
             System.out.println("Loading...\n" +
                     "No Saved Users.");
-            obj1.printStackTrace();
         }
 
         catch (ClassNotFoundException obj2) {
             System.out.println("Class not found");
-//            obj2.printStackTrace();
+
         }
 
         return myMaps;

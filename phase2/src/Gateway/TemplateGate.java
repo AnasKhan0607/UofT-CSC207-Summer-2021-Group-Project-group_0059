@@ -5,6 +5,12 @@ import Interface.GameTemplateLoadSave;
 import java.sql.*;
 import java.util.*;
 
+/**
+ *
+ * A Gateway class used to implement <I>GameTemplateLoadSave</I> for loading and saving templates.
+ *
+ */
+
 public class TemplateGate implements GameTemplateLoadSave {
 
     /*
@@ -26,9 +32,11 @@ public class TemplateGate implements GameTemplateLoadSave {
     private final String username = "admin";
     private final String password = "BossAcc!";
 
-    public TemplateGate() {
-    }
-
+    /**
+     * The save method takes a /List</Hashmap>> which represents the templates
+     * and saves it to a sql database.
+     * @param myMaps The list of Hashmaps to be saved.
+     */
     public void save(List<HashMap<Integer, String>> myMaps){
 
         String tableName;
@@ -83,6 +91,11 @@ public class TemplateGate implements GameTemplateLoadSave {
 
     }
 
+    /**
+     * The load method reads the sql database and returns a /List</Hashmap>>
+     * which represents the templates.
+     * @return A list of Hashmaps that represents the saved templates in the file.
+     */
     public List<HashMap<Integer, String>> load() {
 
         List<HashMap<Integer, String>> dbMaps = new ArrayList<>();

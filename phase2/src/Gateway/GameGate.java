@@ -5,49 +5,21 @@ import Interface.GameTemplateLoadSave;
 import java.sql.*;
 import java.util.*;
 
+/**
+ *
+ * A Gateway class used to implement <I>GameTemplateLoadSave</I> for loading and saving games.
+ *
+ */
 public class GameGate implements GameTemplateLoadSave {
     private final String url = "jdbc:mysql://dbphase2.cy2xtdsstzct.us-east-2.rds.amazonaws.com:3306/game_data";
     private final String username = "admin";
     private final String password = "BossAcc!";
 
-
-    public static void main(String[] args) {
-
-        List<HashMap<Integer, String>> mapList = new ArrayList<>();
-
-        List<HashMap<Integer, String>> outList;
-
-
-        for (int i: Arrays.asList(1, 2, 3)){
-
-//            gameData.put(-4, game.getGameName());
-//            gameData.put(-3, game.getGameAuthor());
-//            gameData.put(-2, String.valueOf(game.getGamePublic()));
-//            gameData.put(-1, String.valueOf(game.getchoiceNumLimit()));
-//            gameData.put(-5, game.getStyleSheetName());
-
-            HashMap<Integer, String> gameData = new HashMap<>();
-            gameData.put(-100, "game");
-            gameData.put(-5, "blue");
-            gameData.put(-4, "Game " + i);
-            gameData.put(-3, "author");
-            gameData.put(-2, "true");
-            gameData.put(-1, "5");
-            gameData.put(0, " #;Dialogue 1");
-            gameData.put(1, " #;Dialogue 2");
-            gameData.put(2, " #;Dialogue 3");
-            mapList.add(gameData);
-
-        }
-        GameGateOld ggo = new GameGateOld();
-        GameGate gg = new GameGate();
-        gg.save(mapList);
-
-    }
-
-    public GameGate() {
-    }
-
+    /**
+     * The save method takes a /List</Hashmap>> which represents the games
+     * and saves it to a sql database.
+     * @param myMaps The list of Hashmaps to be saved.
+     */
     public void save(List<HashMap<Integer, String>> myMaps){
 
         String tableName;
@@ -101,6 +73,11 @@ public class GameGate implements GameTemplateLoadSave {
 
     }
 
+    /**
+     * The load method reads the sql database and returns a /List</Hashmap>>
+     * which represents the games.
+     * @return A list of Hashmaps that represents the saved games in the file.
+     */
     public List<HashMap<Integer, String>> load() {
 
         List<HashMap<Integer, String>> dbMaps = new ArrayList<>();
