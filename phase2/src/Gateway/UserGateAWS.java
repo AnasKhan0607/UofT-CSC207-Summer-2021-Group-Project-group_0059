@@ -35,9 +35,9 @@ public class UserGateAWS {
             mapList.add(gameData);
 
         }
-        GameGateOld ggo = new GameGateOld();
-        GameGate gg = new GameGate();
-//        gg.save(mapList);
+        UserGate ugo = new UserGate();
+        UserGateAWS ugAWS = new UserGateAWS();
+        //ugAWS.save(ugo.load());
 
     }
 
@@ -52,22 +52,36 @@ public class UserGateAWS {
             Connection connection = DriverManager.getConnection(url, username, password);
             Statement statement = connection.createStatement();
 
-            for (HashMap<Integer, String> hMap : myMaps) {
-                tableName = hMap.get(-4);
-                if (connection.getMetaData().getTables("game_data", null, tableName, null).next()) {
-                    for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
-                        statement.executeUpdate("INSERT INTO `" + tableName + "` VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
-                                "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
+            for (HashMap<Integer, List> hMap : myMaps) {
+                tableName = "my_users";
+                if (connection.getMetaData().getTables("user_data", null, tableName, null).next()) {
+                    for (Map.Entry<Integer, List> integerStringEntry : hMap.entrySet()) {
+                        statement.executeUpdate("INSERT INTO `" + tableName + "` VALUES(" + integerStringEntry.getKey()
+                                + ",'" + integerStringEntry.getValue().get(0)
+                                + ",'" + integerStringEntry.getValue().get(1)
+                                + ",'" + java.sql.Date.valueOf((String) integerStringEntry.getValue().get(2))
+                                + ",'" + java.sql.Date.valueOf((String) integerStringEntry.getValue().get(3))
+                                + ",'" + java.sql.Date.valueOf((String) integerStringEntry.getValue().get(4)) + "') " +
+                                "ON DUPLICATE KEY UPDATE password='"
+                                + integerStringEntry.getValue().get(0) + "', status="
+                                + integerStringEntry.getValue().get(1) + "', suspendEnd="
+                                + java.sql.Date.valueOf((String) integerStringEntry.getValue().get(2)) + "', startDate="
+                                + java.sql.Date.valueOf((String) integerStringEntry.getValue().get(3)) + "', endDate="
+                                + java.sql.Date.valueOf((String) integerStringEntry.getValue().get(4)) + "';");
                     }
                 } else {
                     System.out.println("Creating new table.");
 
-                    statement.execute("CREATE TABLE `" + tableName + "` (\n" +
-                            "  `key` INT NOT NULL,\n" +
-                            "  `value` MEDIUMTEXT NULL,\n" +
-                            "  PRIMARY KEY (`key`));");
+                    statement.execute("CREATE TABLE `user_data`.`" + tableName + "` (\n" +
+                            "  `username` VARCHAR(255) NOT NULL,\n" +
+                            "  `password` TINYTEXT NULL,\n" +
+                            "  `status` TINYINT NULL,\n" +
+                            "  `suspendEnd` DATETIME NULL,\n" +
+                            "  `startDate` DATETIME NULL,\n" +
+                            "  `endDate` DATETIME NULL,\n" +
+                            "  PRIMARY KEY (`username`));");
 
-                    for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
+                    for (Map.Entry<Integer, List> integerStringEntry : hMap.entrySet()) {
                         statement.executeUpdate("INSERT INTO `" + tableName + "` VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
                                 "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
                     }
@@ -90,18 +104,23 @@ public class UserGateAWS {
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
-            connection.setSchema("game_data");
+            connection.setSchema("user_data");
             Statement statement = connection.createStatement();
             ResultSet resSet;
 
-            ResultSet myTables = connection.getMetaData().getTables("game_data", null, null, new String[]{"TABLE"});
+            ResultSet myTables = connection.getMetaData().getTables("user_data", null, null, new String[]{"TABLE"});
 
             while (myTables.next()) {
                 currMap = new HashMap<>();
                 resSet = statement.executeQuery("select * from `" + myTables.getString(3) + "`");
 
                 while(resSet.next()) {
-                    currMap.put(resSet.getInt("key"), resSet.getString("value"));
+//                    currMap.put(resSet.getInt("username"),
+////                            Arrays.asList(resSet.getString("password"),
+////                                    resSet.getBoolean("status"),
+////                                    resSet.getDate("suspendEnd").toLocalDate(),
+////                                    resSet.getDate("startDate").toLocalDate(),
+////                                    resSet.getDate("endDate").toLocalDate()));
                 }
                 dbMaps.add(currMap);
             }
