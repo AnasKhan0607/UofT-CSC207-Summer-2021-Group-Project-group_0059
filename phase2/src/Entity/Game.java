@@ -129,6 +129,23 @@ public class Game {
     public boolean setDialogueById(int id, String dialogue){
         return gameStorage.setDialogueById(id, dialogue);
     }
+
+    /**
+     * getter method for id of a description by giving the stored string.
+     * @return id of the given description inside the gametree.
+     */
+    public String getDescriptionById(int id) {
+        return gameStorage.getDescriptionById(id);
+    }
+
+    /**
+     * setter method for a description by giving its Id inside the gameTree.
+     * @return if description added it returns true, if anything goes wrong it returns false.
+     */
+    public boolean setDescriptionById(int id, String description){
+        return gameStorage.setDescriptionById(id, description);
+    }
+
     /**
      *  method for deleting a dialogue by giving its Id inside the gameTree.
      * @return if dialogue deleted it returns true, if anything goes wrong it returns false.
@@ -162,7 +179,7 @@ public class Game {
      * @return true if the given string as dialogue added to the given id as its parent,
      * if anything goes wrong it returns false.
      */
-    public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
-        return gameStorage.addChoiceToDialogue(childDialogue, parentDialogueId);
+    public boolean addChoiceToDialogue(String childDialogue, String childDescription, int parentDialogueId){
+        return gameStorage.addChoiceToDialogue(childDialogue, childDescription, parentDialogueId);
     }
 }

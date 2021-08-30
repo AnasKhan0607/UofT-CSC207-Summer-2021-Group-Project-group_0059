@@ -17,8 +17,9 @@ import Exception.AddDialogueException;
 public class GameTree implements GameStorage {
     private int id;
     final int choiceNumLimit;
+    private String description;
     private String dialogue;
-    private List<GameTree> subtrees = new ArrayList<GameTree>();
+    private List<GameTree> subtrees = new ArrayList<>();
     private GameTree parentTree;
 
     /**
@@ -33,10 +34,12 @@ public class GameTree implements GameStorage {
         this.dialogue = initialDialogue;
         this.parentTree = null;
         this.id = this.setId();
+        this.description = " ";
     }
 
-    private GameTree(String childDialogue, int parentDialogueId, GameTree initialTree) throws AddDialogueException {
+    private GameTree(String childDialogue, String childDescription, int parentDialogueId, GameTree initialTree) throws AddDialogueException {
         this.dialogue = childDialogue;
+        this.description = childDescription;
         try{
             this.parentTree = initialTree.getTreeById(parentDialogueId);
         }
@@ -60,9 +63,9 @@ public class GameTree implements GameStorage {
      * @param parentDialogueId The Id of the parent tree.
      * @return A boolean depending on whether the choice was successfully added.
      */
-    public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
+    public boolean addChoiceToDialogue(String childDialogue, String childDescription, int parentDialogueId){
         try{
-            new GameTree(childDialogue, parentDialogueId, this);
+            new GameTree(childDialogue, childDescription, parentDialogueId, this);
             return true;
         }
         catch (AddDialogueException b){
@@ -162,7 +165,7 @@ public class GameTree implements GameStorage {
 
     // helper function to getSpecificDialogue()
     private ArrayList<Integer> IDtoNodePath(int id){
-        ArrayList<Integer> path = new ArrayList<Integer>();
+        ArrayList<Integer> path = new ArrayList<>();
         int ID = id;
         while (ID != 0){
             int remainder = ID % choiceNumLimit;
@@ -174,6 +177,25 @@ public class GameTree implements GameStorage {
             path.add(0, remainder);
         }
         return path;
+    }
+
+    public String getDescriptionById(int id){
+        try{
+            return getTreeById(id).description;
+        }
+        catch(IndexOutOfBoundsException b){
+            return null;
+        }
+    }
+
+    public boolean setDescriptionById(int id, String description){
+        try{
+            getTreeById(id).description = description;
+            return true;
+        }
+        catch(IndexOutOfBoundsException b){
+            return false;
+        }
     }
 
     /**

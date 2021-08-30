@@ -70,11 +70,9 @@ public class GamePlayController {
         Integer dialogueId = (Integer) dialogueArrayList.get(0);
         String dialogue = (String) dialogueArrayList.get(1);
 
-        ArrayList<String> childrenChoices = gameUseCase.getDialogueChoices(dialogueId);
         ArrayList<Integer> childrenChoiceIds = gameUseCase.getDialogueChoiceIds(dialogueId);
-        ArrayList<String> choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
 
-        presentGame(dialogue, childrenChoiceIds, choices);
+        presentGame(dialogue, childrenChoiceIds);
     }
 
     /**
@@ -88,11 +86,9 @@ public class GamePlayController {
         Integer dialogueId = (Integer) dialogueArrayList.get(0);
         String dialogue = (String) dialogueArrayList.get(1);
 
-        ArrayList<String> childrenChoices = gameUseCase.getDialogueChoices(dialogueId);
         ArrayList<Integer> childrenChoiceIds = gameUseCase.getDialogueChoiceIds(dialogueId);
-        ArrayList<String> choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
 
-        presentGame(dialogue, childrenChoiceIds, choices);
+        presentGame(dialogue, childrenChoiceIds);
     }
 
     private boolean checkGameExistense(String gameName) {
@@ -123,24 +119,21 @@ public class GamePlayController {
         gamePresenter.displayList(this, newGames, "This is the list of available games.");
     }
 
-    private void presentGame(String dialogue, ArrayList<Integer> childrenChoiceIds, ArrayList<String> choices) {
+    private void presentGame(String dialogue, ArrayList<Integer> childrenChoiceIds) {
         gamePresenter.setStyleSheet(gameUseCase.getStyleSheetName());
-        ArrayList<String> childrenChoices;
         int userChoice = 0;
         while (!childrenChoiceIds.contains(userChoice)){
-            String d = dialogue.split("#;")[1];
-            gamePresenter.displayTextScene(this, d);
+            gamePresenter.displayTextScene(this, dialogue);
             if (childrenChoiceIds.size() == 0){ break; }
             else if(childrenChoiceIds.size() == 1){
                 userChoice = childrenChoiceIds.get(0);
             }
             else{
-                ArrayList<String> a = new ArrayList<String>();
-                for (String choice : choices){
-                    String c = choice.split("#;")[0];
-                    a.add(c);
+                ArrayList<String> choices = new ArrayList<String>();
+                for (int id: childrenChoiceIds){
+                    choices.add(gameUseCase.getDescriptionById(id));
                 }
-                userChoice = childrenChoiceIds.get(gamePresenter.displayChoices(this, a, d));
+                userChoice = childrenChoiceIds.get(gamePresenter.displayChoices(this, choices, dialogue));
             }
 
             if(!childrenChoiceIds.contains(userChoice)){
@@ -149,9 +142,7 @@ public class GamePlayController {
                 continue;
             }
 
-            childrenChoices = gameUseCase.getDialogueChoices(userChoice);
             childrenChoiceIds = gameUseCase.getDialogueChoiceIds(userChoice);
-            choices = addPrefixesToStrings(childrenChoiceIds, childrenChoices);
             dialogue = gameUseCase.getDialogueById(userChoice);
         }
         gamePresenter.setStyleSheet("");

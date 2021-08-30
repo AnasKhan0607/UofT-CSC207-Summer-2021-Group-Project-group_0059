@@ -20,7 +20,9 @@ public class TemplateManager {
         this.templates = new ArrayList<>();
         TemplateGate t = new TemplateGate();
 
+        System.out.println("Loading template data from database...");
         List<HashMap<Integer, String>> template_maps = t.load();
+        System.out.println("Loading complete.");
         for (HashMap<Integer, String> template_map : template_maps){
             Template a = new Template(template_map.get(0));
             a.setTemplatename(template_map.get(0));
@@ -40,13 +42,14 @@ public class TemplateManager {
         for (Template template : this.templates){
             HashMap<Integer, String> template_map = new HashMap<>();
             template_map.put(0, template.getTemplatename());
-            System.out.println(template.getTemplatename());
             template_map.put(1, template.getDescription());
             template_map.put(2, Integer.toString(template.getNumchoice()));
             template_map.put(3, template.getScheme());
             template_maps.add(template_map);
         }
+        System.out.println("Saving changes...");
         t.save(template_maps);
+        System.out.println("Changes saved.");
     }
 
     /**

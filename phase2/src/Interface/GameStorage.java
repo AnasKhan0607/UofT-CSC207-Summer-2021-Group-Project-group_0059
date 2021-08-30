@@ -13,6 +13,12 @@ public interface GameStorage {
     String toString(int id);
     int size();
 
+    String getDescriptionById(int id);
+    boolean setDescriptionById(int id, String description);
+
+//    String getPictureById(int id);
+//    boolean setPictureById(int id, String pictureName);
+
     String getDialogueById(int id);
     int getIdByDialogue(String dialogue);
     boolean setDialogueById(int id, String dialogue);
@@ -24,6 +30,6 @@ public interface GameStorage {
     static GameStorage initializeStorage(int choiceNumLimit, String initialDialogue) {
         return new GameTree(choiceNumLimit, initialDialogue);
     }
-    boolean addChoiceToDialogue(String childDialogue, int parentDialogueId);
+    boolean addChoiceToDialogue(String childDialogue, String childDescription, int parentDialogueId);
 }
 

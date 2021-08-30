@@ -47,8 +47,8 @@ public class GameCreateController {
         int choiceNumLimit = (int) templateInfo.get(0);
         String styleSheetName = (String) templateInfo.get(1);
         ArrayList<String> tags = new ArrayList<>();
-        tags.add("Game Name");
-        tags.add("First Dialogue start with the characters #; then your dialouge and question");
+        tags.add("Game Name:");
+        tags.add("First Dialogue:");
 
         List<String> inputs = gamePresenter.displayInputs(this, tags, "");
         boolean createSuccess = gamesUseCase.createGame(choiceNumLimit, inputs.get(0), userData.currentUser(), inputs.get(1), styleSheetName);

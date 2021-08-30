@@ -13,7 +13,7 @@ public class GamesUseCase {
 
     private ArrayList<Game> publicGames = new ArrayList<>();
     private ArrayList<Game> privateGames = new ArrayList<>();
-    private GameTemplateLoadSave database;
+    private final GameTemplateLoadSave database;
     /**
      * Contructor for the class. Gets all the games saved using GameGate and load them into this.publicGames and this.privateGames
      *
@@ -22,9 +22,12 @@ public class GamesUseCase {
      */
     public GamesUseCase(GameTemplateLoadSave database){
         this.database = database;
+        System.out.println("Loading game data from database...");
         List<HashMap<Integer, String>> gamesData = database.load();
-        for (HashMap gameData: gamesData){
+        System.out.println("Loading complete.");
+        for (HashMap<Integer, String> gameData: gamesData){
             Game game = hashMapToGame(gameData);
+            assert game != null;
             if (game.getGamePublic()){
                 this.publicGames.add(game);
             }
@@ -155,7 +158,7 @@ public class GamesUseCase {
         gameData.put(-1, String.valueOf(game.getchoiceNumLimit()));
         gameData.put(-5, game.getStyleSheetName());
         for (int id: ids){
-            gameData.put(id, game.getDialogueById(id));
+            gameData.put(id, game.getDescriptionById(id) + "#;" + game.getDialogueById(id));
         }
 
         return gameData;
@@ -168,7 +171,7 @@ public class GamesUseCase {
             return null;
         }
         Game game = new Game(hashMap.get(-4), hashMap.get(-3), Boolean.parseBoolean(hashMap.get(-2)),
-                Integer.parseInt(hashMap.get(-1)), hashMap.get(0), hashMap.get(-5));
+                Integer.parseInt(hashMap.get(-1)), hashMap.get(0).split("#;")[1], hashMap.get(-5));
 
         ArrayList<Integer> childrenDialogueIds = new ArrayList<>();
         for ( int key : hashMap.keySet() ) {
@@ -208,7 +211,8 @@ public class GamesUseCase {
         Collections.sort(queue);
 
         for (int childId: queue){
-            game.addChoiceToDialogue(hashMap.get(childId), parentDialogueId);
+            String[] texts = hashMap.get(childId).split("#;");
+            game.addChoiceToDialogue(texts[1], texts[0], parentDialogueId);
             addDialoguesToGames(parentDialogueIds, childrenDialogueIds, game, hashMap, childId);
         }
     }
@@ -229,7 +233,9 @@ public class GamesUseCase {
             }
         }
 
+        System.out.println("Saving changes...");
         database.save(gamesData);
+        System.out.println("Changes saved.");
     }
     /**
      * method for changing public status of a game by giving the game's name.

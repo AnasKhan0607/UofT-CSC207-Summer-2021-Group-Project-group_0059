@@ -88,64 +88,107 @@ public class TemplateEditorController implements TemplateData {
                 }
                 gamePresenter.displayTextScene(this, "BACK", "List Of Available Templates:" + "\n" + "\n" + templatelist);
             } else if (choice == 1) {
-                ArrayList<String> inputs = new ArrayList<>();
-                inputs.add("Please enter the name of the template you want to edit:");
-                List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Choose Template.");
-                String templatename = userinputs.get(0);
-                if (!this.templates.getTemplates().contains(this.templates.Find_template(templatename))) {
-                    gamePresenter.displayTextScene(this, "BACK", "Sorry, but we do not have such template, please check the template name and try again.");
-                } else {
-                    ArrayList<String> editchoices = new ArrayList<>();
-                    editchoices.add("Change the name of the template");
-                    editchoices.add("Change the description of the template");
-                    editchoices.add("Change the number of choice of the template");
-                    editchoices.add("Change the scheme of the template");
-                    editchoices.add("EXIT");
-                    for (; ; ) {
-                        int edit_choice = gamePresenter.displayChoices(this, editchoices, "What would you like to change in the template?");
-                        if (edit_choice == 4) {
-                            break;
-                        }
-                        if (edit_choice == 0) {
-                            inputs = new ArrayList<>();
-                            inputs.add("Please enter the new name:");
-                            List<String> newname = gamePresenter.displayInputs(this, inputs, "Please enter the new name.");
-                            this.templates.setNewName(templatename, newname.get(0));
-                            gamePresenter.displayTextScene(this, "BACK", "The name is successfully changed.");
-                            break;
-                        }
-                        if (edit_choice == 1) {
-                            List<String> newdescription = gamePresenter.displayInputs(this, inputs, "Please enter the new description.");
-                            this.templates.setNewDescription(templatename, newdescription.get(0));
-                            gamePresenter.displayTextScene(this, "BACK", "The Description is successfully changed.");
-                            break;
-                        }
-                        if (edit_choice == 2) {
-                            List<String> newnumchoices = gamePresenter.displayInputs(this, inputs, "Please enter the new number of choices.");
-                            try {
-                                Integer newchoices = Integer.parseInt(newnumchoices.get(0));
-                                this.templates.setNewChoicesNum(templatename, newchoices);
-                                gamePresenter.displayTextScene(this, "BACK", "The number of choice is successfully changed.");
-                                break;
-                            } catch (NumberFormatException ne) {
-                                gamePresenter.displayTextScene(this, "BACK", "Sorry, please enter a valid input.");
-                                break;
-                            }
-                        }
-                        if (edit_choice == 3) {
-                            List<String> newscheme = gamePresenter.displayInputs(this, inputs, "Please enter the new scheme.");
-                            this.templates.setNewScheme(templatename, newscheme.get(0));
-                            gamePresenter.displayTextScene(this, "BACK", "The Description is successfully changed.");
-                            break;
-                        }
-                    }
-                }
+                editTemplate(gamePresenter);
             } else {
                 this.templates.Save_changes();
-                break;
+                return;
             }
         }
-        this.templates.Save_changes();
+    }
 
+    private void editTemplate(GamePresenter gamePresenter) {
+        String templatename = userChooseTemplate(gamePresenter);
+        if (!this.templates.getTemplates().contains(this.templates.Find_template(templatename))) {
+            gamePresenter.displayTextScene(this, "BACK", "Sorry, but we do not have such template, please check the template name and try again.");
+        } else {
+            ArrayList<String> editchoices = getEditTemplateChoices();
+            for (; ; ) {
+                int edit_choice = gamePresenter.displayChoices(this, editchoices, "What would you like to change in the template?");
+                if (edit_choice == 4) {
+                    break;
+                }
+                if (edit_choice == 0) {
+                    editTemplateName(gamePresenter, templatename);
+                    break;
+                }
+                if (edit_choice == 1) {
+                    editTemplateDescription(gamePresenter, templatename);
+                    break;
+                }
+                if (edit_choice == 2) {
+                    editTemplateNumOfC(gamePresenter, templatename);
+                    break;
+                }
+                if (edit_choice == 3) {
+                    editTemplateScheme(gamePresenter, templatename);
+                    break;
+                }
+            }
+        }
+    }
+
+    private ArrayList<String> getEditTemplateChoices() {
+        ArrayList<String> editchoices = new ArrayList<>();
+        editchoices.add("Change the name of the template");
+        editchoices.add("Change the description of the template");
+        editchoices.add("Change the number of choice of the template");
+        editchoices.add("Change the scheme of the template");
+        editchoices.add("EXIT");
+        return editchoices;
+    }
+
+    private String userChooseTemplate(GamePresenter gamePresenter) {
+        ArrayList<String> inputs = new ArrayList<>();
+        inputs.add("Please enter the name of the template you want to edit:");
+        List<String> userinputs = gamePresenter.displayInputs(this, inputs, "Choose Template.");
+        return userinputs.get(0);
+    }
+
+    private void editTemplateScheme(GamePresenter gamePresenter, String templatename) {
+        ArrayList<String> inputs;
+        inputs = new ArrayList<>();
+        inputs.add("Please enter the new scheme name:");
+        List<String> newscheme = gamePresenter.displayInputs(this, inputs,
+                "Please enter the new scheme. If the scheme doesn't exist, " +
+                        "a default one will be automatically used.");
+        this.templates.setNewScheme(templatename, newscheme.get(0));
+        gamePresenter.displayTextScene(this, "BACK", "The Scheme is successfully changed.");
+        return;
+    }
+
+    private void editTemplateNumOfC(GamePresenter gamePresenter, String templatename) {
+        ArrayList<String> inputs;
+        inputs = new ArrayList<>();
+        inputs.add("Please enter the new number of choice:");
+        List<String> newnumchoices = gamePresenter.displayInputs(this, inputs, "Please enter the new number of choices.");
+        try {
+            Integer newchoices = Integer.parseInt(newnumchoices.get(0));
+            this.templates.setNewChoicesNum(templatename, newchoices);
+            gamePresenter.displayTextScene(this, "BACK", "The number of choice is successfully changed.");
+            return;
+        } catch (NumberFormatException ne) {
+            gamePresenter.displayTextScene(this, "BACK", "Sorry, please enter a valid input.");
+            return;
+        }
+    }
+
+    private void editTemplateDescription(GamePresenter gamePresenter, String templatename) {
+        ArrayList<String> inputs;
+        inputs = new ArrayList<>();
+        inputs.add("Please enter the new description:");
+        List<String> newdescription = gamePresenter.displayInputs(this, inputs, "Please enter the new description.");
+        this.templates.setNewDescription(templatename, newdescription.get(0));
+        gamePresenter.displayTextScene(this, "BACK", "The Description is successfully changed.");
+        return;
+    }
+
+    private void editTemplateName(GamePresenter gamePresenter, String templatename) {
+        ArrayList<String> inputs;
+        inputs = new ArrayList<>();
+        inputs.add("Please enter the new name:");
+        List<String> newname = gamePresenter.displayInputs(this, inputs, "Please enter the new name.");
+        this.templates.setNewName(templatename, newname.get(0));
+        gamePresenter.displayTextScene(this, "BACK", "The name is successfully changed.");
+        return;
     }
 }

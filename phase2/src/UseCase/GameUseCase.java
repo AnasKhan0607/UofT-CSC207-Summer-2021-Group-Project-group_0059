@@ -11,11 +11,6 @@ public class GameUseCase {
 
     private Game currentGame;
     /**
-     * Contructor for the class. Gets all the games saved using GameGate and load them into this.publicGames and this.privateGames
-     *
-     */
-
-    /**
      * method for opening a game by giving the game's name.
      * @param gameName String for game name.
      */
@@ -61,6 +56,14 @@ public class GameUseCase {
         return currentGame.getDialogueById(id);
     }
     /**
+     * method for getting description string by giving it's id inside last opened game by user.
+     * @param id , integers for dialogue subtree id.
+     * @return string of the description of the given id inside the last opened gameTree.
+     */
+    public String getDescriptionById(int id){
+        return currentGame.getDescriptionById(id);
+    }
+    /**
      * method for setting dialogue string by giving it's id inside last opened game by user.
      * @param id , integers for dialogue subtree id.
      * @param dialogue , String for dialogue.
@@ -73,10 +76,11 @@ public class GameUseCase {
      * method for add a new dialogue  inside last opened game by user,by giving it's id and string.
      * @param parentDialogueId , integers for dialogue subtree id.
      * @param childDialogue, String for dialogue.
+     * @param childDescription, String for description.
      * @return true if it added, else it returns false.
      */
-    public boolean addChoiceToDialogue(String childDialogue, int parentDialogueId){
-        return currentGame.addChoiceToDialogue(childDialogue, parentDialogueId);
+    public boolean addChoiceToDialogue(String childDialogue, String childDescription, int parentDialogueId){
+        return currentGame.addChoiceToDialogue(childDialogue, childDescription, parentDialogueId);
     }
     /**
      * method for deleting a dialogue  inside last opened game by user,by giving it's id.
