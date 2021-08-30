@@ -8,8 +8,8 @@ import java.util.List;
  */
 public interface LoadSave {
 
-    List<HashMap> load();
+    List<HashMap<Integer, String>> load();
 
-    void save(List<HashMap> gameTable);
+    void save(List<HashMap<Integer, String>> gameTable);
 
 }
