@@ -40,6 +40,14 @@ public class TemplateGate implements GameTemplateLoadSave {
             for (HashMap<Integer, String> hMap : myMaps) {
                 tableName = hMap.get(0);
                 if (connection.getMetaData().getTables("template_data", null, tableName, null).next()) {
+
+                    statement.executeUpdate("DROP TABLE `" + tableName + "`");
+
+                    statement.execute("CREATE TABLE `" + tableName + "` (\n" +
+                            "  `key` INT NOT NULL,\n" +
+                            "  `value` MEDIUMTEXT NULL,\n" +
+                            "  PRIMARY KEY (`key`));");
+
                     for (Map.Entry<Integer, String> integerStringEntry : hMap.entrySet()) {
                         statement.executeUpdate("INSERT INTO `" + tableName + "` VALUES(" + integerStringEntry.getKey() + ",'" + integerStringEntry.getValue() + "') " +
                                 "ON DUPLICATE KEY UPDATE value='" + integerStringEntry.getValue() + "';");
