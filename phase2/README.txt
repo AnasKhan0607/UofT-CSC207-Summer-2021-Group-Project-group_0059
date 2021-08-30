@@ -6,8 +6,13 @@ Our program is a game editor specially made for the creation of visual novel gam
 Since the presentation, we have added SQL database to the program (For saving Games and Templates).
 To run the program successfully (specifically to access the database feature), MySQL Community Edition MAY need to be installed.
 //Project Structure -> Module -> + -> Add the jdbc connector(.jar in lib folder) in order to have the right driver identified
-Note that we have only run this program on Windows 10 (As all of us only have windows computers),
+- Note that we have only run this program on Windows 10 (As all of us only have windows computers),
 and the program may possibly not run on mac due to some difference in operating systems that we are not aware of.
+- Also Note that loading and saving to database takes time.
+- We recorded videos of the database working on windows 10 computer in case it doesn't on mac:
+https://drive.google.com/file/d/1i4aC6YVzr_WUp5M4ZtuM8ioWTsd74zH5/view
+https://drive.google.com/file/d/1POhkOIngfOenJ0S201NKMgCVi5OoQU75/view
+
 
 Run Main.java and we will have the interface of Login. There we can choose to login with an account in record, signup one, login temporarily as a guest, or recover your password.
 After logged in successfully, you have the option of creating/editing/playing a game, reading/sending messages, or resetting your password. And depending on whether is Admin or not, edit a Template and suspend and
